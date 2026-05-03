@@ -16,11 +16,15 @@ const NAME_CHARS = "Emma Lucía".split('');
 export default function ScrollytellingCanvas() {
   const canvasRef   = useRef<HTMLCanvasElement>(null);
   const loadingRef  = useRef<HTMLDivElement>(null);
-  const imagesRef   = useRef<HTMLImageElement[]>(new Array(FRAME_COUNT)); // ← ref, no state
+  const imagesRef   = useRef<HTMLImageElement[]>(new Array(FRAME_COUNT));
 
   const [loadedFrames, setLoadedFrames] = useState(0);
   const isLoaded      = loadedFrames > 0;
   const loadPercentage = Math.floor((loadedFrames / FRAME_COUNT) * 100);
+
+  // Detectar mobile una sola vez
+  const isMobile = typeof window !== 'undefined'
+    && window.matchMedia('(pointer: coarse)').matches;
 
   // ─── Animación de la pantalla de carga ───────────────────────────
   useGSAP(() => {
@@ -40,7 +44,7 @@ export default function ScrollytellingCanvas() {
     );
   }, { scope: loadingRef, dependencies: [] });
 
-  // ─── Fade-out de la pantalla de carga cuando el primer frame carga ─
+  // ─── Fade-out de la pantalla de carga ────────────────────────────
   useGSAP(() => {
     if (!isLoaded || !loadingRef.current) return;
     gsap.to(loadingRef.current, {
@@ -62,7 +66,7 @@ export default function ScrollytellingCanvas() {
     img0.onload = () => {
       imagesRef.current[0] = img0;
       loadedCount++;
-      setLoadedFrames(loadedCount); // dispara el primer render del canvas
+      setLoadedFrames(loadedCount);
 
       for (let i = 1; i < FRAME_COUNT; i++) {
         const img = new Image();
@@ -70,7 +74,6 @@ export default function ScrollytellingCanvas() {
         img.onload = () => {
           imagesRef.current[i] = img;
           loadedCount++;
-          // Solo actualizar el progreso cada 10 frames o al final
           if (loadedCount % 10 === 0 || loadedCount === FRAME_COUNT) {
             setLoadedFrames(loadedCount);
           }
@@ -85,11 +88,22 @@ export default function ScrollytellingCanvas() {
 
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+
+    // willChange: transform promueve el canvas a su propia capa GPU
+    canvas.style.willChange = 'transform';
+
+    const ctx = canvas.getContext('2d', {
+      // alpha: false mejora el composite en el GPU (fondo negro sólido)
+      alpha: false,
+      // desactiva suavizado para mejorar rendimiento en móvil
+      desynchronized: true,
+    });
     if (!ctx) return;
 
     let animationFrameId: number;
     let currentFrameIndex = 0;
+    // Throttle en móvil: solo re-dibuja si el índice de frame cambió
+    let pendingFrame: number | null = null;
 
     const drawImage = (index: number) => {
       const img = imagesRef.current[index];
@@ -111,7 +125,7 @@ export default function ScrollytellingCanvas() {
       offsetX = (canvas.width - drawWidth) / 2;
       offsetY = (canvas.height - drawHeight) / 2;
 
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      // No necesitamos clearRect porque alpha: false → el canvas es opaco
       ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
     };
 
@@ -131,38 +145,46 @@ export default function ScrollytellingCanvas() {
 
       if (frameIndex !== currentFrameIndex) {
         currentFrameIndex = frameIndex;
-        if (animationFrameId) cancelAnimationFrame(animationFrameId);
-        animationFrameId = requestAnimationFrame(() => drawImage(currentFrameIndex));
+
+        // Cancelar el frame pendiente y agendar uno nuevo
+        if (pendingFrame !== null) cancelAnimationFrame(pendingFrame);
+        pendingFrame = requestAnimationFrame(() => {
+          drawImage(currentFrameIndex);
+          pendingFrame = null;
+        });
       }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener('resize', resizeCanvas, { passive: true });
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', resizeCanvas);
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
+      if (pendingFrame !== null) cancelAnimationFrame(pendingFrame);
     };
   }, [isLoaded]);
 
-  // ─── Mouse Parallax ───────────────────────────────────────────────
+  // ─── Mouse Parallax (solo desktop) ───────────────────────────────
   useGSAP(() => {
     if (!isLoaded || !canvasRef.current) return;
+    // En móvil no hay mousemove → omitir para no añadir listeners innecesarios
+    if (isMobile) return;
 
     gsap.set(canvasRef.current, { scale: 1.05 });
-    const xTo = gsap.quickTo(canvasRef.current, "x", { duration: 0.8, ease: "power2.out" });
-    const yTo = gsap.quickTo(canvasRef.current, "y", { duration: 0.8, ease: "power2.out" });
+    const xTo = gsap.quickTo(canvasRef.current, "x", { duration: 0.9, ease: "power2.out" });
+    const yTo = gsap.quickTo(canvasRef.current, "y", { duration: 0.9, ease: "power2.out" });
 
     const handleMouseMove = (e: MouseEvent) => {
       const { innerWidth, innerHeight } = window;
-      xTo(-(e.clientX / innerWidth  - 0.5) * 30);
-      yTo(-(e.clientY / innerHeight - 0.5) * 30);
+      xTo(-(e.clientX / innerWidth  - 0.5) * 28);
+      yTo(-(e.clientY / innerHeight - 0.5) * 28);
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [isLoaded]);
+  }, [isLoaded, isMobile]);
 
   return (
     <div className="fixed inset-0 w-full h-full bg-black z-0 overflow-hidden pointer-events-none">

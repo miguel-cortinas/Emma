@@ -1,12 +1,25 @@
 <!doctype html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!--
+      interactive-widget=resizes-content: evita que la barra de URL de Chrome/Safari
+      en móvil redimensione el viewport (causa el efecto "pantalla completa").
+      viewport-fit=cover: extiende hasta notch/home indicator en iOS.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
     <title>Baby Shower - Emma Lucía</title>
+
+    <!-- Preconnect a Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+    <!-- Preload fonts críticas para evitar FOUT -->
+    <link rel="preload" as="style"
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Instrument+Serif:ital@0;1&display=swap">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet">
   </head>
   <body>
     <div id="root"></div>

@@ -42,11 +42,36 @@
 }
 
 @layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    /* Scroll suave nativo — no depende de JS */
+    scroll-behavior: smooth;
+    /* Evita resize del viewport en móvil cuando aparece/desaparece la barra de URL */
+    height: 100%;
+  }
+
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Evita el rebote elástico que causa jitter al principio/final del scroll */
+    overscroll-behavior: none;
+    /* Scroll con momentum en iOS */
+    -webkit-overflow-scrolling: touch;
+    /* Ancla el alto a la pantalla para que móvil no recalcule al ocultar la barra URL */
+    min-height: 100%;
+  }
+
+  /* El canvas fijo no afecta al layout — marca'lo como aislado */
+  canvas {
+    display: block;
   }
 }
 
@@ -59,6 +84,8 @@
     border: none;
     position: relative;
     overflow: hidden;
+    /* Capa propia para que backdrop-filter no invalide capas vecinas */
+    transform: translateZ(0);
   }
 
   .liquid-glass::before {
@@ -86,9 +113,9 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
-  .animate-fade-rise        { animation: fade-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) both; }
-  .animate-fade-rise-delay  { animation: fade-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both; }
-  .animate-fade-rise-delay-2{ animation: fade-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; }
+  .animate-fade-rise        { animation: fade-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) both; will-change: opacity, transform; }
+  .animate-fade-rise-delay  { animation: fade-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both; will-change: opacity, transform; }
+  .animate-fade-rise-delay-2{ animation: fade-rise 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s both; will-change: opacity, transform; }
 
   @keyframes gradient-xy {
     0%, 100% { background-position: 0% 50%; }
@@ -98,6 +125,7 @@
   .animate-gradient {
     animation: gradient-xy 8s ease infinite;
     background-size: 200% auto;
+    will-change: background-position;
   }
 
   /* ─── Shimmer ────────────────────────────────────────────────── */
@@ -176,8 +204,8 @@
     100% { transform: scale(1.6); opacity: 0; }
   }
 
-  .animate-scroll-line { animation: scroll-line 2s ease-in-out infinite; }
-  .animate-pulse-ring  { animation: pulse-ring  1.8s ease-out infinite; }
+  .animate-scroll-line { animation: scroll-line 2s ease-in-out infinite; will-change: transform, opacity; }
+  .animate-pulse-ring  { animation: pulse-ring  1.8s ease-out infinite; will-change: transform, opacity; }
 
   /* ─── Music Button ───────────────────────────────────────────── */
   @keyframes music-wave {

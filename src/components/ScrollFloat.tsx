@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import './ScrollFloat.css';
 
-gsap.registerPlugin(ScrollTrigger);
+// ScrollTrigger ya está registrado en main.tsx
 
 interface ScrollFloatProps {
   children: ReactNode;

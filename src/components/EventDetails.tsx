@@ -6,7 +6,7 @@ import { useGSAP } from '@gsap/react';
 import Countdown from './Countdown';
 import ScrollFloat from './ScrollFloat';
 
-gsap.registerPlugin(ScrollTrigger);
+// ScrollTrigger ya está registrado en main.tsx
 
 export default function EventDetails() {
   const containerRef = useRef<HTMLDivElement>(null);

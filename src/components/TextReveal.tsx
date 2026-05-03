@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-gsap.registerPlugin(ScrollTrigger);
+// ScrollTrigger ya está registrado en main.tsx — no duplicar aquí
 
 interface TextRevealProps {
   text: string;
@@ -26,44 +26,45 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
     gsap.set(wordEls, {
       opacity: 0.1,
       filter:  'blur(3px)',
-      scale:   1,
-      color:   'rgba(255,255,255,0.4)',
+      // will-change en GPU para evitar que el browser re-calcule layout
+      willChange: 'opacity, filter',
     });
 
     const triggerEl = el.closest('section') || el;
 
-    // Scrub suave: cada palabra se ilumina a su turno
+    /*
+     * CAMBIO CLAVE: se eliminó `pin: true` que era el responsable del
+     * jitter/tirones. El pin obliga a GSAP a recalcular el layout del
+     * documento en cada frame de scroll, bloqueando el hilo principal.
+     *
+     * En su lugar, la sección ya ocupa min-h-screen (suficiente espacio
+     * para leer) y el scrub sigue siendo suave sin fijar el viewport.
+     */
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger:    triggerEl,
-        start:      'top top',
-        end:        '+=200%',
-        scrub:      1.2,
-        pin:        true,
-        anticipatePin: 1,
+        start:      'top 60%',
+        end:        'bottom 20%',
+        scrub:      1.5,  // scrub más suave → menos frames forzados
       },
     });
 
     // Cada palabra pasa por 3 estados: pendiente → activa → leída
-    // Usamos una serie de tweens encadenados con stagger manual
     wordEls.forEach((word, i) => {
       const progress = i / (total - 1);
 
       tl.to(word, {
         opacity: 1,
         filter:  'blur(0px)',
-        scale:   1.03,
-        color:   'rgba(255, 228, 230, 1)', // petal rose
+        color:   'rgba(255, 228, 230, 1)',
         textShadow: '0 0 20px rgba(254,205,211,0.6)',
         duration: 0.4,
         ease:    'power2.out',
-      }, progress * 1.4); // distribuido en 140% del timeline
+      }, progress * 1.4);
 
-      // Inmediatamente después: la palabra se "lee" y pasa a estado tenue
       tl.to(word, {
         opacity: 0.5,
         filter:  'blur(0px)',
-        scale:   1,
         color:   'rgba(255,255,255,0.55)',
         textShadow: 'none',
         duration: 0.6,
@@ -71,18 +72,20 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
       }, progress * 1.4 + 0.15);
     });
 
-    // Pausa para leer todo el texto iluminado
-    tl.to({}, { duration: 0.5 });
-
-    // Fade out de todas las palabras al abandonar la sección
+    // Fade out al abandonar la sección
     tl.to(wordEls, {
       opacity: 0,
       filter:  'blur(6px)',
-      y:       -10,
-      stagger: 0.03,
+      y:       -8,
+      stagger: 0.02,
       ease:    'power2.inOut',
-      duration: 0.4,
+      duration: 0.3,
     });
+
+    return () => {
+      // Limpiar willChange al desmontar
+      gsap.set(wordEls, { willChange: 'auto' });
+    };
 
   }, { scope: containerRef });
 
