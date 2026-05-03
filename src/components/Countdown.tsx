@@ -16,33 +16,32 @@ function getTimeLeft() {
 
 export default function Countdown() {
   const [timeLeft, setTimeLeft] = useState(getTimeLeft);
+  const [colonVisible, setColonVisible] = useState(true);
 
   useEffect(() => {
-    const timer = setInterval(() => setTimeLeft(getTimeLeft()), 1000);
+    const timer = setInterval(() => {
+      setTimeLeft(getTimeLeft());
+      // Sincronizamos el parpadeo del separador con el tick del reloj
+      setColonVisible(v => !v);
+    }, 1000);
     return () => clearInterval(timer);
   }, []);
 
   return (
     <div className="flex justify-between items-center w-full max-w-sm mx-auto px-2">
       <FlipUnit value={timeLeft.days}    label="DÍAS" />
-      <Colon />
+      <Colon visible={colonVisible} />
       <FlipUnit value={timeLeft.hours}   label="HORAS" />
-      <Colon />
+      <Colon visible={colonVisible} />
       <FlipUnit value={timeLeft.minutes} label="MINS" />
-      <Colon />
+      <Colon visible={colonVisible} />
       <FlipUnit value={timeLeft.seconds} label="SEGS" isSeconds />
     </div>
   );
 }
 
-/* ── Separador pulsante ─────────────────────────────────────────── */
-function Colon() {
-  const [visible, setVisible] = useState(true);
-  useEffect(() => {
-    const id = setInterval(() => setVisible(v => !v), 1000);
-    return () => clearInterval(id);
-  }, []);
-
+/* ── Separador pulsante (Ahora controlado por el padre) ─────────── */
+function Colon({ visible }: { visible: boolean }) {
   return (
     <div
       className="text-white/30 text-2xl font-light mb-5 transition-opacity duration-300"
@@ -61,7 +60,6 @@ function FlipDigit({ digit }: { digit: string }) {
 
   useEffect(() => {
     if (digit === prevRef.current) return;
-    // Salida
     setAnimClass('digit-flip-out');
     const t1 = setTimeout(() => {
       setDisplayed(digit);

@@ -92,27 +92,30 @@ export default function GiftRegistry() {
 
   // ── Entrada en viewport ─────────────────────────────────────────
   useGSAP(() => {
+    gsap.set(['.gift-card', '.gift-icon'], { willChange: 'opacity, transform' });
+
     gsap.fromTo('.gift-card',
-      { opacity: 0, y: 50, scale: 0.95 },
+      { opacity: 0, y: 40, scale: 0.97 },
       {
-        opacity: 1, y: 0, scale: 1, duration: 1.2, ease: 'power3.out',
+        opacity: 1, y: 0, scale: 1, duration: 0.9, ease: 'power2.out',
         scrollTrigger: {
           trigger: containerRef.current,
-          start: 'top 80%',
-          toggleActions: 'play reverse play reverse',
+          start: 'top 82%',
+          once: true,
+          onComplete: () => gsap.set('.gift-card', { willChange: 'auto' }),
         },
       }
     );
 
-    // Icono de regalo: rotación al entrar
     gsap.fromTo('.gift-icon',
-      { rotation: -20, scale: 0.7, opacity: 0 },
+      { rotation: -15, scale: 0.75, opacity: 0 },
       {
-        rotation: 0, scale: 1, opacity: 1, duration: 1, ease: 'back.out(2)',
+        rotation: 0, scale: 1, opacity: 1, duration: 0.8, ease: 'back.out(2)',
         scrollTrigger: {
           trigger: containerRef.current,
-          start: 'top 75%',
-          toggleActions: 'play reverse play reverse',
+          start: 'top 78%',
+          once: true,
+          onComplete: () => gsap.set('.gift-icon', { willChange: 'auto' }),
         },
       }
     );

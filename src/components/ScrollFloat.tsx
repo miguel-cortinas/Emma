@@ -59,6 +59,7 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
         charElements,
         {
           willChange: 'opacity, transform',
+          force3D: true,
           opacity: 0,
           yPercent: 120,
           scaleY: 2.3,
@@ -72,6 +73,7 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
           yPercent: 0,
           scaleY: 1,
           scaleX: 1,
+          force3D: true,
           stagger: stagger
         }
       )

@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { CalendarDays, Clock } from 'lucide-react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import Countdown from './Countdown';
 import ScrollFloat from './ScrollFloat';
@@ -69,29 +68,28 @@ export default function EventDetails() {
       scrollTrigger: {
         trigger: containerRef.current,
         start: 'top 80%',
-        end: 'bottom 20%',
-        toggleActions: 'play reverse play reverse',
+        once: true,
       },
     });
 
     tl.fromTo(cardRef.current,
-      { opacity: 0, y: 50, scale: 0.95 },
-      { opacity: 1, y: 0, scale: 1, duration: 1, ease: 'power3.out' }
+      { opacity: 0, y: 40, scale: 0.97 },
+      { opacity: 1, y: 0, scale: 1, duration: 0.9, ease: 'power2.out' }
     )
     .fromTo('.event-info-item',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, stagger: 0.2, ease: 'power2.out' },
-      '-=0.5'
+      { opacity: 0, y: 16 },
+      { opacity: 1, y: 0, duration: 0.5, stagger: 0.15, ease: 'power2.out' },
+      '-=0.4'
     )
     .fromTo('.event-separator',
       { opacity: 0, scaleY: 0 },
-      { opacity: 1, scaleY: 1, duration: 0.5, ease: 'power2.out' },
-      '-=0.6'
+      { opacity: 1, scaleY: 1, duration: 0.4, ease: 'power2.out' },
+      '-=0.5'
     )
     .fromTo('.event-countdown-wrapper',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
-      '-=0.3'
+      { opacity: 0, y: 16 },
+      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+      '-=0.2'
     );
   }, { scope: containerRef });
 

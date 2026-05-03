@@ -4,7 +4,6 @@ import LocationMap from './LocationMap';
 import GiftRegistry from './GiftRegistry';
 import ConfirmationSection from './ConfirmationSection';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import ScrollFloat from './ScrollFloat';
 import TextReveal from './TextReveal';
@@ -23,10 +22,8 @@ function SectionDivider() {
       ease: 'power2.out',
       scrollTrigger: {
         trigger: ref.current,
-        start: 'top 70%',
-        end: 'top 40%',
-        scrub: 1,
-        toggleActions: 'play reverse play reverse',
+        start: 'top 85%',
+        once: true,
       },
     });
   }, { scope: ref });
@@ -70,18 +67,18 @@ export default function BabyShower() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // Hero title
+    // Hero title — solo opacity/transform (GPU-composited, sin blur)
     gsap.fromTo('.hero-name',
-      { opacity: 0, y: 80, scale: 0.95 },
-      { opacity: 1, y: 0, scale: 1, duration: 2, ease: 'power3.out', delay: 0.3 }
+      { opacity: 0, y: 60, scale: 0.97 },
+      { opacity: 1, y: 0, scale: 1, duration: 1.8, ease: 'power3.out', delay: 0.3 }
     );
 
     gsap.fromTo('.hero-subtitle',
-      { opacity: 0, filter: 'blur(4px)' },
-      { opacity: 1, filter: 'blur(0px)', duration: 1.8, delay: 1.4 }
+      { opacity: 0, y: 16 },
+      { opacity: 1, y: 0, duration: 1.4, ease: 'power2.out', delay: 1.2 }
     );
 
-    // F4: ScrollIndicator desaparece cuando el usuario comienza a deslizar
+    // ScrollIndicator desaparece al comenzar a deslizar
     gsap.to('.scroll-indicator', {
       opacity: 0,
       y: -10,
@@ -95,21 +92,30 @@ export default function BabyShower() {
       },
     });
 
-    // Secciones con animación al scroll
+    // Secciones — solo opacity + translateY (transform: GPU, no layout)
     const sections = gsap.utils.toArray<HTMLElement>('.gsap-section');
     sections.forEach((section) => {
+      // Promover a capa GPU antes de que GSAP las toque
+      gsap.set(section, { willChange: 'opacity, transform' });
+
       gsap.fromTo(section,
-        { opacity: 0, y: 60 },
+        { opacity: 0, y: 50 },
         {
           opacity: 1,
           y: 0,
-          duration: 1.2,
-          ease: 'power3.out',
+          duration: 1.0,
+          ease: 'power2.out',
           scrollTrigger: {
             trigger: section,
-            start: 'top 85%',
-            end: 'bottom 15%',
-            toggleActions: 'play reverse play reverse',
+            start: 'top 88%',
+            // once: true — NO reverse al hacer scroll up
+            // Mejora drásticamente la fluidez porque GSAP no
+            // re-anima al hacer scroll en ambas direcciones
+            once: true,
+          },
+          onComplete: () => {
+            // Liberar willChange cuando la animación termina
+            gsap.set(section, { willChange: 'auto' });
           },
         }
       );
@@ -136,7 +142,7 @@ export default function BabyShower() {
 
         <div className="overflow-visible py-4 z-0 mt-4">
           <h1
-            className="hero-name leading-none font-normal drop-shadow-2xl bg-gradient-to-br from-rose-100 via-pink-100 to-rose-300 bg-clip-text text-transparent animate-gradient animate-text-glow"
+            className="hero-name leading-none font-normal drop-shadow-2xl bg-gradient-to-br from-rose-100 via-pink-100 to-rose-300 bg-clip-text text-transparent animate-gradient"
             style={{
               fontFamily: "'Instrument Serif', serif",
               fontSize: 'clamp(3.5rem, 15vw, 11rem)',

@@ -126,7 +126,10 @@ export default function MusicPlayer({ triggerRef }: MusicPlayerProps) {
           ? '0 0 20px rgba(254,205,211,0.3), 0 4px 15px rgba(0,0,0,0.4)'
           : '0 4px 15px rgba(0,0,0,0.35)',
         backdropFilter: 'blur(10px)',
+        WebkitBackdropFilter: 'blur(10px)',
         cursor:         'pointer',
+        touchAction:    'manipulation',
+        willChange:     'transform, opacity',
         transition:     'border-color 0.4s, box-shadow 0.4s',
       }}
     >

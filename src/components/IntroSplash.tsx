@@ -81,8 +81,7 @@ export default function IntroSplash({ onEnter }: IntroSplashProps) {
     // Contenido del splash se desvanece con el flash
     .to('.splash-content', {
       opacity: 0,
-      scale:   1.04,
-      filter:  'blur(8px)',
+      scale:   1.06,
       duration: 0.5,
       ease:    'power2.inOut',
     }, 0.1)

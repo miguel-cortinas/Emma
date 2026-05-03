@@ -1,12 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { Navigation } from 'lucide-react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import ScrollFloat from './ScrollFloat';
 import MagneticButton from './MagneticButton';
 
-gsap.registerPlugin(ScrollTrigger);
+// ScrollTrigger ya está registrado en main.tsx
 
 export default function LocationMap() {
 
@@ -17,28 +16,31 @@ export default function LocationMap() {
   const mapsLink = "https://www.google.com/maps/search/?api=1&query=Quinta+el+Pich%C3%B3n,+Chihuahua";
 
   useGSAP(() => {
+    // Promover el polaroid a capa GPU (tiene animación flotante continua)
+    gsap.set('.map-artifact', { willChange: 'transform' });
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
         start: 'top 80%',
-        end: 'bottom 20%',
-        toggleActions: 'play reverse play reverse',
+        once: true,
       },
     });
 
     tl.fromTo('.map-artifact',
-      { opacity: 0, y: 100, rotationZ: -10, scale: 0.9 },
-      { opacity: 1, y: 0, rotationZ: -3, scale: 1, duration: 1.2, ease: 'back.out(1.2)' }
+      { opacity: 0, y: 80, rotationZ: -8, scale: 0.92 },
+      { opacity: 1, y: 0, rotationZ: -3, scale: 1, duration: 1.0, ease: 'back.out(1.2)' }
     )
+    // Flotación suave continua (solo transform, GPU-only)
     .to('.map-artifact',
-      { y: -10, rotationZ: -2, duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1 },
+      { y: -8, rotationZ: -2, duration: 3.5, ease: 'sine.inOut', yoyo: true, repeat: -1 },
       '+=0'
     );
 
     tl.fromTo('.map-button',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
-      '-=1.5'
+      { opacity: 0, y: 16 },
+      { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out' },
+      '-=1.2'
     );
   }, { scope: containerRef });
 

@@ -22,11 +22,10 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
     const wordEls: HTMLElement[] = Array.from(el.querySelectorAll<HTMLElement>('.reveal-word'));
     const total   = wordEls.length;
 
-    // Estado inicial: todas tenues + blur
+    // Estado inicial + promoción a capa GPU anticipada
     gsap.set(wordEls, {
       opacity: 0.1,
       filter:  'blur(3px)',
-      // will-change en GPU para evitar que el browser re-calcule layout
       willChange: 'opacity, filter',
     });
 
@@ -75,8 +74,7 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
     // Fade out al abandonar la sección
     tl.to(wordEls, {
       opacity: 0,
-      filter:  'blur(6px)',
-      y:       -8,
+      y:       -10,
       stagger: 0.02,
       ease:    'power2.inOut',
       duration: 0.3,

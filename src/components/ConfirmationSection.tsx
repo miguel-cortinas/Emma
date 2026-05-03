@@ -1,15 +1,17 @@
 import React, { useRef, useMemo } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import MagneticButton from './MagneticButton';
 
 export default function ConfirmationSection() {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // ── Posiciones memoizadas: se calculan UNA sola vez, nunca saltan ─
+  // Móvil: menos partículas para ahorrar GPU
+  const isMobile = typeof window !== 'undefined' && window.matchMedia('(pointer: coarse)').matches;
+  const particleCount = isMobile ? 28 : 55;
+
   const particleData = useMemo(() =>
-    Array.from({ length: 55 }, (_, i) => {
+    Array.from({ length: particleCount }, (_, i) => {
       const size    = Math.random() * 5 + 1.5;
       const isLarge = i % 7 === 0;
       return {
@@ -21,53 +23,55 @@ export default function ConfirmationSection() {
         h:    isLarge ? size * 1.8 : size,
       };
     }),
-  []);
+  [particleCount]);
 
   const whatsappLink = "https://wa.me/526144957408?text=Hola!%20Confirmo%20mi%20asistencia%20al%20Baby%20Shower%20de%20Emma%20Luc%C3%ADa.";
 
   useGSAP(() => {
-    // Texto de entrada
+    // Texto de entrada — solo opacity + translateY (sin blur)
     gsap.fromTo('.fairy-text',
-      { opacity: 0, y: 30, filter: 'blur(10px)' },
+      { opacity: 0, y: 24 },
       {
-        opacity: 1, y: 0, filter: 'blur(0px)',
-        duration: 1.5, stagger: 0.3, ease: 'power2.out',
+        opacity: 1, y: 0,
+        duration: 1.2, stagger: 0.25, ease: 'power2.out',
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top 75%',
-          toggleActions: 'play reverse play reverse',
+          once: true,
         },
       }
     );
 
-    // Partículas — movimiento curvado (luciérnagas)
+    // Luciérnagas — promover a GPU antes de iniciar
     const fireflies = gsap.utils.toArray<HTMLElement>('.firefly');
+    gsap.set(fireflies, { willChange: 'transform, opacity', force3D: true });
 
     fireflies.forEach((firefly) => {
       // Movimiento vertical
       gsap.to(firefly, {
-        y:       `-=${gsap.utils.random(350, 900)}`,
-        duration: gsap.utils.random(8, 22),
-        ease:    'none',
-        repeat:  -1,
-        delay:   gsap.utils.random(0, 5),
+        y:        `-=${gsap.utils.random(300, 800)}`,
+        duration:  gsap.utils.random(9, 20),
+        ease:     'none',
+        repeat:   -1,
+        delay:    gsap.utils.random(0, 5),
+        force3D:  true,
       });
 
       // Balanceo lateral
       gsap.to(firefly, {
-        x:        `+=${gsap.utils.random(-120, 120)}`,
-        duration:  gsap.utils.random(2, 6),
+        x:        `+=${gsap.utils.random(-100, 100)}`,
+        duration:  gsap.utils.random(2, 5),
         ease:     'sine.inOut',
         repeat:   -1,
         yoyo:     true,
         delay:    gsap.utils.random(0, 3),
+        force3D:  true,
       });
 
-      // Brillo (twinkle)
+      // Brillo (solo opacity — sin scale para reducir compositing)
       gsap.to(firefly, {
-        opacity:  gsap.utils.random(0.4, 1),
-        scale:    gsap.utils.random(0.6, 1.8),
-        duration: gsap.utils.random(0.8, 3),
+        opacity:  gsap.utils.random(0.3, 0.9),
+        duration: gsap.utils.random(1, 2.5),
         ease:    'sine.inOut',
         repeat:  -1,
         yoyo:    true,
