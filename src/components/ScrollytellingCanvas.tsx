@@ -2,61 +2,51 @@ import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
+// ─── Constantes ───────────────────────────────────────────────────────────────
 const FRAME_COUNT = 192;
 const ZOOM_FACTOR = 1.35;
 
 const getFramePath = (index: number) => {
-  const paddedIndex = (index + 1).toString().padStart(3, '0');
-  return `/frames/frame-${paddedIndex}.jpg`;
+  const padded = (index + 1).toString().padStart(3, '0');
+  return `/frames/frame-${padded}.jpg`;
 };
 
 const NAME_CHARS = "Emma Lucía".split('');
 
-// ─── Pre-calcula los parámetros de dibujo una sola vez por resize ─────────
-// Esto evita leer img.width / img.height en cada evento de scroll
+// ─── Helper: parámetros de dibujo (cover + zoom), calculados una vez por resize
 interface DrawParams {
-  sx: number; sy: number; sw: number; sh: number; // source rect
-  dx: number; dy: number; dw: number; dh: number; // dest rect
+  dx: number; dy: number; dw: number; dh: number;
 }
 
-function computeDrawParams(
-  canvasW: number, canvasH: number,
-  imgW: number,    imgH: number,
-): DrawParams {
-  const canvasRatio = canvasW / canvasH;
-  const imgRatio    = imgW   / imgH;
-
+function computeDrawParams(cw: number, ch: number, iw: number, ih: number): DrawParams {
+  const cr = cw / ch;
+  const ir = iw / ih;
   let dw: number, dh: number;
-  if (canvasRatio > imgRatio) {
-    dw = canvasW * ZOOM_FACTOR;
-    dh = (canvasW / imgRatio) * ZOOM_FACTOR;
+  if (cr > ir) {
+    dw = cw * ZOOM_FACTOR;
+    dh = (cw / ir) * ZOOM_FACTOR;
   } else {
-    dw = (canvasH * imgRatio) * ZOOM_FACTOR;
-    dh = canvasH * ZOOM_FACTOR;
+    dw = (ch * ir) * ZOOM_FACTOR;
+    dh = ch * ZOOM_FACTOR;
   }
-
-  return {
-    sx: 0, sy: 0, sw: imgW, sh: imgH,
-    dx: (canvasW - dw) / 2,
-    dy: (canvasH - dh) / 2,
-    dw, dh,
-  };
+  return { dx: (cw - dw) / 2, dy: (ch - dh) / 2, dw, dh };
 }
 
+// ─── Componente ───────────────────────────────────────────────────────────────
 export default function ScrollytellingCanvas() {
-  const canvasRef      = useRef<HTMLCanvasElement>(null);
-  const loadingRef     = useRef<HTMLDivElement>(null);
-  const imagesRef      = useRef<HTMLImageElement[]>(new Array(FRAME_COUNT));
-  const drawParamsRef  = useRef<DrawParams | null>(null); // cache de params
+  const canvasRef     = useRef<HTMLCanvasElement>(null);
+  const loadingRef    = useRef<HTMLDivElement>(null);
+  const imagesRef     = useRef<HTMLImageElement[]>(new Array(FRAME_COUNT));
+  const drawParamsRef = useRef<DrawParams | null>(null);
 
   const [loadedFrames, setLoadedFrames] = useState(0);
-  const isLoaded      = loadedFrames > 0;
+  const isLoaded       = loadedFrames > 0;
   const loadPercentage = Math.floor((loadedFrames / FRAME_COUNT) * 100);
 
   const isMobile = typeof window !== 'undefined'
     && window.matchMedia('(pointer: coarse)').matches;
 
-  // ─── Animación de la pantalla de carga ───────────────────────────
+  // ─── Animación de la pantalla de carga ─────────────────────────────────
   useGSAP(() => {
     if (!loadingRef.current) return;
     const chars = loadingRef.current.querySelectorAll('.loading-char');
@@ -66,41 +56,41 @@ export default function ScrollytellingCanvas() {
     );
   }, { scope: loadingRef, dependencies: [] });
 
-  // ─── Fade-out de la pantalla de carga ────────────────────────────
+  // ─── Fade-out de la pantalla de carga ──────────────────────────────────
   useGSAP(() => {
     if (!isLoaded || !loadingRef.current) return;
     gsap.to(loadingRef.current, {
       opacity: 0, duration: 1.2, ease: 'power2.inOut',
-      onComplete: () => { if (loadingRef.current) loadingRef.current.style.display = 'none'; }
+      onComplete: () => { if (loadingRef.current) loadingRef.current.style.display = 'none'; },
     });
   }, { dependencies: [isLoaded] });
 
-  // ─── Precarga de frames ───────────────────────────────────────────
+  // ─── Precarga de frames ────────────────────────────────────────────────
   useEffect(() => {
-    let loadedCount = 0;
+    let count = 0;
 
+    // Cargar el primer frame primero para mostrar el canvas de inmediato
     const img0 = new Image();
     img0.src = getFramePath(0);
     img0.onload = () => {
       imagesRef.current[0] = img0;
-      loadedCount++;
-      setLoadedFrames(loadedCount);
+      count++;
+      setLoadedFrames(count);
 
+      // Resto de frames en paralelo
       for (let i = 1; i < FRAME_COUNT; i++) {
         const img = new Image();
         img.src = getFramePath(i);
         img.onload = () => {
           imagesRef.current[i] = img;
-          loadedCount++;
-          if (loadedCount % 10 === 0 || loadedCount === FRAME_COUNT) {
-            setLoadedFrames(loadedCount);
-          }
+          count++;
+          if (count % 10 === 0 || count === FRAME_COUNT) setLoadedFrames(count);
         };
       }
     };
   }, []);
 
-  // ─── Engine principal de scroll + animación ───────────────────────
+  // ─── Engine de scroll con lerp ─────────────────────────────────────────
   useEffect(() => {
     if (!isLoaded) return;
 
@@ -109,106 +99,101 @@ export default function ScrollytellingCanvas() {
 
     canvas.style.willChange = 'transform';
 
-    const ctx = canvas.getContext('2d', {
-      alpha: false,
-      desynchronized: true,
-    });
+    // alpha:false → canvas opaco (mejor rendimiento de composite en GPU)
+    // desynchronized → el browser puede pintarlo fuera del main-thread
+    const ctx = canvas.getContext('2d', { alpha: false, desynchronized: true });
     if (!ctx) return;
 
-    // ── Estado del engine ─────────────────────────────────────────
     let rafId: number;
-    let isRunning     = true;
+    let isRunning = true;
 
-    // Posición "real" del scroll (0..FRAME_COUNT-1, puede ser decimal)
-    let targetIndex   = 0;
-    // Posición suavizada actual (lerp hacia targetIndex)
-    let currentIndex  = 0;
-    // Último frame renderizado (para evitar dibujos redundantes)
-    let lastRendered  = -1;
+    // Posición objetivo (0..FRAME_COUNT-1) — actualizada en scroll
+    let targetIndex  = 0;
+    // Posición suavizada — se acerca al target con lerp
+    let currentIndex = 0;
+    // Último frame renderizado — evita re-dibujados innecesarios
+    let lastFrame    = -1;
+    // Cache del maxScroll — solo se recalcula en resize
+    let maxScroll    = document.body.scrollHeight - window.innerHeight;
 
-    // Caché del maxScroll — se recalcula solo en resize, no en cada scroll
-    let maxScroll     = document.body.scrollHeight - window.innerHeight;
-
-    // ── Resize: recalcular canvas + params de dibujo ──────────────
+    // ── Resize: recalcular canvas + params de dibujo en un solo lugar ──────
     const resizeCanvas = () => {
       canvas.width  = window.innerWidth;
       canvas.height = window.innerHeight;
+      maxScroll     = document.body.scrollHeight - window.innerHeight;
 
-      // Pre-computar los params de dibujo usando el primer frame disponible
-      const refImg = imagesRef.current.find(img => img && img.complete);
-      if (refImg) {
+      // Pre-computar rect de dibujo usando el primer frame disponible
+      const ref = imagesRef.current.find(img => img?.complete);
+      if (ref) {
         drawParamsRef.current = computeDrawParams(
-          canvas.width, canvas.height, refImg.naturalWidth, refImg.naturalHeight
+          canvas.width, canvas.height, ref.naturalWidth, ref.naturalHeight
         );
       }
-
-      maxScroll = document.body.scrollHeight - window.innerHeight;
-
-      // Forzar re-render del frame actual
-      lastRendered = -1;
+      // Forzar re-render
+      lastFrame = -1;
     };
 
     resizeCanvas();
 
-    // ── Scroll: solo actualiza targetIndex (sin tocar el DOM de layout) ──
+    // ── Scroll handler: SOLO escribe targetIndex, sin DOM reads ────────────
     const handleScroll = () => {
-      const fraction   = maxScroll > 0 ? Math.max(0, Math.min(1, window.scrollY / maxScroll)) : 0;
-      targetIndex      = fraction * (FRAME_COUNT - 1);
+      if (maxScroll <= 0) return;
+      const fraction = Math.max(0, Math.min(1, window.scrollY / maxScroll));
+      targetIndex    = fraction * (FRAME_COUNT - 1);
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll',  handleScroll,  { passive: true });
+    window.addEventListener('resize',  resizeCanvas,  { passive: true });
 
-    // Recalcular maxScroll en resize (operación de layout, no en scroll)
-    const handleResize = () => {
-      resizeCanvas();
-      maxScroll = document.body.scrollHeight - window.innerHeight;
-    };
-    window.addEventListener('resize', handleResize, { passive: true });
-
-    // ── Loop de renderizado con lerp ──────────────────────────────
+    // ── rAF loop con lerp ──────────────────────────────────────────────────
     /*
-     * UX principle (skill §7 spring-physics + §3 main-thread-budget):
-     * En lugar de saltar frame a frame con cada evento de scroll,
-     * usamos un lerp (interpolación lineal) para acercar currentIndex
-     * a targetIndex en cada frame de rAF. El resultado es una transición
-     * suavísima incluso cuando el scroll va rápido.
+     * LERP_SPEED define la "inercia" del fondo:
+     *   • 0.20 = muy reactivo, casi sin suavizado
+     *   • 0.12 = suave con un toque de inercia natural (óptimo móvil)
+     *   • 0.16 = punto dulce desktop
      *
-     * LERP_SPEED controla la "velocidad de seguimiento":
-     *   - 1.0 = instantáneo (sin suavizado, comportamiento previo)
-     *   - 0.1 = muy suave pero con lag notable
-     *   - 0.18–0.22 = punto óptimo: suave pero sin lag perceptible
+     * El lerp opera sobre el ÍNDICE de frame (flotante), por lo que la
+     * suavidad es independiente del número de frames — aunque haya 192,
+     * la transición visual entre ellos es continua.
      */
-    const LERP_SPEED = isMobile ? 0.14 : 0.18;
+    const LERP_SPEED = isMobile ? 0.12 : 0.16;
 
     const renderLoop = () => {
       if (!isRunning) return;
       rafId = requestAnimationFrame(renderLoop);
 
-      // Interpolar hacia el target
+      // Lerp hacia el target
       const diff = targetIndex - currentIndex;
+
+      // Umbral: si estamos a <0.05 del target consideramos que llegamos
       if (Math.abs(diff) < 0.05) {
-        // Ya estamos en el target — no hay nada que hacer
-        if (Math.floor(currentIndex) === lastRendered) return;
+        if (Math.floor(currentIndex) === lastFrame && diff < 0.001) return;
         currentIndex = targetIndex;
       } else {
         currentIndex += diff * LERP_SPEED;
       }
 
-      const frameIndex = Math.min(FRAME_COUNT - 1, Math.max(0, Math.round(currentIndex)));
+      const fi = Math.min(FRAME_COUNT - 1, Math.max(0, Math.round(currentIndex)));
 
       // Evitar re-dibujado si el frame no cambió
-      if (frameIndex === lastRendered) return;
-      lastRendered = frameIndex;
+      if (fi === lastFrame) return;
+      lastFrame = fi;
 
-      const img = imagesRef.current[frameIndex];
-      if (!img || !img.complete) return;
+      const img = imagesRef.current[fi];
+      if (!img?.complete) {
+        // Frame aún no cargado → buscar el más cercano disponible
+        for (let offset = 1; offset < 10; offset++) {
+          const fallback = imagesRef.current[Math.max(0, fi - offset)];
+          if (fallback?.complete) { ctx.drawImage(fallback, 0, 0, canvas.width, canvas.height); break; }
+        }
+        return;
+      }
 
+      // Dibujar con params pre-computados (cero reads de layout)
       const p = drawParamsRef.current;
       if (p) {
-        // Usar los params pre-computados → cero reads de layout en este path
-        ctx.drawImage(img, p.sx, p.sy, p.sw, p.sh, p.dx, p.dy, p.dw, p.dh);
+        ctx.drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight, p.dx, p.dy, p.dw, p.dh);
       } else {
-        // Fallback (primera vez antes del primer resize completo)
         ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       }
     };
@@ -218,33 +203,34 @@ export default function ScrollytellingCanvas() {
     return () => {
       isRunning = false;
       window.removeEventListener('scroll', handleScroll);
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', resizeCanvas);
       cancelAnimationFrame(rafId);
     };
   }, [isLoaded, isMobile]);
 
-  // ─── Mouse Parallax (solo desktop) ───────────────────────────────
+  // ─── Mouse Parallax (solo desktop) ─────────────────────────────────────
   useGSAP(() => {
     if (!isLoaded || !canvasRef.current || isMobile) return;
 
     gsap.set(canvasRef.current, { scale: 1.05 });
-    const xTo = gsap.quickTo(canvasRef.current, "x", { duration: 0.9, ease: "power2.out" });
-    const yTo = gsap.quickTo(canvasRef.current, "y", { duration: 0.9, ease: "power2.out" });
+    const xTo = gsap.quickTo(canvasRef.current, 'x', { duration: 0.9, ease: 'power2.out' });
+    const yTo = gsap.quickTo(canvasRef.current, 'y', { duration: 0.9, ease: 'power2.out' });
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const onMove = (e: MouseEvent) => {
       const { innerWidth, innerHeight } = window;
       xTo(-(e.clientX / innerWidth  - 0.5) * 28);
       yTo(-(e.clientY / innerHeight - 0.5) * 28);
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', onMove, { passive: true });
+    return () => window.removeEventListener('mousemove', onMove);
   }, [isLoaded, isMobile]);
 
+  // ─── JSX ───────────────────────────────────────────────────────────────
   return (
     <div className="fixed inset-0 w-full h-full bg-black z-0 overflow-hidden pointer-events-none">
 
-      {/* ── Pantalla de Carga Temática ──────────────────────────── */}
+      {/* ── Pantalla de Carga ────────────────────────────────────────── */}
       <div
         ref={loadingRef}
         className="absolute inset-0 flex flex-col items-center justify-center bg-black z-10 pointer-events-auto"
@@ -284,6 +270,7 @@ export default function ScrollytellingCanvas() {
           </span>
         </div>
 
+        {/* Barra de progreso */}
         <div className="mt-12 relative">
           <div className="w-48 h-px bg-white/10 rounded-full overflow-hidden">
             <div
@@ -300,7 +287,7 @@ export default function ScrollytellingCanvas() {
         </div>
       </div>
 
-      {/* ── Canvas principal ─────────────────────────────────────── */}
+      {/* ── Canvas principal ──────────────────────────────────────────── */}
       <canvas
         ref={canvasRef}
         className="w-full h-full opacity-80"
