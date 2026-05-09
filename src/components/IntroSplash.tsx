@@ -298,7 +298,6 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
           className="absolute flex flex-col items-center gap-5"
           style={{
             opacity: 0,
-            top: '100%',
             marginTop: '0px',
             // reposicionado dinámicamente: se muestra donde estaba el botón
             position: 'relative',
