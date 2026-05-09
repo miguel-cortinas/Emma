@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 
 // ─── Constantes ───────────────────────────────────────────────────────────────
-const FRAME_COUNT = 192;
+const FRAME_COUNT = 476; // Interpolados a 60fps (minterpolate) — ~33px/frame vs 80px/frame originales
 const ZOOM_FACTOR = 1.35;
 
 const getFramePath = (index: number) => {
