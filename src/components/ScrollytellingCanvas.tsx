@@ -8,7 +8,7 @@ const ZOOM_FACTOR = 1.35;
 
 const getFramePath = (index: number) => {
   const padded = (index + 1).toString().padStart(3, '0');
-  return `/frames/frame-${padded}.jpg`;
+  return `/frames/frame-${padded}.webp`;
 };
 
 const NAME_CHARS = "Emma Lucía".split('');
@@ -156,7 +156,8 @@ export default function ScrollytellingCanvas() {
      * suavidad es independiente del número de frames — aunque haya 192,
      * la transición visual entre ellos es continua.
      */
-    const LERP_SPEED = isMobile ? 0.12 : 0.16;
+    // Móvil más rápido (0.18) → el canvas sigue la inercia del scroll sin quedarse atrás
+    const LERP_SPEED = isMobile ? 0.18 : 0.16;
 
     const renderLoop = () => {
       if (!isRunning) return;
@@ -178,6 +179,19 @@ export default function ScrollytellingCanvas() {
       // Evitar re-dibujado si el frame no cambió
       if (fi === lastFrame) return;
       lastFrame = fi;
+
+      // ── Predecodificar frames vecinos hacia el GPU ──────────────────────
+      // img.decode() es idempotente y no bloquea el hilo principal.
+      // Le indica al browser que tenga la textura lista antes de necesitarla,
+      // eliminando el flash/blank cuando el scroll con inercia salta varios frames.
+      const PRELOAD_AHEAD = 4; // frames hacia adelante
+      const PRELOAD_BACK  = 2; // frames hacia atrás
+      for (let d = -PRELOAD_BACK; d <= PRELOAD_AHEAD; d++) {
+        if (d === 0) continue;
+        const ni = Math.max(0, Math.min(FRAME_COUNT - 1, fi + d));
+        const neighbor = imagesRef.current[ni];
+        if (neighbor?.complete) neighbor.decode?.().catch(() => {});
+      }
 
       const img = imagesRef.current[fi];
       if (!img?.complete) {
@@ -228,7 +242,7 @@ export default function ScrollytellingCanvas() {
 
   // ─── JSX ───────────────────────────────────────────────────────────────
   return (
-    <div className="fixed inset-0 w-full h-full bg-black z-0 overflow-hidden pointer-events-none">
+    <div className="canvas-layer fixed inset-0 w-full h-full bg-black z-0 overflow-hidden pointer-events-none">
 
       {/* ── Pantalla de Carga ────────────────────────────────────────── */}
       <div
@@ -291,7 +305,12 @@ export default function ScrollytellingCanvas() {
       <canvas
         ref={canvasRef}
         className="w-full h-full opacity-80"
-        style={{ display: isLoaded ? 'block' : 'none' }}
+        style={{
+          display: isLoaded ? 'block' : 'none',
+          // touch-action: pan-y → elimina el delay de 300ms del scroll táctil
+          // e impide que el browser intente manejar gestos horizontales en el canvas
+          touchAction: 'pan-y',
+        }}
       />
       <div className="absolute inset-0 bg-black/20 mix-blend-multiply" />
     </div>

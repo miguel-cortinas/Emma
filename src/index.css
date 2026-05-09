@@ -72,6 +72,18 @@
   }
 }
 
+/* ─── Canvas Layer: Compositing GPU optimizado ─────────────────────────────
+ *  • will-change: contents  → promueve el wrapper a su propia layer de GPU
+ *  • transform: translateZ(0) → fuerza la capa de compositing en Safari/WebKit
+ *  • contain: strict        → aísla el elemento del layout/paint exterior,
+ *    reduciendo el costo de repaint cada vez que cambia el frame del canvas
+ * ─────────────────────────────────────────────────────────────────────────── */
+.canvas-layer {
+  will-change: contents;
+  transform: translateZ(0);
+  contain: strict;
+}
+
 @layer utilities {
   /* ─── Glassmorphism ──────────────────────────────────────────── */
   .liquid-glass {
