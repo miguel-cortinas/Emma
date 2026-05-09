@@ -17,18 +17,18 @@ interface MusicPlayerProps {
 }
 
 export default function MusicPlayer({ triggerRef }: MusicPlayerProps) {
-  const audioRef   = useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const startedRef = useRef(false);
-  const btnRef     = useRef<HTMLButtonElement>(null);
-  const fadeInRef  = useRef<gsap.core.Tween | null>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const fadeInRef = useRef<gsap.core.Tween | null>(null);
   const fadeOutRef = useRef<gsap.core.Tween | null>(null);
   const [playing, setPlaying] = useState(false);
 
   // ── Crear el <audio> una sola vez ─────────────────────────────
   useEffect(() => {
-    const audio   = new Audio('/moonlight.mp3');
-    audio.loop    = true;
-    audio.volume  = 0;
+    const audio = new Audio('/moonlight.mp3');
+    audio.loop = true;
+    audio.volume = 0;
     audio.preload = 'auto';
     audioRef.current = audio;
 
@@ -59,7 +59,7 @@ export default function MusicPlayer({ triggerRef }: MusicPlayerProps) {
       // Cancelar cualquier fade previo y arrancar fade-in suave
       fadeOutRef.current?.kill();
       fadeInRef.current = gsap.to(audio, {
-        volume: 0.55,
+        volume: 0.25,
         duration: 2,
         ease: 'power1.inOut',
       });
@@ -97,7 +97,7 @@ export default function MusicPlayer({ triggerRef }: MusicPlayerProps) {
         setPlaying(true);
         fadeOutRef.current?.kill();
         fadeInRef.current = gsap.to(audio, {
-          volume: 0.55,
+          volume: 0.25,
           duration: 1.2,
           ease: 'power1.inOut',
         });
@@ -119,32 +119,34 @@ export default function MusicPlayer({ triggerRef }: MusicPlayerProps) {
       aria-label={playing ? 'Pausar música' : 'Reproducir música'}
       className="fixed bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center select-none"
       style={{
-        zIndex:         50,
-        background:     'rgba(255,255,255,0.06)',
-        border:         `1px solid ${playing ? 'rgba(254,205,211,0.4)' : 'rgba(255,255,255,0.15)'}`,
-        boxShadow:      playing
+        zIndex: 50,
+        background: 'rgba(255,255,255,0.06)',
+        border: `1px solid ${playing ? 'rgba(254,205,211,0.4)' : 'rgba(255,255,255,0.15)'}`,
+        boxShadow: playing
           ? '0 0 20px rgba(254,205,211,0.3), 0 4px 15px rgba(0,0,0,0.4)'
           : '0 4px 15px rgba(0,0,0,0.35)',
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
-        cursor:         'pointer',
-        touchAction:    'manipulation',
-        willChange:     'transform, opacity',
-        transition:     'border-color 0.4s, box-shadow 0.4s',
+        cursor: 'pointer',
+        touchAction: 'manipulation',
+        willChange: 'transform, opacity',
+        transition: 'border-color 0.4s, box-shadow 0.4s',
       }}
     >
       {playing ? (
         <span className="flex items-end gap-[2px] h-5">
           {[12, 17, 8, 20].map((h, i) => (
             <span key={i} className="music-bar rounded-sm"
-              style={{ width: '2px', height: `${h}px`,
+              style={{
+                width: '2px', height: `${h}px`,
                 background: 'rgba(254,205,211,0.9)',
-                display: 'inline-block', transformOrigin: 'bottom' }} />
+                display: 'inline-block', transformOrigin: 'bottom'
+              }} />
           ))}
         </span>
       ) : (
         <svg viewBox="0 0 24 24" className="w-5 h-5" fill="rgba(254,205,211,0.65)">
-          <path d="M9 18V5l12-2v13M9 18c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-2c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"/>
+          <path d="M9 18V5l12-2v13M9 18c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-2c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" />
         </svg>
       )}
     </button>
