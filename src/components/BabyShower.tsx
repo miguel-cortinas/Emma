@@ -39,8 +39,8 @@ function SectionDivider() {
 /* ── Indicador de scroll premium ─────────────────────────────────── */
 function ScrollIndicator() {
   return (
-    <div className="scroll-indicator flex flex-col items-center gap-3 mt-16 select-none">
-      <span className="text-[11px] tracking-[0.6em] text-rose-200/70 uppercase font-light">
+    <div className="scroll-indicator flex flex-col items-center gap-3 select-none" style={{ marginTop: 'clamp(2rem, 6vh, 4rem)' }}>
+      <span className="text-[10px] tracking-[0.6em] text-rose-200/70 uppercase font-light">
         Desliza
       </span>
 
@@ -125,27 +125,39 @@ export default function BabyShower() {
   return (
     <div ref={containerRef} className="w-full font-geist relative">
 
-      {/* ── §1 HERO ──────────────────────────────────────────────── */}
-      <section className="min-h-screen flex flex-col items-center justify-center text-center px-6 pt-20 relative">
+      {/* ── §1 HERO ─────────────────────────────────────────────── */}
+      <section
+        className="flex flex-col items-center justify-center text-center relative"
+        style={{
+          minHeight: '100dvh',
+          padding: 'clamp(1.5rem, 5vw, 3rem) clamp(1rem, 5vw, 2rem)',
+        }}
+      >
 
         <div className="hero-subtitle flex flex-col items-center gap-2">
           <span
-            className="text-5xl sm:text-6xl md:text-[6rem] text-rose-200/90 drop-shadow-[0_0_15px_rgba(254,205,211,0.5)] leading-none -rotate-2 z-10"
-            style={{ fontFamily: "'Great Vibes', cursive" }}
+            className="text-rose-200/90 drop-shadow-[0_0_15px_rgba(254,205,211,0.5)] leading-none -rotate-2 z-10"
+            style={{
+              fontFamily: "'Great Vibes', cursive",
+              fontSize: 'clamp(2.8rem, 11vw, 6rem)',
+            }}
           >
             Baby Shower
           </span>
-          <span className="text-[10px] tracking-[0.4em] text-rose-100/60 uppercase relative z-20 mt-3">
+          <span
+            className="tracking-[0.4em] text-rose-100/60 uppercase relative z-20"
+            style={{ fontSize: 'clamp(0.55rem, 2vw, 0.65rem)', marginTop: 'clamp(0.5rem, 1.5vh, 0.75rem)' }}
+          >
             de nuestra princesa
           </span>
         </div>
 
-        <div className="overflow-visible py-4 z-0 mt-4">
+        <div className="overflow-visible z-0" style={{ padding: 'clamp(0.5rem, 2vh, 1rem) 0' }}>
           <h1
             className="hero-name leading-none font-normal drop-shadow-2xl bg-gradient-to-br from-rose-100 via-pink-100 to-rose-300 bg-clip-text text-transparent animate-gradient"
             style={{
               fontFamily: "'Instrument Serif', serif",
-              fontSize: 'clamp(3.5rem, 15vw, 11rem)',
+              fontSize: 'clamp(3.5rem, 16vw, 11rem)',
             }}
           >
             Emma<br />Lucía
