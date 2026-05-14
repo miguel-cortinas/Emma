@@ -24,7 +24,7 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
 
     // Estado inicial + promoción a capa GPU anticipada
     gsap.set(wordEls, {
-      opacity: 0.1,
+      opacity: 0.25,
       filter:  'blur(3px)',
       willChange: 'opacity, filter',
     });
@@ -60,17 +60,28 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
       }, progress * 0.8); // 0.8 deja un 20% de scroll extra para leer cómodamente
     });
 
-    // Se eliminó el fade out progresivo para que el usuario pueda leer
-    // la frase completa antes de que se despineje y continúe la animación.
+    // Animación del indicador de scroll
+    tl.fromTo('.reveal-scroll-hint',
+      { opacity: 0, y: -10 },
+      { opacity: 1, y: 0, duration: 0.05, ease: 'power1.out' },
+      0
+    );
 
-    // Fade out al abandonar la sección
+    tl.to('.reveal-scroll-hint', {
+      opacity: 0,
+      y: 10,
+      duration: 0.1,
+      ease: 'power1.in'
+    }, 0.8);
+
+    // Fade out general al abandonar la sección
     tl.to(wordEls, {
       opacity: 0,
       y:       -10,
       stagger: 0.02,
       ease:    'power2.inOut',
       duration: 0.3,
-    });
+    }, 0.9);
 
     return () => {
       // Limpiar willChange al desmontar
@@ -80,13 +91,25 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
   }, { scope: containerRef });
 
   return (
-    <p ref={containerRef} className={className} style={style}>
-      {words.map((word, i) => (
-        <React.Fragment key={i}>
-          <span className="reveal-word inline-block">{word}</span>
-          {i < words.length - 1 && ' '}
-        </React.Fragment>
-      ))}
-    </p>
+    <div ref={containerRef} className="relative w-full flex flex-col items-center">
+      <p className={className} style={style}>
+        {words.map((word, i) => (
+          <React.Fragment key={i}>
+            <span className="reveal-word inline-block">{word}</span>
+            {i < words.length - 1 && ' '}
+          </React.Fragment>
+        ))}
+      </p>
+      
+      {/* Indicador intuitivo de scroll */}
+      <div className="reveal-scroll-hint absolute -bottom-20 flex flex-col items-center gap-3 opacity-0 pointer-events-none">
+        <span className="text-[10px] tracking-[0.4em] uppercase text-rose-200/60 font-medium bg-rose-900/10 px-3 py-1 rounded-full backdrop-blur-sm border border-rose-200/10">
+          Sigue bajando
+        </span>
+        <div className="w-px h-10 overflow-hidden">
+          <div className="w-full h-full bg-gradient-to-b from-rose-200/80 to-transparent animate-scroll-line" />
+        </div>
+      </div>
+    </div>
   );
 }
