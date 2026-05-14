@@ -4,12 +4,12 @@
 <head>
   <meta charset="UTF-8" />
   <!--
-      interactive-widget=resizes-content: evita que la barra de URL de Chrome/Safari
-      en móvil redimensione el viewport (causa el efecto "pantalla completa").
+      interactive-widget=resizes-visual: la barra URL solo afecta el visual viewport,
+      sin recalcular el layout del documento → elimina el salto al hacer scroll en móvil.
       viewport-fit=cover: extiende hasta notch/home indicator en iOS.
     -->
   <meta name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content" />
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-visual" />
   <title>Baby Shower - Emma Lucía</title>
   <meta name="description"
     content="¡Te invitamos a celebrar el Baby Shower de Emma Lucía! Acompáñanos en este día tan especial." />

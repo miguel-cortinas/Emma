@@ -82,7 +82,9 @@
 .canvas-layer {
   will-change: contents;
   transform: translateZ(0);
-  contain: strict;
+  /* contain: strict incluye contain:size que puede interferir en móvil.
+     Usamos layout+paint+style para aislar la capa de compositing sin fijar el size. */
+  contain: layout paint style;
 }
 
 @layer utilities {
