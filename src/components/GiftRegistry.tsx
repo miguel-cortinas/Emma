@@ -94,16 +94,12 @@ export default function GiftRegistry() {
       {/* Títulos */}
       <div className="flex flex-col items-center gap-8 mb-16">
         <ScrollFloat
-          containerClassName="text-5xl sm:text-6xl text-white drop-shadow-md text-center z-10 relative"
-          style={{ fontFamily: "'Instrument Serif', serif" }}
+          containerClassName="font-display text-5xl sm:text-6xl text-white drop-shadow-md text-center z-10 relative"
         >
           Mesa de Regalos
         </ScrollFloat>
 
-        <div
-          className="text-4xl sm:text-5xl text-rose-200/90 -rotate-2 drop-shadow-sm text-center z-20 relative"
-          style={{ fontFamily: "'Great Vibes', cursive" }}
-        >
+        <div className="font-script text-4xl sm:text-5xl text-rose-200/90 -rotate-2 drop-shadow-sm text-center z-20 relative">
           Lluvia de Sobres
         </div>
       </div>

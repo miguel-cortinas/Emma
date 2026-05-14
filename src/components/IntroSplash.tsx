@@ -231,22 +231,12 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
         </span>
 
         {/* Script: "Baby Shower" */}
-        <div
-          className="splash-script text-5xl sm:text-6xl text-rose-200/80"
-          style={{ fontFamily: "'Great Vibes', cursive" }}
-        >
+        <div className="splash-script font-script text-5xl sm:text-6xl text-rose-200/80">
           Baby Shower
         </div>
 
         {/* Nombre principal */}
-        <div
-          className="splash-name leading-none text-white"
-          style={{
-            fontFamily: "'Instrument Serif', serif",
-            fontSize: 'clamp(4.5rem, 22vw, 8rem)',
-            textShadow: '0 0 40px rgba(254,205,211,0.4), 0 0 80px rgba(254,205,211,0.15)',
-          }}
-        >
+        <div className="splash-name font-display text-[clamp(4.5rem,22vw,8rem)] leading-none text-white drop-shadow-[0_0_40px_rgba(254,205,211,0.4)]">
           Emma<br />Lucía
         </div>
 

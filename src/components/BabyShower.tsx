@@ -29,7 +29,7 @@ function SectionDivider() {
   }, { scope: ref });
 
   return (
-    <div ref={ref} className="section-divider my-0 px-8">
+    <div ref={ref} className="section-divider my-0 px-8" aria-hidden="true">
       <div className="section-divider-line" />
       <div className="section-divider-glow" />
     </div>
@@ -39,7 +39,7 @@ function SectionDivider() {
 /* ── Indicador de scroll premium ─────────────────────────────────── */
 function ScrollIndicator() {
   return (
-    <div className="scroll-indicator flex flex-col items-center gap-3 select-none" style={{ marginTop: 'clamp(2rem, 6vh, 4rem)' }}>
+    <div className="scroll-indicator flex flex-col items-center gap-3 select-none mt-[clamp(2rem,6vh,4rem)]" aria-hidden="true">
       <span className="text-[10px] tracking-[0.6em] text-rose-100 uppercase font-medium bg-rose-900/20 px-4 py-1.5 rounded-full backdrop-blur-md border border-rose-200/20 shadow-[0_0_15px_rgba(254,205,211,0.05)]">
         Desliza
       </span>
@@ -127,39 +127,20 @@ export default function BabyShower() {
 
       {/* ── §1 HERO ─────────────────────────────────────────────── */}
       <section
-        className="flex flex-col items-center justify-center text-center relative"
-        style={{
-          minHeight: '100dvh',
-          padding: 'clamp(1.5rem, 5vw, 3rem) clamp(1rem, 5vw, 2rem)',
-        }}
+        className="flex flex-col items-center justify-center text-center relative min-h-[100dvh] px-[clamp(1rem,5vw,2rem)] py-[clamp(1.5rem,5vw,3rem)]"
       >
 
         <div className="hero-subtitle flex flex-col items-center gap-4">
-          <span
-            className="text-rose-200/90 drop-shadow-[0_0_15px_rgba(254,205,211,0.5)] leading-none -rotate-2 z-10"
-            style={{
-              fontFamily: "'Great Vibes', cursive",
-              fontSize: 'clamp(3.5rem, 15vw, 6rem)',
-            }}
-          >
+          <span className="font-script text-[clamp(3.5rem,15vw,6rem)] text-rose-200/90 drop-shadow-[0_0_15px_rgba(254,205,211,0.5)] leading-none -rotate-2 z-10">
             Baby Shower
           </span>
-          <span
-            className="tracking-[0.4em] text-rose-100/90 uppercase relative z-20 bg-rose-900/20 backdrop-blur-md px-5 py-2 rounded-full border border-rose-200/20 shadow-[0_0_15px_rgba(254,205,211,0.05)]"
-            style={{ fontSize: 'clamp(0.55rem, 2.5vw, 0.7rem)', marginTop: 'clamp(1rem, 2vh, 1.5rem)' }}
-          >
+          <span className="tracking-[0.4em] text-[clamp(0.55rem,2.5vw,0.7rem)] text-rose-100/90 uppercase relative z-20 bg-rose-900/20 backdrop-blur-md px-5 py-2 rounded-full border border-rose-200/20 shadow-[0_0_15px_rgba(254,205,211,0.05)] mt-[clamp(1rem,2vh,1.5rem)]">
             de nuestra princesa
           </span>
         </div>
 
-        <div className="overflow-visible z-0" style={{ padding: 'clamp(1.5rem, 4vh, 3rem) 0' }}>
-          <h1
-            className="hero-name leading-none font-normal drop-shadow-2xl bg-gradient-to-br from-rose-100 via-pink-100 to-rose-300 bg-clip-text text-transparent animate-gradient"
-            style={{
-              fontFamily: "'Instrument Serif', serif",
-              fontSize: 'clamp(4.5rem, 20vw, 11rem)',
-            }}
-          >
+        <div className="overflow-visible z-0 py-[clamp(1.5rem,4vh,3rem)]">
+          <h1 className="hero-name font-display text-[clamp(4.5rem,20vw,11rem)] leading-none font-normal drop-shadow-2xl bg-gradient-to-br from-rose-100 via-pink-100 to-rose-300 bg-clip-text text-transparent animate-gradient">
             Emma<br />Lucía
           </h1>
         </div>
@@ -177,8 +158,7 @@ export default function BabyShower() {
         <div className="max-w-4xl text-center p-4">
           <TextReveal
             text="La familia crece y el amor se multiplica. Celebra junto a nosotros el comienzo de la aventura más hermosa de nuestras vidas."
-            className="text-3xl sm:text-4xl md:text-[4.5rem] text-white leading-relaxed font-normal drop-shadow-2xl"
-            style={{ fontFamily: "'Instrument Serif', serif" }}
+            className="font-display text-3xl sm:text-4xl md:text-[4.5rem] text-white leading-relaxed font-normal drop-shadow-2xl"
           />
         </div>
       </section>

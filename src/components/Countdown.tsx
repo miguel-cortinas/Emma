@@ -97,9 +97,8 @@ function FlipUnit({
   return (
     <div className="flex flex-col items-center justify-center min-w-[3.5rem]">
       <div
-        className="text-3xl md:text-4xl font-normal text-white tabular-nums"
+        className="font-display text-3xl md:text-4xl font-normal text-white tabular-nums"
         style={{
-          fontFamily: "'Instrument Serif', serif",
           textShadow: isSeconds
             ? '0 0 20px rgba(254,205,211,0.6), 0 0 40px rgba(254,205,211,0.2)'
             : '0 0 12px rgba(255,255,255,0.3)',

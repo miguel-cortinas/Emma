@@ -99,9 +99,8 @@ export default function EventDetails() {
       className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-20 overflow-hidden"
     >
       <ScrollFloat
-        containerClassName="mb-12 text-5xl sm:text-6xl md:text-[6rem] text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] leading-none text-center"
+        containerClassName="mb-12 font-display text-5xl sm:text-6xl md:text-[6rem] text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] leading-none text-center"
         textClassName=""
-        style={{ fontFamily: "'Instrument Serif', serif" }}
         animationDuration={1}
         ease="back.inOut(2)"
         scrollStart="center bottom+=50%"
@@ -139,21 +138,15 @@ export default function EventDetails() {
                 <CalendarDays className="w-6 h-6 text-rose-100" strokeWidth={1.5} />
               </div>
               <span className="text-[10px] tracking-[0.35em] text-rose-200/60 uppercase mb-2">Fecha</span>
-              <p
-                className="leading-none text-white drop-shadow-md"
-                style={{
-                  fontFamily: "'Instrument Serif', serif",
-                  fontSize: 'clamp(2.5rem, 8vw, 4.5rem)',
-                }}
-              >
+              <p className="leading-none text-white drop-shadow-md font-display text-[clamp(2.5rem,8vw,4.5rem)]">
                 30 <span style={{ fontSize: '0.55em' }}>Mayo</span>
               </p>
               <p className="text-xs md:text-sm text-zinc-300 font-light mt-1">Sábado · 2026</p>
             </div>
 
             {/* Separadores */}
-            <div className="event-separator hidden md:block w-px h-32 bg-gradient-to-b from-transparent via-rose-200/30 to-transparent" />
-            <div className="event-separator md:hidden w-32 h-px bg-gradient-to-r from-transparent via-rose-200/30 to-transparent my-2" />
+            <div className="event-separator hidden md:block w-px h-32 bg-gradient-to-b from-transparent via-rose-200/30 to-transparent" aria-hidden="true" />
+            <div className="event-separator md:hidden w-32 h-px bg-gradient-to-r from-transparent via-rose-200/30 to-transparent my-2" aria-hidden="true" />
 
             {/* ── Horario ─────────────────────────────────────────── */}
             <div className="event-info-item flex-1 flex flex-col items-center text-center group">
@@ -162,23 +155,11 @@ export default function EventDetails() {
               </div>
               <span className="text-[10px] tracking-[0.35em] text-rose-200/60 uppercase mb-2">Horario</span>
               <div className="flex flex-col items-center">
-                <p
-                  className="text-white drop-shadow-md"
-                  style={{
-                    fontFamily: "'Instrument Serif', serif",
-                    fontSize: 'clamp(2rem, 6vw, 3.5rem)',
-                  }}
-                >
+                <p className="text-white drop-shadow-md font-display text-[clamp(2rem,6vw,3.5rem)]">
                   3:00 PM
                 </p>
                 <span className="text-white/20 my-1 text-sm">—</span>
-                <p
-                  className="text-zinc-400 drop-shadow-md"
-                  style={{
-                    fontFamily: "'Instrument Serif', serif",
-                    fontSize: 'clamp(1.25rem, 4vw, 2rem)',
-                  }}
-                >
+                <p className="text-zinc-400 drop-shadow-md font-display text-[clamp(1.25rem,4vw,2rem)]">
                   9:00 PM
                 </p>
               </div>

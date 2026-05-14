@@ -51,9 +51,8 @@ export default function LocationMap() {
       style={{ perspective: '1000px' }}
     >
       <ScrollFloat
-        containerClassName="mb-24 sm:mb-32 text-5xl sm:text-6xl md:text-[6.5rem] text-white drop-shadow-lg leading-none text-center"
+        containerClassName="mb-24 sm:mb-32 font-display text-5xl sm:text-6xl md:text-[6.5rem] text-white drop-shadow-lg leading-none text-center"
         textClassName=""
-        style={{ fontFamily: "'Instrument Serif', serif" }}
       >
         Ubicación
       </ScrollFloat>
@@ -129,13 +128,7 @@ export default function LocationMap() {
 
           {/* Etiqueta manuscrita */}
           <div className="absolute bottom-4 left-0 right-0 text-center">
-            <h3
-              className="text-zinc-800 drop-shadow-sm opacity-85"
-              style={{
-                fontFamily: "'Instrument Serif', serif",
-                fontSize: 'clamp(1.6rem, 6vw, 2.2rem)',
-              }}
-            >
+            <h3 className="text-zinc-800 drop-shadow-sm opacity-85 font-display text-[clamp(1.6rem,6vw,2.2rem)]">
               Quinta el Pichón
             </h3>
           </div>

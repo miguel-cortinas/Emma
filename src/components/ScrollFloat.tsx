@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useRef, ReactNode } from 'react';
+import React, { useMemo, useRef, ReactNode } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 
 import './ScrollFloat.css';
 
@@ -42,14 +43,14 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
     ));
   }, [children]);
 
-  useEffect(() => {
+  useGSAP(() => {
     const el = containerRef.current;
     if (!el) return;
 
     const scroller = scrollContainerRef && scrollContainerRef.current ? scrollContainerRef.current : window;
     const charElements = el.querySelectorAll('.char');
 
-    const trigger = ScrollTrigger.create({
+    ScrollTrigger.create({
       trigger: el,
       scroller,
       start: scrollStart,
@@ -78,11 +79,7 @@ const ScrollFloat: React.FC<ScrollFloatProps> = ({
         }
       )
     });
-
-    return () => {
-      trigger.kill();
-    };
-  }, [scrollContainerRef, animationDuration, ease, scrollStart, scrollEnd, stagger]);
+  }, { scope: containerRef, dependencies: [scrollContainerRef, animationDuration, ease, scrollStart, scrollEnd, stagger] });
 
   return (
     <h2 ref={containerRef} className={`scroll-float ${containerClassName}`} style={style}>
