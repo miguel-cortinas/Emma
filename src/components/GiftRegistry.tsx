@@ -1,7 +1,7 @@
 import React, { useRef, useState, useCallback } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { Gift, Copy, CheckCircle2 } from 'lucide-react';
+import { Gift } from 'lucide-react';
 import ScrollFloat from './ScrollFloat';
 
 /* ── Confetti de pétalos ─────────────────────────────────────────── */
@@ -54,41 +54,6 @@ function spawnConfetti(origin: HTMLElement) {
 /* ── Componente principal ─────────────────────────────────────────── */
 export default function GiftRegistry() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const copyBtnRef = useRef<HTMLButtonElement>(null);
-  const [copied, setCopied] = useState(false);
-
-  const accountNumber = "0000 0000 0000 0000";
-
-  const handleCopy = useCallback(() => {
-    navigator.clipboard.writeText(accountNumber);
-    setCopied(true);
-
-    // Flash dorado en el número
-    const numEl = containerRef.current?.querySelector('.account-number');
-    if (numEl) {
-      gsap.fromTo(numEl,
-        { color: '#ffffff' },
-        {
-          color: '#fde68a', duration: 0.15, yoyo: true, repeat: 3,
-          ease: 'power2.inOut',
-          onComplete: () => gsap.set(numEl, { color: '#ffffff' })
-        }
-      );
-    }
-
-    // Scale spring en el botón
-    if (copyBtnRef.current) {
-      gsap.fromTo(copyBtnRef.current,
-        { scale: 1 },
-        { scale: 1.08, duration: 0.15, yoyo: true, repeat: 1, ease: 'power2.out' }
-      );
-    }
-
-    // Confetti de pétalos
-    if (copyBtnRef.current) spawnConfetti(copyBtnRef.current);
-
-    setTimeout(() => setCopied(false), 3000);
-  }, [accountNumber]);
 
   // ── Entrada en viewport ─────────────────────────────────────────
   useGSAP(() => {
@@ -164,51 +129,11 @@ export default function GiftRegistry() {
         <p className="text-rose-50/90 text-base md:text-lg leading-relaxed mb-4 font-light max-w-sm">
           Tu presencia es nuestro regalo más valioso.
         </p>
-        <p className="text-rose-50/80 text-sm md:text-base leading-relaxed font-light max-w-sm mb-10">
+        <p className="text-rose-50/80 text-sm md:text-base leading-relaxed font-light max-w-sm mb-4">
           Si deseas tener un detalle adicional con{' '}
           <strong className="font-normal text-white">Emma Lucía</strong>,
           puedes contribuir con la lluvia de sobres o con lo que brinde tu corazón.
         </p>
-
-        {/* ── Número de cuenta ─────────────────────────────────────── */}
-        <div className="w-full rounded-2xl p-6 flex flex-col items-center gap-4"
-          style={{
-            background: 'rgba(0,0,0,0.35)',
-            border: '1px solid rgba(254,205,211,0.08)',
-          }}
-        >
-          <div className="text-[10px] uppercase tracking-widest text-rose-200/60">
-            Cuenta Bancaria
-          </div>
-
-          <div className="account-number text-xl md:text-2xl text-white font-mono tracking-wider transition-colors duration-150">
-            {accountNumber}
-          </div>
-
-          <button
-            ref={copyBtnRef}
-            onClick={handleCopy}
-            className="mt-2 group relative flex items-center gap-2 px-6 py-3 rounded-full transition-all duration-300 select-none"
-            style={{
-              background: copied ? 'rgba(134,239,172,0.08)' : 'rgba(255,255,255,0.05)',
-              border: copied ? '1px solid rgba(134,239,172,0.3)' : '1px solid rgba(255,255,255,0.1)',
-            }}
-          >
-            {copied ? (
-              <>
-                <CheckCircle2 className="w-4 h-4 text-green-400" />
-                <span className="text-sm font-medium text-green-400 tracking-wide">¡Copiado!</span>
-              </>
-            ) : (
-              <>
-                <Copy className="w-4 h-4 text-rose-200 group-hover:text-white transition-colors" />
-                <span className="text-sm font-medium text-rose-100 group-hover:text-white tracking-wide transition-colors">
-                  Copiar Número
-                </span>
-              </>
-            )}
-          </button>
-        </div>
 
       </div>
     </section>

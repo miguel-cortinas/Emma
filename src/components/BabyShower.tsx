@@ -40,7 +40,7 @@ function SectionDivider() {
 function ScrollIndicator() {
   return (
     <div className="scroll-indicator flex flex-col items-center gap-3 select-none" style={{ marginTop: 'clamp(2rem, 6vh, 4rem)' }}>
-      <span className="text-[10px] tracking-[0.6em] text-rose-200/70 uppercase font-light">
+      <span className="text-[10px] tracking-[0.6em] text-rose-100 uppercase font-medium bg-black/30 px-3 py-1 rounded-full backdrop-blur-md border border-rose-200/20">
         Desliza
       </span>
 
@@ -139,14 +139,14 @@ export default function BabyShower() {
             className="text-rose-200/90 drop-shadow-[0_0_15px_rgba(254,205,211,0.5)] leading-none -rotate-2 z-10"
             style={{
               fontFamily: "'Great Vibes', cursive",
-              fontSize: 'clamp(2.8rem, 11vw, 6rem)',
+              fontSize: 'clamp(3.5rem, 15vw, 6rem)',
             }}
           >
             Baby Shower
           </span>
           <span
-            className="tracking-[0.4em] text-rose-100/60 uppercase relative z-20"
-            style={{ fontSize: 'clamp(0.55rem, 2vw, 0.65rem)', marginTop: 'clamp(0.5rem, 1.5vh, 0.75rem)' }}
+            className="tracking-[0.4em] text-rose-100/90 uppercase relative z-20 bg-black/40 backdrop-blur-md px-4 py-1.5 rounded-full border border-rose-200/20 shadow-xl"
+            style={{ fontSize: 'clamp(0.55rem, 2.5vw, 0.7rem)', marginTop: 'clamp(0.5rem, 1.5vh, 0.75rem)' }}
           >
             de nuestra princesa
           </span>
@@ -157,7 +157,7 @@ export default function BabyShower() {
             className="hero-name leading-none font-normal drop-shadow-2xl bg-gradient-to-br from-rose-100 via-pink-100 to-rose-300 bg-clip-text text-transparent animate-gradient"
             style={{
               fontFamily: "'Instrument Serif', serif",
-              fontSize: 'clamp(3.5rem, 16vw, 11rem)',
+              fontSize: 'clamp(4.5rem, 20vw, 11rem)',
             }}
           >
             Emma<br />Lucía
@@ -177,7 +177,7 @@ export default function BabyShower() {
         <div className="max-w-4xl text-center p-4">
           <TextReveal
             text="La familia crece y el amor se multiplica. Celebra junto a nosotros el comienzo de la aventura más hermosa de nuestras vidas."
-            className="text-4xl md:text-[4.5rem] text-white leading-tight font-normal drop-shadow-2xl"
+            className="text-3xl sm:text-4xl md:text-[4.5rem] text-white leading-tight font-normal drop-shadow-2xl"
             style={{ fontFamily: "'Instrument Serif', serif" }}
           />
         </div>

@@ -19,11 +19,11 @@ interface IntroSplashProps {
 }
 
 export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: IntroSplashProps) {
-  const [visible, setVisible]       = useState(true);
-  const [loading, setLoading]       = useState(false); // cargando frames post-tap
+  const [visible, setVisible] = useState(true);
+  const [loading, setLoading] = useState(false); // cargando frames post-tap
   const splashRef = useRef<HTMLDivElement>(null);
-  const btnRef    = useRef<HTMLButtonElement>(null);
-  const flashRef  = useRef<HTMLDivElement>(null);
+  const btnRef = useRef<HTMLButtonElement>(null);
+  const flashRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
 
   // ── Bloquear scroll del body mientras el splash está activo ──────
@@ -42,24 +42,26 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
 
     tl.fromTo('.splash-name',
       { opacity: 0, y: 30, filter: 'blur(12px)' },
-      { opacity: 1, y: 0, filter: 'blur(0px)',
-        duration: 1.4, ease: 'power3.out' }
+      {
+        opacity: 1, y: 0, filter: 'blur(0px)',
+        duration: 1.4, ease: 'power3.out'
+      }
     )
-    .fromTo('.splash-script',
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1, ease: 'power2.out' },
-      '-=0.6'
-    )
-    .fromTo('.splash-tagline',
-      { opacity: 0 },
-      { opacity: 1, duration: 1, ease: 'power2.out' },
-      '-=0.4'
-    )
-    .fromTo(btnRef.current,
-      { opacity: 0, scale: 0.88, y: 16 },
-      { opacity: 1, scale: 1, y: 0, duration: 1, ease: 'back.out(2)' },
-      '-=0.3'
-    );
+      .fromTo('.splash-script',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 1, ease: 'power2.out' },
+        '-=0.6'
+      )
+      .fromTo('.splash-tagline',
+        { opacity: 0 },
+        { opacity: 1, duration: 1, ease: 'power2.out' },
+        '-=0.4'
+      )
+      .fromTo(btnRef.current,
+        { opacity: 0, scale: 0.88, y: 16 },
+        { opacity: 1, scale: 1, y: 0, duration: 1, ease: 'back.out(2)' },
+        '-=0.3'
+      );
   }, { scope: splashRef });
 
   // ── Cuando todos los frames estén cargados, ejecutar salida ─────
@@ -76,21 +78,21 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
       { opacity: 0, scale: 0.8 },
       { opacity: 1, scale: 2.5, duration: 0.35, ease: 'power2.out' }
     )
-    .to(flashRef.current,
-      { opacity: 0, scale: 3.5, duration: 0.55, ease: 'power2.in' },
-      '-=0.05'
-    )
-    .to('.splash-content', {
-      opacity: 0,
-      scale:   1.06,
-      duration: 0.5,
-      ease:    'power2.inOut',
-    }, 0.1)
-    .to(splashRef.current, {
-      opacity:  0,
-      duration: 0.5,
-      ease:    'power2.inOut',
-    }, '-=0.15');
+      .to(flashRef.current,
+        { opacity: 0, scale: 3.5, duration: 0.55, ease: 'power2.in' },
+        '-=0.05'
+      )
+      .to('.splash-content', {
+        opacity: 0,
+        scale: 1.06,
+        duration: 0.5,
+        ease: 'power2.inOut',
+      }, 0.1)
+      .to(splashRef.current, {
+        opacity: 0,
+        duration: 0.5,
+        ease: 'power2.inOut',
+      }, '-=0.15');
   }, []);
 
   // ── Observar progreso de carga cuando loading === true ──────────
@@ -137,7 +139,7 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
   return (
     <div
       ref={splashRef}
-      className="fixed inset-0 flex flex-col items-center justify-center z-[200] overflow-hidden"
+      className="fixed top-0 left-0 w-full h-[100dvh] flex flex-col items-center justify-center z-[200] overflow-hidden"
     >
       {/* ── SVG Filter para el patrón futurista (definición) ─────────── */}
       <svg
@@ -230,7 +232,7 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
 
         {/* Script: "Baby Shower" */}
         <div
-          className="splash-script text-4xl sm:text-5xl text-rose-200/80"
+          className="splash-script text-5xl sm:text-6xl text-rose-200/80"
           style={{ fontFamily: "'Great Vibes', cursive" }}
         >
           Baby Shower
@@ -241,7 +243,7 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
           className="splash-name leading-none text-white"
           style={{
             fontFamily: "'Instrument Serif', serif",
-            fontSize:   'clamp(3.8rem, 18vw, 8rem)',
+            fontSize: 'clamp(4.5rem, 22vw, 8rem)',
             textShadow: '0 0 40px rgba(254,205,211,0.4), 0 0 80px rgba(254,205,211,0.15)',
           }}
         >
@@ -261,24 +263,24 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
             disabled={loading}
             className="group relative flex items-center px-10 py-4 rounded-full overflow-hidden transition-all duration-500"
             style={{
-              opacity:        0,          // GSAP lo anima
-              background:     'rgba(255,255,255,0.07)',
-              border:         '1px solid rgba(254,205,211,0.35)',
-              boxShadow:      '0 0 30px rgba(0,0,0,0.4)',
+              opacity: 0,          // GSAP lo anima
+              background: 'rgba(255,255,255,0.07)',
+              border: '1px solid rgba(254,205,211,0.35)',
+              boxShadow: '0 0 30px rgba(0,0,0,0.4)',
               backdropFilter: 'blur(12px)',
             }}
             onMouseEnter={e => {
               if (loading) return;
               const el = e.currentTarget as HTMLElement;
-              el.style.background   = 'rgba(254,205,211,0.12)';
-              el.style.borderColor  = 'rgba(254,205,211,0.6)';
-              el.style.boxShadow    = '0 0 40px rgba(254,205,211,0.2)';
+              el.style.background = 'rgba(254,205,211,0.12)';
+              el.style.borderColor = 'rgba(254,205,211,0.6)';
+              el.style.boxShadow = '0 0 40px rgba(254,205,211,0.2)';
             }}
             onMouseLeave={e => {
               const el = e.currentTarget as HTMLElement;
-              el.style.background   = 'rgba(255,255,255,0.07)';
-              el.style.borderColor  = 'rgba(254,205,211,0.35)';
-              el.style.boxShadow    = '0 0 30px rgba(0,0,0,0.4)';
+              el.style.background = 'rgba(255,255,255,0.07)';
+              el.style.borderColor = 'rgba(254,205,211,0.35)';
+              el.style.boxShadow = '0 0 30px rgba(0,0,0,0.4)';
             }}
           >
             {/* Shimmer en hover */}

@@ -32,23 +32,21 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
     const triggerEl = el.closest('section') || el;
 
     /*
-     * CAMBIO CLAVE: se eliminó `pin: true` que era el responsable del
-     * jitter/tirones. El pin obliga a GSAP a recalcular el layout del
-     * documento en cada frame de scroll, bloqueando el hilo principal.
-     *
-     * En su lugar, la sección ya ocupa min-h-screen (suficiente espacio
-     * para leer) y el scrub sigue siendo suave sin fijar el viewport.
+     * CAMBIO: Se reintroduce el pin para que el texto sea legible (fijado),
+     * permitiendo que el fondo animado siga su curso. El jitter se previene
+     * mediante la sincronización dinámica del height en ScrollytellingCanvas.
      */
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger:    triggerEl,
-        start:      'top 60%',
-        end:        'bottom 20%',
-        scrub:      1.5,  // scrub más suave → menos frames forzados
+        start:      'center center',
+        end:        '+=120%', // Mantiene la sección fijada durante 120% del viewport
+        scrub:      1,
+        pin:        true,
       },
     });
 
-    // Cada palabra pasa por 3 estados: pendiente → activa → leída
+    // Cada palabra se revela progresivamente
     wordEls.forEach((word, i) => {
       const progress = i / (total - 1);
 
@@ -57,19 +55,13 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
         filter:  'blur(0px)',
         color:   'rgba(255, 228, 230, 1)',
         textShadow: '0 0 20px rgba(254,205,211,0.6)',
-        duration: 0.4,
+        duration: 0.5,
         ease:    'power2.out',
-      }, progress * 1.4);
-
-      tl.to(word, {
-        opacity: 0.5,
-        filter:  'blur(0px)',
-        color:   'rgba(255,255,255,0.55)',
-        textShadow: 'none',
-        duration: 0.6,
-        ease:    'power2.inOut',
-      }, progress * 1.4 + 0.15);
+      }, progress * 0.8); // 0.8 deja un 20% de scroll extra para leer cómodamente
     });
+
+    // Se eliminó el fade out progresivo para que el usuario pueda leer
+    // la frase completa antes de que se despineje y continúe la animación.
 
     // Fade out al abandonar la sección
     tl.to(wordEls, {

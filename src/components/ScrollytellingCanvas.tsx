@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 interface ScrollytellingCanvasProps {
   onLoadProgress?: (loaded: number, total: number) => void;
@@ -138,6 +139,15 @@ export default function ScrollytellingCanvas({ onLoadProgress }: ScrollytellingC
     window.addEventListener('scroll',  handleScroll,  { passive: true });
     window.addEventListener('resize',  resizeCanvas,  { passive: true });
 
+    // Sincronizar el canvas con el recalculado del DOM que hace ScrollTrigger al agregar pins
+    ScrollTrigger.addEventListener('refresh', resizeCanvas);
+    
+    // También usar ResizeObserver como seguro general para cualquier cambio de altura
+    const resizeObserver = new ResizeObserver(() => {
+      maxScroll = document.body.scrollHeight - window.innerHeight;
+    });
+    resizeObserver.observe(document.body);
+
     // ── rAF loop con lerp ──────────────────────────────────────────────────
     /*
      * LERP_SPEED define la "inercia" del fondo:
@@ -211,6 +221,8 @@ export default function ScrollytellingCanvas({ onLoadProgress }: ScrollytellingC
       isRunning = false;
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', resizeCanvas);
+      ScrollTrigger.removeEventListener('refresh', resizeCanvas);
+      resizeObserver.disconnect();
       cancelAnimationFrame(rafId);
     };
   }, [canvasReady, isMobile]);
