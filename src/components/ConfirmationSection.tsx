@@ -25,7 +25,7 @@ export default function ConfirmationSection() {
     }),
   [particleCount]);
 
-  const whatsappLink = "https://wa.me/526144957408?text=Hola!%20Confirmo%20mi%20asistencia%20al%20Baby%20Shower%20de%20Emma%20Luc%C3%ADa.";
+  const whatsappLink = "https://wa.me/526145038073?text=Hola!%20Confirmo%20mi%20asistencia%20al%20Baby%20Shower%20de%20Emma%20Luc%C3%ADa.";
 
   useGSAP(() => {
     // Texto de entrada — solo opacity + translateY (sin blur)
