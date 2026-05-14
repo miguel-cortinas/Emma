@@ -179,17 +179,11 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
         </defs>
       </svg>
 
-      {/* ── Fondo: patrón futurista con gradiente violeta ─────────────── */}
+      {/* ── Fondo: imagen de lavanda ──────────────────────────────────── */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          background: `linear-gradient(
-            145deg,
-            rgba(59, 43, 124, 0.97),
-            rgba(106, 76, 169, 0.97),
-            rgba(155, 108, 214, 0.97)
-          )`,
-          filter: 'url(#splash-texture)',
+          backgroundImage: "url('/lavanda.jpg')",
         }}
       />
 
