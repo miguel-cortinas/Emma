@@ -179,11 +179,11 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
         </defs>
       </svg>
 
-      {/* ── Fondo: imagen de lavanda ──────────────────────────────────── */}
+      {/* ── Fondo: imagen 19.jpg ────────────────────────────────────────── */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url('/lavanda.jpg')",
+          backgroundImage: "url('/19.jpg')",
         }}
       />
 
