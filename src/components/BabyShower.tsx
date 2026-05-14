@@ -40,7 +40,7 @@ function SectionDivider() {
 function ScrollIndicator() {
   return (
     <div className="scroll-indicator flex flex-col items-center gap-3 select-none" style={{ marginTop: 'clamp(2rem, 6vh, 4rem)' }}>
-      <span className="text-[10px] tracking-[0.6em] text-rose-100 uppercase font-medium bg-black/30 px-3 py-1 rounded-full backdrop-blur-md border border-rose-200/20">
+      <span className="text-[10px] tracking-[0.6em] text-rose-100 uppercase font-medium bg-rose-900/20 px-4 py-1.5 rounded-full backdrop-blur-md border border-rose-200/20 shadow-[0_0_15px_rgba(254,205,211,0.05)]">
         Desliza
       </span>
 
@@ -134,7 +134,7 @@ export default function BabyShower() {
         }}
       >
 
-        <div className="hero-subtitle flex flex-col items-center gap-2">
+        <div className="hero-subtitle flex flex-col items-center gap-4">
           <span
             className="text-rose-200/90 drop-shadow-[0_0_15px_rgba(254,205,211,0.5)] leading-none -rotate-2 z-10"
             style={{
@@ -145,14 +145,14 @@ export default function BabyShower() {
             Baby Shower
           </span>
           <span
-            className="tracking-[0.4em] text-rose-100/90 uppercase relative z-20 bg-black/40 backdrop-blur-md px-4 py-1.5 rounded-full border border-rose-200/20 shadow-xl"
-            style={{ fontSize: 'clamp(0.55rem, 2.5vw, 0.7rem)', marginTop: 'clamp(0.5rem, 1.5vh, 0.75rem)' }}
+            className="tracking-[0.4em] text-rose-100/90 uppercase relative z-20 bg-rose-900/20 backdrop-blur-md px-5 py-2 rounded-full border border-rose-200/20 shadow-[0_0_15px_rgba(254,205,211,0.05)]"
+            style={{ fontSize: 'clamp(0.55rem, 2.5vw, 0.7rem)', marginTop: 'clamp(1rem, 2vh, 1.5rem)' }}
           >
             de nuestra princesa
           </span>
         </div>
 
-        <div className="overflow-visible z-0" style={{ padding: 'clamp(0.5rem, 2vh, 1rem) 0' }}>
+        <div className="overflow-visible z-0" style={{ padding: 'clamp(1.5rem, 4vh, 3rem) 0' }}>
           <h1
             className="hero-name leading-none font-normal drop-shadow-2xl bg-gradient-to-br from-rose-100 via-pink-100 to-rose-300 bg-clip-text text-transparent animate-gradient"
             style={{
@@ -177,7 +177,7 @@ export default function BabyShower() {
         <div className="max-w-4xl text-center p-4">
           <TextReveal
             text="La familia crece y el amor se multiplica. Celebra junto a nosotros el comienzo de la aventura más hermosa de nuestras vidas."
-            className="text-3xl sm:text-4xl md:text-[4.5rem] text-white leading-tight font-normal drop-shadow-2xl"
+            className="text-3xl sm:text-4xl md:text-[4.5rem] text-white leading-relaxed font-normal drop-shadow-2xl"
             style={{ fontFamily: "'Instrument Serif', serif" }}
           />
         </div>

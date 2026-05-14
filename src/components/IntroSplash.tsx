@@ -222,7 +222,7 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
 
       {/* Contenido centrado */}
       <div
-        className="splash-content relative flex flex-col items-center text-center px-8 gap-4"
+        className="splash-content relative flex flex-col items-center text-center px-8 gap-4 mt-12"
         style={{ zIndex: 5 }}
       >
         {/* Etiqueta superior */}

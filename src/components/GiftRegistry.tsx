@@ -92,7 +92,7 @@ export default function GiftRegistry() {
       className="min-h-screen flex flex-col items-center justify-center px-4 py-20 relative"
     >
       {/* Títulos */}
-      <div className="flex flex-col items-center gap-2 mb-16">
+      <div className="flex flex-col items-center gap-8 mb-16">
         <ScrollFloat
           containerClassName="text-5xl sm:text-6xl text-white drop-shadow-md text-center z-10 relative"
           style={{ fontFamily: "'Instrument Serif', serif" }}
