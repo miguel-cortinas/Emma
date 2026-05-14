@@ -127,7 +127,7 @@ export default function BabyShower() {
 
       {/* ── §1 HERO ─────────────────────────────────────────────── */}
       <section
-        className="flex flex-col items-center justify-center text-center relative min-h-[100dvh] px-[clamp(1rem,5vw,2rem)] py-[clamp(1.5rem,5vw,3rem)]"
+        className="flex flex-col items-center justify-center text-center relative min-h-[100svh] px-[clamp(1rem,5vw,2rem)] py-[clamp(1.5rem,5vw,3rem)]"
       >
 
         <div className="hero-subtitle flex flex-col items-center gap-4">

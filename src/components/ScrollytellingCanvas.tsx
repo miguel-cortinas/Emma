@@ -111,23 +111,22 @@ export default function ScrollytellingCanvas({ onLoadProgress }: ScrollytellingC
     let maxScroll    = document.body.scrollHeight - window.innerHeight;
 
     // ── Resize: recalcular canvas + params de dibujo en un solo lugar ──────
-    // En móvil, la barra URL causa cambios pequeños de alto (~56-80px).
-    // Solo redimensionamos si el ANCHO cambió o el delta de alto es mayor
-    // que el umbral, para evitar el flash/salto visual de la barra URL.
-    const URL_BAR_THRESHOLD = 120; // px — mayor que la barra URL de cualquier navegador
-    let lastCanvasWidth  = window.innerWidth;
-    let lastCanvasHeight = window.innerHeight;
+    // El contenedor tiene 100lvh, así que su tamaño CSS es estático en móvil.
+    let lastCanvasWidth  = 0;
+    let lastCanvasHeight = 0;
 
     const resizeCanvas = (force = false) => {
-      const newW = window.innerWidth;
-      const newH = window.innerHeight;
-      const widthChanged  = newW !== lastCanvasWidth;
-      const heightDelta   = Math.abs(newH - lastCanvasHeight);
+      const parent = canvas.parentElement;
+      const newW = parent ? parent.clientWidth : window.innerWidth;
+      const newH = parent ? parent.clientHeight : window.innerHeight;
 
-      // En móvil, si solo cambió el alto y el delta es pequeño (barra URL),
-      // actualizamos maxScroll pero NO redimensionamos el canvas.
-      if (!force && !widthChanged && isMobile && heightDelta < URL_BAR_THRESHOLD) {
-        maxScroll = document.body.scrollHeight - newH;
+      // El área de scroll (maxScroll) depende del layout viewport (innerHeight)
+      // por lo que siempre debemos actualizarlo en cada resize event.
+      maxScroll = document.body.scrollHeight - window.innerHeight;
+
+      // Si las dimensiones del canvas no cambiaron, no necesitamos reasignar
+      // el pixel buffer ni recalcular parámetros (evita saltos en móvil).
+      if (!force && newW === lastCanvasWidth && newH === lastCanvasHeight) {
         return;
       }
 
@@ -136,7 +135,6 @@ export default function ScrollytellingCanvas({ onLoadProgress }: ScrollytellingC
 
       canvas.width  = newW;
       canvas.height = newH;
-      maxScroll     = document.body.scrollHeight - newH;
 
       // Pre-computar rect de dibujo usando el primer frame disponible
       const ref = imagesRef.current.find(img => img?.complete);
@@ -270,7 +268,7 @@ export default function ScrollytellingCanvas({ onLoadProgress }: ScrollytellingC
 
   // ─── JSX ───────────────────────────────────────────────────────────────
   return (
-    <div className="canvas-layer fixed inset-0 w-full h-full bg-black z-0 overflow-hidden pointer-events-none">
+    <div className="canvas-layer fixed top-0 left-0 w-full h-[100lvh] bg-black z-0 overflow-hidden pointer-events-none">
 
       {/* ── Canvas principal ──────────────────────────────────────────── */}
       <canvas

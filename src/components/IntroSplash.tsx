@@ -139,7 +139,7 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
   return (
     <div
       ref={splashRef}
-      className="fixed top-0 left-0 w-full h-[100dvh] flex flex-col items-center justify-center z-[200] overflow-hidden"
+      className="fixed top-0 left-0 w-full h-[100svh] flex flex-col items-center justify-center z-[200] overflow-hidden"
     >
       {/* ── SVG Filter para el patrón futurista (definición) ─────────── */}
       <svg
