@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { Gift } from 'lucide-react';
@@ -118,7 +118,11 @@ export default function GiftRegistry() {
         <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-rose-300/50 to-transparent" />
 
         {/* Icono con rotación de entrada */}
-        <div className="gift-icon w-16 h-16 bg-gradient-to-br from-rose-200 to-pink-300 rounded-full flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(254,205,211,0.4)]">
+        <div 
+          onClick={(e) => spawnConfetti(e.currentTarget)}
+          className="gift-icon w-16 h-16 bg-gradient-to-br from-rose-200 to-pink-300 rounded-full flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(254,205,211,0.4)] cursor-pointer hover:scale-110 transition-transform hover:shadow-[0_0_40px_rgba(254,205,211,0.6)]"
+          title="¡Haz clic para celebrar!"
+        >
           <Gift className="w-8 h-8 text-rose-950" />
         </div>
 
