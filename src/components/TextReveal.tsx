@@ -60,16 +60,26 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
       }, progress * 0.8); // 0.8 deja un 20% de scroll extra para leer cómodamente
     });
 
-    // Animación del indicador de scroll
-    tl.fromTo('.reveal-scroll-hint',
-      { opacity: 0, y: -10 },
-      { opacity: 1, y: 0, duration: 0.05, ease: 'power1.out' },
-      0
+    // Animación temprana e independiente para que "Sigue bajando" aparezca ANTES de anclar
+    gsap.fromTo('.reveal-scroll-hint-wrapper',
+      { opacity: 0, y: -20 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: triggerEl,
+          start: 'top 75%', // Aparece en cuanto asoma la sección
+          toggleActions: 'play reverse play reverse'
+        }
+      }
     );
 
+    // Fade out de la pista cuando se termina de revelar el texto (usando scrub)
     tl.to('.reveal-scroll-hint', {
       opacity: 0,
-      y: 10,
+      scale: 0.9,
       duration: 0.1,
       ease: 'power1.in'
     }, 0.8);
@@ -101,13 +111,16 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
         ))}
       </p>
       
-      {/* Indicador intuitivo de scroll */}
-      <div className="reveal-scroll-hint absolute -bottom-20 flex flex-col items-center gap-3 opacity-0 pointer-events-none">
-        <span className="text-[10px] tracking-[0.4em] uppercase text-rose-200/60 font-medium bg-rose-900/10 px-3 py-1 rounded-full backdrop-blur-sm border border-rose-200/10">
-          Sigue bajando
-        </span>
-        <div className="w-px h-10 overflow-hidden">
-          <div className="w-full h-full bg-gradient-to-b from-rose-200/80 to-transparent animate-scroll-line" />
+      {/* Wrapper independiente para el fade-in temprano */}
+      <div className="reveal-scroll-hint-wrapper absolute -bottom-20 pointer-events-none opacity-0">
+        {/* Contenedor interno para el fade-out atado al scroll */}
+        <div className="reveal-scroll-hint flex flex-col items-center gap-3">
+          <span className="text-[10px] tracking-[0.4em] uppercase text-rose-200/60 font-medium bg-rose-900/10 px-3 py-1 rounded-full backdrop-blur-sm border border-rose-200/10">
+            Sigue bajando
+          </span>
+          <div className="w-px h-10 overflow-hidden">
+            <div className="w-full h-full bg-gradient-to-b from-rose-200/80 to-transparent animate-scroll-line" />
+          </div>
         </div>
       </div>
     </div>
