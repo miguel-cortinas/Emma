@@ -36,11 +36,11 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
       color: 'rgba(255, 228, 230, 1)',
       textShadow: '0 0 25px rgba(254,205,211,0.6)',
       duration: 1.6,
-      stagger: 0.03, // Cascadas súper rápidas
+      stagger: 0.04, // Un poco más de tiempo entre palabras para disfrutarlo más
       ease: 'expo.out', // Empieza veloz, aterriza de forma extremadamente suave
       scrollTrigger: {
-        trigger: triggerEl,
-        start: 'top 80%',
+        trigger: el, // IMPORTANTE: El trigger es el texto en sí, no la sección completa
+        start: 'top 75%', // Inicia cuando el propio texto llega al 75% de la pantalla
         once: true,
       },
       onComplete: () => {
