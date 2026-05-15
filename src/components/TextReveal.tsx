@@ -112,13 +112,20 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
       </p>
       
       {/* Wrapper independiente para el fade-in temprano */}
-      <div className="reveal-scroll-hint-wrapper absolute -bottom-20 pointer-events-none opacity-0">
+      <div className="reveal-scroll-hint-wrapper absolute -bottom-28 pointer-events-none opacity-0">
         {/* Contenedor interno para el fade-out atado al scroll */}
         <div className="reveal-scroll-hint flex flex-col items-center gap-3">
-          <span className="text-[10px] tracking-[0.4em] uppercase text-rose-200/60 font-medium bg-rose-900/10 px-3 py-1 rounded-full backdrop-blur-sm border border-rose-200/10">
-            Sigue bajando
-          </span>
-          <div className="w-px h-10 overflow-hidden">
+          {/* Texto y flecha con parpadeo suave */}
+          <div className="flex flex-col items-center animate-pulse">
+            <span className="text-[10px] tracking-[0.4em] uppercase text-rose-200/90 font-semibold bg-rose-900/30 px-5 py-2 rounded-full backdrop-blur-md border border-rose-200/30 shadow-[0_0_15px_rgba(254,205,211,0.15)]">
+              Sigue bajando
+            </span>
+            <svg className="w-5 h-5 text-rose-200/90 mt-2 animate-bounce drop-shadow-[0_0_5px_rgba(254,205,211,0.5)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+          
+          <div className="w-px h-10 overflow-hidden mt-1">
             <div className="w-full h-full bg-gradient-to-b from-rose-200/80 to-transparent animate-scroll-line" />
           </div>
         </div>
