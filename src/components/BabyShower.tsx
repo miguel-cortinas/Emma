@@ -65,12 +65,12 @@ function SectionDivider() {
     <div ref={ref} className="w-full flex items-center justify-center py-[clamp(2rem,6vh,4rem)] px-[clamp(2rem,10vw,8rem)] origin-center" aria-hidden="true">
       {/* Línea izquierda */}
       <div className="flex-1 h-px bg-gradient-to-r from-transparent via-rose-300/30 to-rose-300/80 rounded-full" />
-      
+
       {/* Centro: Estrella con resplandor */}
       <div className="relative flex items-center justify-center px-5">
         <div className="divider-glow-pulse absolute w-10 h-10 bg-rose-200/40 rounded-full blur-xl" />
         <svg className="divider-star w-[18px] h-[18px] text-rose-200 drop-shadow-[0_0_8px_rgba(254,205,211,0.8)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" fill="currentColor"/>
+          <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" fill="currentColor" />
         </svg>
       </div>
 
@@ -207,7 +207,7 @@ export default function BabyShower() {
       <section className="min-h-screen flex items-center justify-center px-6">
         <div className="max-w-4xl text-center p-4">
           <TextReveal
-            text="La familia crece y el amor se multiplica. Celebra junto a nosotros el comienzo de la aventura más hermosa de nuestras vidas."
+            text="La familia sigue creciendo y el amor se multiplica. Acompáñanos en esta hermosa aventura de darle la bienvenida a una nueva alegría en nuestro hogar."
             className="font-display text-3xl sm:text-4xl md:text-[4.5rem] text-white leading-relaxed font-normal drop-shadow-2xl"
           />
         </div>
