@@ -115,7 +115,7 @@ export default function EventDetails() {
         ref={cardRef}
         className="relative w-full max-w-2xl rounded-[2rem] p-8 md:p-12 overflow-hidden"
         style={{
-          background:  'rgba(120,20,40,0.1)',
+          background:  'rgba(20,5,15,0.4)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
           border:      '1px solid rgba(254,205,211,0.2)',
@@ -137,11 +137,11 @@ export default function EventDetails() {
               <div className="p-3 bg-rose-900/20 rounded-full mb-4 border border-rose-200/20 shadow-[0_0_15px_rgba(254,205,211,0.05)] group-hover:border-rose-200/40 group-hover:shadow-[0_0_20px_rgba(254,205,211,0.15)] transition-all duration-500">
                 <CalendarDays className="w-6 h-6 text-rose-100" strokeWidth={1.5} />
               </div>
-              <span className="text-[10px] tracking-[0.35em] text-rose-200/60 uppercase mb-2">Fecha</span>
-              <p className="leading-none text-white drop-shadow-md font-display text-[clamp(2.5rem,8vw,4.5rem)]">
+              <span className="text-[10px] tracking-[0.35em] text-rose-200/90 font-semibold uppercase mb-2 drop-shadow-md">Fecha</span>
+              <p className="leading-none text-white drop-shadow-[0_2px_15px_rgba(0,0,0,0.8)] font-display text-[clamp(2.5rem,8vw,4.5rem)]">
                 30 <span style={{ fontSize: '0.55em' }}>Mayo</span>
               </p>
-              <p className="text-xs md:text-sm text-zinc-300 font-light mt-1">Sábado · 2026</p>
+              <p className="text-xs md:text-sm text-zinc-100 font-medium mt-1 drop-shadow-md">Sábado · 2026</p>
             </div>
 
             {/* Separadores */}
@@ -153,13 +153,13 @@ export default function EventDetails() {
               <div className="p-3 bg-rose-900/20 rounded-full mb-4 border border-rose-200/20 shadow-[0_0_15px_rgba(254,205,211,0.05)] group-hover:border-rose-200/40 group-hover:shadow-[0_0_20px_rgba(254,205,211,0.15)] transition-all duration-500">
                 <Clock className="w-6 h-6 text-rose-100" strokeWidth={1.5} />
               </div>
-              <span className="text-[10px] tracking-[0.35em] text-rose-200/60 uppercase mb-2">Horario</span>
+              <span className="text-[10px] tracking-[0.35em] text-rose-200/90 font-semibold uppercase mb-2 drop-shadow-md">Horario</span>
               <div className="flex flex-col items-center">
-                <p className="text-white drop-shadow-md font-display text-[clamp(2rem,6vw,3.5rem)]">
+                <p className="text-white drop-shadow-[0_2px_15px_rgba(0,0,0,0.8)] font-display text-[clamp(2rem,6vw,3.5rem)]">
                   3:00 PM
                 </p>
-                <span className="text-white/20 my-1 text-sm">—</span>
-                <p className="text-zinc-400 drop-shadow-md font-display text-[clamp(1.25rem,4vw,2rem)]">
+                <span className="text-white/40 my-1 text-sm font-bold">—</span>
+                <p className="text-zinc-200 drop-shadow-[0_2px_15px_rgba(0,0,0,0.8)] font-display text-[clamp(1.25rem,4vw,2rem)]">
                   9:00 PM
                 </p>
               </div>
@@ -170,8 +170,8 @@ export default function EventDetails() {
           {/* ── Countdown ─────────────────────────────────────────── */}
           <div className="event-countdown-wrapper mt-12 pt-10 border-t border-rose-200/10 relative">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-rose-300/40 to-transparent shadow-[0_0_10px_rgba(254,205,211,0.3)]" />
-            <p className="text-center text-[10px] tracking-[0.4em] text-rose-200/60 uppercase mb-6">Faltan</p>
-            <div className="bg-black/20 rounded-2xl p-4 md:p-6 border border-rose-200/10">
+            <p className="text-center text-[10px] tracking-[0.4em] text-rose-200/90 font-semibold uppercase mb-6 drop-shadow-md">Faltan</p>
+            <div className="bg-black/40 rounded-2xl p-4 md:p-6 border border-rose-200/10">
               <Countdown />
             </div>
           </div>

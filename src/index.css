@@ -50,7 +50,7 @@
   html {
     /* Evita resize del viewport en móvil cuando aparece/desaparece la barra de URL */
     height: 100%;
-    color-scheme: dark;
+    color-scheme: only dark;
   }
 
   body {
