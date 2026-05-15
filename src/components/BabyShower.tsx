@@ -84,11 +84,17 @@ function SectionDivider() {
 function ScrollIndicator() {
   return (
     <div className="scroll-indicator flex flex-col items-center gap-3 select-none mt-[clamp(2rem,6vh,4rem)]" aria-hidden="true">
-      <span className="text-[10px] tracking-[0.6em] text-rose-100 uppercase font-medium bg-rose-900/20 px-4 py-1.5 rounded-full backdrop-blur-md border border-rose-200/20 shadow-[0_0_15px_rgba(254,205,211,0.05)]">
-        Desliza
-      </span>
+      {/* Texto y flecha con parpadeo suave */}
+      <div className="flex flex-col items-center animate-pulse">
+        <span className="text-[10px] tracking-[0.6em] text-rose-100 uppercase font-semibold bg-rose-900/30 px-5 py-2 rounded-full backdrop-blur-md border border-rose-200/30 shadow-[0_0_15px_rgba(254,205,211,0.15)]">
+          Desliza
+        </span>
+        <svg className="w-5 h-5 text-rose-200/90 mt-2 animate-bounce drop-shadow-[0_0_5px_rgba(254,205,211,0.5)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+        </svg>
+      </div>
 
-      {/* Contenedor del indicador visual */}
+      {/* Contenedor de la línea visual */}
       <div className="relative flex flex-col items-center">
         {/* Círculo pulsante externo */}
         <div
