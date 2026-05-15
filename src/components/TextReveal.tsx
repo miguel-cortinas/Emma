@@ -1,9 +1,6 @@
 import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-// ScrollTrigger ya está registrado en main.tsx — no duplicar aquí
 
 interface TextRevealProps {
   text: string;
@@ -21,32 +18,32 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
 
     const wordEls: HTMLElement[] = Array.from(el.querySelectorAll<HTMLElement>('.reveal-word'));
 
-    // Estado inicial optimizado: sin blur, solo opacidad y translación
-    // Promocionamos a capa GPU para máxima fluidez
+    // Estado inicial: desplazados hacia abajo (fuera de su contenedor overflow-hidden) y ligeramente rotados
     gsap.set(wordEls, {
+      y: '120%',
+      rotationZ: 8,
       opacity: 0,
-      y: 20,
-      willChange: 'opacity, transform',
+      willChange: 'transform, opacity',
     });
 
     const triggerEl = el.closest('section') || el;
 
-    // Animación de entrada fluida (stagger) de una sola vez
+    // Animación premium: Sliding Window con un "ease" muy dramático (expo.out)
     gsap.to(wordEls, {
+      y: '0%',
+      rotationZ: 0,
       opacity: 1,
-      y: 0,
       color: 'rgba(255, 228, 230, 1)',
-      textShadow: '0 0 20px rgba(254,205,211,0.6)',
-      duration: 0.8,
-      stagger: 0.03, // Pequeño retraso entre cada palabra
-      ease: 'power2.out',
+      textShadow: '0 0 25px rgba(254,205,211,0.6)',
+      duration: 1.6,
+      stagger: 0.03, // Cascadas súper rápidas
+      ease: 'expo.out', // Empieza veloz, aterriza de forma extremadamente suave
       scrollTrigger: {
         trigger: triggerEl,
-        start: 'top 75%', // Inicia cuando la sección asoma al 75% del viewport
-        once: true, // Crucial: solo ocurre una vez, no re-anima al retroceder
+        start: 'top 80%',
+        once: true,
       },
       onComplete: () => {
-        // Limpiamos willChange para no ocupar memoria GPU de forma permanente
         gsap.set(wordEls, { willChange: 'auto' });
       }
     });
@@ -55,14 +52,13 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
 
   return (
     <div className="relative w-full flex flex-col items-center">
-      {/* 
-        Colocamos la ref en el párrafo directamente 
-        Ya no requerimos wrapper con scroll-hint porque el flujo no se detiene
-      */}
-      <p ref={containerRef} className={className} style={style}>
+      <p ref={containerRef} className={`${className} leading-[1.3]`} style={style}>
         {words.map((word, i) => (
           <React.Fragment key={i}>
-            <span className="reveal-word inline-block">{word}</span>
+            {/* Contenedor que actúa como "ventana" que oculta lo que está fuera de ella */}
+            <span className="inline-block overflow-hidden align-bottom py-2 -my-2 px-1 -mx-1">
+              <span className="reveal-word inline-block origin-top-left">{word}</span>
+            </span>
             {i < words.length - 1 && ' '}
           </React.Fragment>
         ))}
