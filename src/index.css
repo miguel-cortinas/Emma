@@ -19,8 +19,8 @@
   --font-marker: "Caveat", cursive;
 
   /* Fondo */
-  --color-background: var(--color-dusty-900);
-  --color-foreground: var(--color-dusty-50);
+  --color-background: #B5767C;
+  --color-foreground: #FCEAEB;
 
   /* Paleta temática de la invitación */
   --color-petal: hsl(340 80% 95%);        /* rosa pétalo claro */
@@ -28,6 +28,15 @@
   --color-night: hsl(330 20% 6%);         /* fondo oscuro cálido */
   --color-gold: hsl(35 70% 72%);          /* dorado champagne */
   --color-mist: rgba(255, 228, 230, 0.12);/* glassmorphism rose tint */
+
+  /* Gradiente de fondo estático — paleta rosada */
+  --gradient-bg:
+    radial-gradient(ellipse 130% 70% at 10% 0%,   #F5EDE8 0%, #E8B4B8 35%, transparent 65%),
+    radial-gradient(ellipse 80%  60% at 90% 0%,   #EDD5C8 0%, #E8B4B8 40%, transparent 65%),
+    radial-gradient(ellipse 70%  55% at 50% 40%,  #D4A4AC 0%, transparent 60%),
+    radial-gradient(ellipse 100% 70% at 15% 100%, #C4848A 0%, transparent 55%),
+    radial-gradient(ellipse 90%  60% at 85% 90%,  #B5767C 0%, transparent 55%),
+    linear-gradient(150deg, #F0EAE0 0%, #E8B4B8 25%, #C9A89B 50%, #B5767C 75%, #8B6A72 100%);
 
   --color-muted-foreground: hsl(240 5.2% 51.1%);
   --color-primary: hsl(0 0% 100%);
@@ -63,11 +72,12 @@
   html {
     /* Evita resize del viewport en móvil cuando aparece/desaparece la barra de URL */
     height: 100%;
-    color-scheme: only dark;
+    color-scheme: only light;
   }
 
   body {
-    background-color: var(--color-background);
+    background: var(--gradient-bg);
+    background-attachment: fixed;
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;

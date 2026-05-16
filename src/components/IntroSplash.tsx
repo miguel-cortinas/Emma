@@ -14,17 +14,13 @@ import { useGSAP } from '@gsap/react';
 
 interface IntroSplashProps {
   onEnter: () => void;
-  framesLoaded: number;
-  totalFrames: number;
 }
 
-export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: IntroSplashProps) {
+export default function IntroSplash({ onEnter }: IntroSplashProps) {
   const [visible, setVisible] = useState(true);
-  const [loading, setLoading] = useState(false); // cargando frames post-tap
   const splashRef = useRef<HTMLDivElement>(null);
   const btnRef = useRef<HTMLButtonElement>(null);
   const flashRef = useRef<HTMLDivElement>(null);
-  const loaderRef = useRef<HTMLDivElement>(null);
 
   // ── Bloquear scroll del body mientras el splash está activo ──────
   useEffect(() => {
@@ -95,75 +91,43 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
       }, '-=0.15');
   }, []);
 
-  // ── Observar progreso de carga cuando loading === true ──────────
-  useEffect(() => {
-    if (!loading) return;
-    if (totalFrames > 0 && framesLoaded >= totalFrames) {
-      exitSplash();
-    }
-  }, [loading, framesLoaded, totalFrames, exitSplash]);
-
-  // ── Tap en el botón: música + pantalla de carga ──────────────────
+  // ── Tap en el botón: música + salida directa ───────────────────
   const handleEnter = () => {
-    // 1. Disparar la música (mismo gesto → el navegador lo permite)
     onEnter();
-
-    // 2. Si ya están todos los frames cargados, salir directamente
-    if (totalFrames > 0 && framesLoaded >= totalFrames) {
-      document.body.style.overflow = '';
-      exitSplash();
-      return;
-    }
-
-    // 3. Mostrar pantalla de carga animada
-    setLoading(true);
-
-    // 4. Animar la transición del botón al loader
-    gsap.to('.splash-button-area', {
-      opacity: 0, y: 10, duration: 0.3, ease: 'power2.in',
-      onComplete: () => {
-        gsap.fromTo(loaderRef.current,
-          { opacity: 0, scale: 0.95 },
-          { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' }
-        );
-      },
-    });
+    document.body.style.overflow = '';
+    exitSplash();
   };
 
   if (!visible) return null;
-
-  const loadPercent = totalFrames > 0
-    ? Math.min(100, Math.floor((framesLoaded / totalFrames) * 100))
-    : 0;
 
   return (
     <div
       ref={splashRef}
       className="fixed top-0 left-0 w-full h-[100svh] flex flex-col items-center justify-center z-[200] overflow-hidden"
+      style={{ backgroundColor: '#C9A89B' }}
     >
 
 
-      {/* ── Fondo: imagen 19.jpg ────────────────────────────────────────── */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: "url('/19.jpg')",
-        }}
-      />
-
-      {/* ── Capa de viñeta rosada sobre el patrón ─────────────────────── */}
+      {/* ── Fondo: gradiente rosado de la paleta ─────────────────────── */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 80% 60% at 50% 55%, rgba(232,180,184,0.18) 0%, rgba(181, 118, 124, 0.65) 70%, rgba(139, 106, 114, 0.90) 100%)',
+          background: [
+            'radial-gradient(ellipse 130% 70% at 10% 0%,   #F5EDE8 0%, #E8B4B8 35%, transparent 65%)',
+            'radial-gradient(ellipse 80%  60% at 90% 0%,   #EDD5C8 0%, #E8B4B8 40%, transparent 65%)',
+            'radial-gradient(ellipse 70%  55% at 50% 40%,  #D4A4AC 0%, transparent 60%)',
+            'radial-gradient(ellipse 100% 70% at 15% 100%, #C4848A 0%, transparent 55%)',
+            'radial-gradient(ellipse 90%  60% at 85% 90%,  #B5767C 0%, transparent 55%)',
+            'linear-gradient(150deg, #F0EAE0 0%, #E8B4B8 25%, #C9A89B 50%, #B5767C 75%, #8B6A72 100%)',
+          ].join(', '),
         }}
       />
 
-      {/* ── Halo central suave ────────────────────────────────────────── */}
+      {/* ── Halo central suave — realza el contenido ─────────────────── */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 70% 55% at 50% 55%, rgba(232,180,184,0.10) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse 65% 55% at 50% 48%, rgba(252,234,235,0.20) 0%, transparent 65%)',
         }}
       />
 
@@ -208,7 +172,6 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
             ref={btnRef}
             onClick={handleEnter}
             type="button"
-            disabled={loading}
             className="group relative flex items-center px-10 py-4 rounded-full overflow-hidden transition-all duration-500"
             style={{
               opacity: 0,          // GSAP lo anima
@@ -218,7 +181,6 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
               backdropFilter: 'blur(12px)',
             }}
             onMouseEnter={e => {
-              if (loading) return;
               const el = e.currentTarget as HTMLElement;
               el.style.background = 'rgba(232,180,184,0.12)';
               el.style.borderColor = 'rgba(232,180,184,0.6)';
@@ -240,56 +202,6 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
               Abrir invitación
             </span>
           </button>
-        </div>
-
-        {/* Pantalla de carga (se revela sobre el botón con GSAP) */}
-        <div
-          ref={loaderRef}
-          className="absolute flex flex-col items-center gap-5"
-          style={{
-            opacity: 0,
-            marginTop: '0px',
-            // reposicionado dinámicamente: se muestra donde estaba el botón
-            position: 'relative',
-            top: 'auto',
-          }}
-        >
-          {/* Spinner + porcentaje */}
-          <div className="flex flex-col items-center gap-3">
-            {/* Anillo giratorio */}
-            <div className="splash-spinner" />
-
-            {/* Texto de preparando */}
-            <p
-              className="text-[9px] tracking-[0.45em] uppercase text-dusty-200/50"
-            >
-              Preparando experiencia…
-            </p>
-          </div>
-
-          {/* Barra de progreso de frames */}
-          <div className="flex flex-col items-center gap-2" style={{ width: '160px' }}>
-            <div
-              className="w-full rounded-full overflow-hidden"
-              style={{ height: '1px', background: 'rgba(255,255,255,0.08)' }}
-            >
-              <div
-                className="h-full rounded-full"
-                style={{
-                  width: `${loadPercent}%`,
-                  background: 'linear-gradient(90deg, rgba(232,180,184,0.6), rgba(232,180,184,0.9))',
-                  transition: 'width 0.4s ease-out',
-                  boxShadow: '0 0 12px rgba(232,180,184,0.5)',
-                }}
-              />
-            </div>
-            <p
-              className="text-[8px] tracking-[0.4em] uppercase text-center"
-              style={{ color: 'rgba(232,180,184,0.35)' }}
-            >
-              {loadPercent}%
-            </p>
-          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const GALLERY_ITEMS = [
@@ -10,152 +10,348 @@ const GALLERY_ITEMS = [
   { src: '/carrusel/6.png', caption: "Aún no llegas y ya cambiaste todo" },
 ];
 
+// Rotaciones ligeramente distintas para simular fotos "tiradas en la mesa"
+const ROTATIONS = ['-2deg', '1.5deg', '-1.5deg', '2.5deg', '-0.8deg', '1.2deg'];
+
+// Offscreen tape color sutil
+const TAPE_COLORS = [
+  'rgba(245, 237, 232, 0.92)',
+  'rgba(237, 213, 200, 0.92)',
+  'rgba(232, 180, 184, 0.88)',
+  'rgba(245, 237, 232, 0.92)',
+  'rgba(212, 164, 172, 0.88)',
+  'rgba(237, 213, 200, 0.92)',
+];
+
 export default function PhotoGallery() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [isDragging, setIsDragging]     = useState(false);
+  const touchStartX = useRef<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const dragDeltaRef = useRef(0);
 
-  const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % GALLERY_ITEMS.length);
+  const total = GALLERY_ITEMS.length;
+
+  // ── Navegación ────────────────────────────────────────────────────────
+  const goNext = useCallback(() => {
+    setCurrentIndex(prev => (prev + 1) % total);
+  }, [total]);
+
+  const goPrev = useCallback(() => {
+    setCurrentIndex(prev => (prev - 1 + total) % total);
+  }, [total]);
+
+  const goTo = useCallback((idx: number) => {
+    setCurrentIndex(idx);
+  }, []);
+
+  // ── Teclado ───────────────────────────────────────────────────────────
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') goNext();
+      if (e.key === 'ArrowLeft')  goPrev();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [goNext, goPrev]);
+
+  // ── Swipe / Drag ──────────────────────────────────────────────────────
+  const onPointerDown = (e: React.PointerEvent) => {
+    touchStartX.current = e.clientX;
+    dragDeltaRef.current = 0;
+    setIsDragging(false);
+    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
   };
 
-  const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + GALLERY_ITEMS.length) % GALLERY_ITEMS.length);
+  const onPointerMove = (e: React.PointerEvent) => {
+    if (touchStartX.current === null) return;
+    dragDeltaRef.current = e.clientX - touchStartX.current;
+    if (Math.abs(dragDeltaRef.current) > 5) setIsDragging(true);
   };
 
-  const onStart = (e: React.TouchEvent | React.MouseEvent) => {
-    if ('touches' in e) {
-      setTouchStart(e.targetTouches[0].clientX);
-    } else {
-      setTouchStart((e as React.MouseEvent).clientX);
-    }
-  };
-
-  const onEnd = (e: React.TouchEvent | React.MouseEvent) => {
-    if (touchStart === null) return;
-    
-    let touchEnd;
-    if ('changedTouches' in e) {
-      touchEnd = e.changedTouches[0].clientX;
-    } else {
-      touchEnd = (e as React.MouseEvent).clientX;
-    }
-
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50; // swipe hacia la izquierda
-    const isRightSwipe = distance < -50; // swipe hacia la derecha
-
-    if (isRightSwipe) {
-      // Desplazar a la derecha -> La foto pasa atrás
-      handleNext();
-    } else if (isLeftSwipe) {
-      // Desplazar a la izquierda -> La foto de atrás pasa adelante
-      handlePrev();
-    }
-    
-    setTouchStart(null);
+  const onPointerUp = () => {
+    if (touchStartX.current === null) return;
+    const delta = dragDeltaRef.current;
+    const THRESHOLD = 50;
+    if (delta < -THRESHOLD) goNext();
+    else if (delta > THRESHOLD) goPrev();
+    touchStartX.current = null;
+    dragDeltaRef.current = 0;
+    setIsDragging(false);
   };
 
   return (
-    <div className="w-full relative py-12 overflow-hidden min-h-[700px] flex flex-col items-center">
-      <div className="text-center mb-8 px-6 relative z-50">
-        <h2 className="font-display text-4xl sm:text-5xl text-[#FADAD8] drop-shadow-md mb-2">
+    <section
+      className="w-full relative py-16 overflow-hidden select-none"
+      aria-label="Galería de fotos de Emma"
+    >
+      {/* Título de sección */}
+      <div className="text-center mb-10 px-6 relative z-10">
+        <h2
+          className="font-display text-[clamp(2.5rem,10vw,4.5rem)] leading-none font-normal"
+          style={{ color: '#FADAD8', textShadow: '0 2px 20px rgba(180,100,110,0.35)' }}
+        >
           La Pequeña Emma
         </h2>
-        <div className="w-24 h-px bg-gradient-to-r from-transparent via-dusty-400/60 to-transparent mx-auto" />
+        <div
+          className="mx-auto mt-3"
+          style={{
+            width: '80px', height: '1px',
+            background: 'linear-gradient(90deg, transparent, rgba(232,180,184,0.7), transparent)',
+          }}
+        />
       </div>
 
-      <div className="relative w-full flex flex-col items-center justify-center mt-6 select-none">
-        
-        {/* Flechas indicadoras sutiles */}
-        <div className="absolute left-4 sm:left-[15%] top-1/2 -translate-y-1/2 z-50 pointer-events-none animate-pulse opacity-60">
-          <ChevronLeft className="w-8 h-8 sm:w-10 sm:h-10 text-[#FADAD8] drop-shadow-md" />
+      {/* Área interactiva del deck */}
+      <div
+        ref={containerRef}
+        className="relative flex flex-col items-center justify-center"
+        style={{ minHeight: 'clamp(420px, 72vw, 560px)' }}
+      >
+        {/* Flechas de navegación — solo visibles en desktop */}
+        <button
+          onClick={goPrev}
+          aria-label="Foto anterior"
+          className="absolute left-4 sm:left-[12%] top-1/2 -translate-y-1/2 z-50
+                     hidden sm:flex items-center justify-center
+                     w-11 h-11 rounded-full
+                     transition-all duration-200
+                     hover:scale-110 active:scale-95"
+          style={{
+            background: 'rgba(232,180,184,0.15)',
+            border: '1px solid rgba(232,180,184,0.4)',
+            backdropFilter: 'blur(8px)',
+            color: '#FADAD8',
+          }}
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
+
+        <button
+          onClick={goNext}
+          aria-label="Siguiente foto"
+          className="absolute right-4 sm:right-[12%] top-1/2 -translate-y-1/2 z-50
+                     hidden sm:flex items-center justify-center
+                     w-11 h-11 rounded-full
+                     transition-all duration-200
+                     hover:scale-110 active:scale-95"
+          style={{
+            background: 'rgba(232,180,184,0.15)',
+            border: '1px solid rgba(232,180,184,0.4)',
+            backdropFilter: 'blur(8px)',
+            color: '#FADAD8',
+          }}
+        >
+          <ChevronRight className="w-5 h-5" />
+        </button>
+
+        {/* Indicadores de swipe en mobile */}
+        <div
+          className="absolute left-3 top-1/2 -translate-y-1/2 z-50 sm:hidden pointer-events-none animate-pulse opacity-50"
+          aria-hidden="true"
+        >
+          <ChevronLeft style={{ width: 28, height: 28, color: '#FADAD8' }} />
         </div>
-        <div className="absolute right-4 sm:right-[15%] top-1/2 -translate-y-1/2 z-50 pointer-events-none animate-pulse opacity-60">
-          <ChevronRight className="w-8 h-8 sm:w-10 sm:h-10 text-[#FADAD8] drop-shadow-md" />
+        <div
+          className="absolute right-3 top-1/2 -translate-y-1/2 z-50 sm:hidden pointer-events-none animate-pulse opacity-50"
+          aria-hidden="true"
+        >
+          <ChevronRight style={{ width: 28, height: 28, color: '#FADAD8' }} />
         </div>
 
-        {/* Mazo de Fotos (Deck) */}
-        <div 
-          className="relative w-[75vw] sm:w-[45vw] md:w-[340px] aspect-[4/5] sm:aspect-auto sm:h-[450px] touch-pan-y"
-          onTouchStart={onStart}
-          onTouchEnd={onEnd}
-          onMouseDown={onStart}
-          onMouseUp={onEnd}
-          onMouseLeave={onEnd}
+        {/* Deck de Polaroids */}
+        <div
+          className="relative touch-pan-y"
+          style={{
+            width: 'clamp(220px, 72vw, 300px)',
+            height: 'clamp(340px, 90vw, 430px)',
+            cursor: isDragging ? 'grabbing' : 'grab',
+          }}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerUp}
+          role="region"
+          aria-roledescription="carrusel"
+          aria-label={`Foto ${currentIndex + 1} de ${total}`}
         >
           {GALLERY_ITEMS.map((item, idx) => {
-            // Rotación estática para que parezcan tiradas en la mesa
-            const rotations = ['-rotate-3', 'rotate-2', '-rotate-2', 'rotate-3', '-rotate-1', 'rotate-1'];
-            const rotation = rotations[idx % rotations.length];
-
-            // Cálculo de posición en la pila
-            const offset = (idx - currentIndex + GALLERY_ITEMS.length) % GALLERY_ITEMS.length;
-            
-            const isTop = offset === 0;
+            const offset = (idx - currentIndex + total) % total;
+            const isTop    = offset === 0;
             const isSecond = offset === 1;
-            const isThird = offset === 2;
-            const isLast = offset === GALLERY_ITEMS.length - 1;
+            const isThird  = offset === 2;
+            const isHidden = offset >= 3 && offset < total - 1;
+            const isLast   = offset === total - 1;
 
-            let offsetClasses = "";
-            let zIndexClass = "";
-            
+            // Valores de transformación y opacidad por capa
+            let scale   = 1;
+            let translateY = 0;
+            let translateX = 0;
+            let opacity = 1;
+            let zIndex  = 0;
+            let rotation = ROTATIONS[idx % ROTATIONS.length];
+
             if (isTop) {
-              zIndexClass = "z-40";
-              offsetClasses = "scale-100 translate-y-0 translate-x-0 opacity-100 shadow-[0_15px_30px_rgba(0,0,0,0.3)] cursor-grab active:cursor-grabbing";
+              scale = 1;      translateY = 0;   opacity = 1;   zIndex = 40;
             } else if (isSecond) {
-              zIndexClass = "z-30";
-              offsetClasses = "scale-95 translate-y-6 sm:translate-y-8 translate-x-0 opacity-100 shadow-md pointer-events-none";
+              scale = 0.95;   translateY = 18;  opacity = 0.9; zIndex = 30;
             } else if (isThird) {
-              zIndexClass = "z-20";
-              offsetClasses = "scale-90 translate-y-12 sm:translate-y-16 translate-x-0 opacity-80 shadow-sm pointer-events-none";
+              scale = 0.90;   translateY = 34;  opacity = 0.65; zIndex = 20;
+            } else if (isHidden) {
+              scale = 0.80;   translateY = 50;  opacity = 0;   zIndex = 5;
             } else if (isLast) {
-              // La tarjeta que se envía al fondo siempre se desplaza hacia la derecha.
-              // De este modo, si retrocedemos (swipe a la izquierda), entra desde la derecha moviéndose a la izquierda.
-              zIndexClass = "z-10";
-              offsetClasses = "scale-90 translate-y-0 translate-x-[80%] sm:translate-x-[100%] rotate-6 opacity-0 pointer-events-none";
-            } else {
-              zIndexClass = "z-0";
-              offsetClasses = "scale-75 translate-y-20 translate-x-0 opacity-0 pointer-events-none";
+              // Sale hacia la derecha al avanzar
+              scale = 0.88;   translateX = 90;  opacity = 0;   zIndex = 10;
+              rotation = `${parseFloat(rotation) + 6}deg`;
             }
 
             return (
-              <div 
-                key={idx} 
-                className={`absolute top-0 left-0 w-full transform-gpu origin-center group ${rotation} ${zIndexClass} ${offsetClasses}`}
-                style={{ transition: 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1)', willChange: 'transform, opacity' }}
+              <div
+                key={idx}
+                aria-hidden={!isTop}
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  transform: `rotate(${rotation}) scale(${scale}) translate(${translateX}%, ${translateY}px)`,
+                  opacity,
+                  zIndex,
+                  transition: 'transform 0.55s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.45s ease',
+                  willChange: 'transform, opacity',
+                  transformOrigin: 'center center',
+                  pointerEvents: isTop ? 'auto' : 'none',
+                }}
               >
-                {/* Tarjeta Polaroid Optimizada */}
-                <div className="relative bg-[#FADAD8] p-3 pb-4 sm:p-4 sm:pb-5 rounded-sm border-t border-l border-white/40 border-b border-r border-black/10 pointer-events-none">
-                  
-                  {/* Capa oscurecedora para las fotos que no están en la parte superior */}
-                  {!isTop && <div className="absolute inset-0 bg-black/10 z-50 rounded-sm pointer-events-none" style={{ transition: 'opacity 0.6s' }} />}
+                {/* Tarjeta Polaroid */}
+                <div
+                  style={{
+                    position: 'relative',
+                    width: '100%',
+                    height: '100%',
+                    background: '#FDFAF8',
+                    borderRadius: '3px',
+                    padding: '10px 10px 0px',
+                    boxShadow: isTop
+                      ? '0 20px 50px rgba(100,50,60,0.28), 0 8px 20px rgba(100,50,60,0.18)'
+                      : '0 6px 20px rgba(100,50,60,0.15)',
+                    transition: 'box-shadow 0.4s ease',
+                    overflow: 'visible',
+                  }}
+                >
+                  {/* Oscurecido sutil para las capas inferiores */}
+                  {!isTop && (
+                    <div
+                      style={{
+                        position: 'absolute', inset: 0,
+                        background: 'rgba(0,0,0,0.08)',
+                        borderRadius: '3px',
+                        zIndex: 5, pointerEvents: 'none',
+                        transition: 'opacity 0.4s',
+                      }}
+                    />
+                  )}
 
-                  {/* Cinta Masking Tape Simplificada para Performance */}
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-28 h-8 z-40 transform -rotate-2 origin-center shadow-sm">
-                    <div className="w-full h-full bg-[#f4ebd0]/90 border border-white/40 overflow-hidden" style={{ clipPath: 'polygon(2% 0%, 98% 2%, 100% 95%, 3% 100%)' }}>
-                       <div className="w-full h-full opacity-30" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px)' }} />
+                  {/* Cinta adhesiva (masking tape) */}
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      position: 'absolute',
+                      top: '-14px',
+                      left: '50%',
+                      transform: 'translateX(-50%) rotate(-1.5deg)',
+                      width: '100px',
+                      height: '30px',
+                      zIndex: 50,
+                      pointerEvents: 'none',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        background: TAPE_COLORS[idx % TAPE_COLORS.length],
+                        borderRadius: '1px',
+                        clipPath: 'polygon(1% 5%, 99% 0%, 100% 90%, 2% 100%)',
+                        boxShadow: '0 1px 4px rgba(0,0,0,0.1)',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      {/* Textura de cinta */}
+                      <div
+                        style={{
+                          width: '100%', height: '100%',
+                          opacity: 0.18,
+                          backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px)',
+                        }}
+                      />
                     </div>
                   </div>
 
-                  {/* Contenedor de la Imagen */}
-                  <div className="relative w-full aspect-[4/5] overflow-hidden rounded-sm bg-zinc-900 shadow-inner">
-                    <img 
-                      src={item.src} 
-                      alt={`Galería de Emma - Foto ${idx + 1}`}
-                      loading={idx < 2 ? "eager" : "lazy"}
-                      className="w-full h-full object-cover"
+                  {/* Imagen */}
+                  <div
+                    style={{
+                      position: 'relative',
+                      width: '100%',
+                      aspectRatio: '4/4.5',
+                      overflow: 'hidden',
+                      borderRadius: '1px',
+                      background: '#e4d0d0',
+                    }}
+                  >
+                    <img
+                      src={item.src}
+                      alt={`Emma – foto ${idx + 1}: ${item.caption}`}
+                      loading={idx < 2 ? 'eager' : 'lazy'}
+                      decoding="async"
+                      draggable={false}
+                      style={{
+                        width: '100%', height: '100%',
+                        objectFit: 'cover',
+                        display: 'block',
+                        userSelect: 'none',
+                        WebkitUserSelect: 'none',
+                      }}
                     />
-
-                    {/* Sombra interna ligera (Optimizada) */}
-                    <div className="absolute inset-0 shadow-[inset_0_2px_8px_rgba(0,0,0,0.4)] pointer-events-none z-10" />
-                    
-                    {/* Borde sutil interno */}
-                    <div className="absolute inset-0 border border-white/20 pointer-events-none z-20" />
+                    {/* Reflejo interno sutil */}
+                    <div
+                      style={{
+                        position: 'absolute', inset: 0,
+                        boxShadow: 'inset 0 2px 10px rgba(0,0,0,0.35)',
+                        pointerEvents: 'none',
+                      }}
+                    />
+                    {/* Borde interior blanco */}
+                    <div
+                      style={{
+                        position: 'absolute', inset: 0,
+                        border: '1px solid rgba(255,255,255,0.25)',
+                        pointerEvents: 'none',
+                      }}
+                    />
                   </div>
-                  
-                  {/* Texto escrito a mano con marcador (Caption) */}
-                  <div className="mt-4 sm:mt-5 mb-1 px-3 flex items-center justify-center min-h-[3rem] relative">
-                    <p className="font-marker font-semibold text-2xl sm:text-[1.75rem] text-[#2c2c2c] text-center leading-tight tracking-wide -rotate-1 opacity-90">
+
+                  {/* Caption manuscrita */}
+                  <div
+                    style={{
+                      padding: '10px 8px 14px',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      minHeight: '64px',
+                    }}
+                  >
+                    <p
+                      className="font-marker"
+                      style={{
+                        fontSize: 'clamp(1rem, 4vw, 1.25rem)',
+                        color: '#3a2828',
+                        textAlign: 'center',
+                        lineHeight: 1.3,
+                        letterSpacing: '0.01em',
+                        transform: 'rotate(-0.5deg)',
+                        opacity: 0.88,
+                      }}
+                    >
                       {item.caption}
                     </p>
                   </div>
@@ -164,7 +360,50 @@ export default function PhotoGallery() {
             );
           })}
         </div>
+
+        {/* Indicadores de puntos */}
+        <div
+          className="flex items-center gap-2 mt-8"
+          role="tablist"
+          aria-label="Navegación de galería"
+        >
+          {GALLERY_ITEMS.map((_, idx) => (
+            <button
+              key={idx}
+              role="tab"
+              aria-selected={idx === currentIndex}
+              aria-label={`Ir a foto ${idx + 1}`}
+              onClick={() => goTo(idx)}
+              style={{
+                width: idx === currentIndex ? '24px' : '7px',
+                height: '7px',
+                borderRadius: '4px',
+                background: idx === currentIndex
+                  ? 'rgba(232,180,184,0.95)'
+                  : 'rgba(232,180,184,0.35)',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+                transition: 'width 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease',
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Contador discreto */}
+        <p
+          className="mt-3 text-center"
+          aria-live="polite"
+          style={{
+            fontSize: '11px',
+            letterSpacing: '0.3em',
+            color: 'rgba(232,180,184,0.55)',
+            textTransform: 'uppercase',
+          }}
+        >
+          {currentIndex + 1} / {total}
+        </p>
       </div>
-    </div>
+    </section>
   );
 }

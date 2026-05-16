@@ -270,18 +270,19 @@ export default function ScrollytellingCanvas({ onLoadProgress }: ScrollytellingC
   return (
     <div className="canvas-layer fixed top-0 left-0 w-full h-[100lvh] bg-dusty-900 z-0 overflow-hidden pointer-events-none">
 
-      {/* ── Canvas principal ──────────────────────────────────────────── */}
+      {/* ── Canvas principal sin filtros ──────────────── */}
       <canvas
         ref={canvasRef}
-        className="w-full h-full opacity-80"
+        className="w-full h-full opacity-80 transition-all duration-1000"
         style={{
           display: canvasReady ? 'block' : 'none',
           // touch-action: pan-y → elimina el delay de 300ms del scroll táctil
-          // e impide que el browser intente manejar gestos horizontales en el canvas
           touchAction: 'pan-y',
         }}
       />
-      <div className="absolute inset-0 bg-dusty-900/20 mix-blend-multiply" />
+      
+      {/* ── Baño de color intenso (Opción 2: Color Dodge) ── */}
+      <div className="absolute inset-0 bg-[#FADAD8] mix-blend-color-dodge opacity-50 pointer-events-none" />
     </div>
   );
 }
