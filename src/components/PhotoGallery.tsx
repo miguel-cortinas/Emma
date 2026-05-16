@@ -13,12 +13,16 @@ const GALLERY_ITEMS = [
 export default function PhotoGallery() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
+  // Guardamos la dirección de la última interacción para animar las tarjetas hacia/desde ese lado
+  const [swipeDir, setSwipeDir] = useState<'left' | 'right'>('right');
 
   const handleNext = () => {
+    setSwipeDir('right');
     setCurrentIndex((prev) => (prev + 1) % GALLERY_ITEMS.length);
   };
 
   const handlePrev = () => {
+    setSwipeDir('left');
     setCurrentIndex((prev) => (prev - 1 + GALLERY_ITEMS.length) % GALLERY_ITEMS.length);
   };
 
@@ -94,22 +98,34 @@ export default function PhotoGallery() {
             const isTop = offset === 0;
             const isSecond = offset === 1;
             const isThird = offset === 2;
+            const isLast = offset === GALLERY_ITEMS.length - 1;
 
             let offsetClasses = "";
             let zIndexClass = "";
             
+            // Lógica de transición de posición basada en swipeDir
+            // Si el swipe fue a la derecha, las cartas que salen/entran lo hacen desde la derecha (translate-x-[80%])
+            // Si fue a la izquierda, desde la izquierda (translate-x-[-80%])
+            const outOfBoundsTransform = swipeDir === 'right' 
+              ? "translate-x-[80%] sm:translate-x-[100%] rotate-6" 
+              : "-translate-x-[80%] sm:-translate-x-[100%] -rotate-6";
+
             if (isTop) {
               zIndexClass = "z-40";
-              offsetClasses = "scale-100 translate-y-0 opacity-100 shadow-[0_15px_30px_rgba(0,0,0,0.3)] cursor-grab active:cursor-grabbing";
+              offsetClasses = "scale-100 translate-y-0 translate-x-0 opacity-100 shadow-[0_15px_30px_rgba(0,0,0,0.3)] cursor-grab active:cursor-grabbing";
             } else if (isSecond) {
               zIndexClass = "z-30";
-              offsetClasses = "scale-95 translate-y-6 sm:translate-y-8 opacity-100 shadow-md pointer-events-none";
+              offsetClasses = "scale-95 translate-y-6 sm:translate-y-8 translate-x-0 opacity-100 shadow-md pointer-events-none";
             } else if (isThird) {
               zIndexClass = "z-20";
-              offsetClasses = "scale-90 translate-y-12 sm:translate-y-16 opacity-80 shadow-sm pointer-events-none";
-            } else {
+              offsetClasses = "scale-90 translate-y-12 sm:translate-y-16 translate-x-0 opacity-80 shadow-sm pointer-events-none";
+            } else if (isLast) {
+              // La tarjeta que acaba de ser enviada al fondo (o la que está a punto de entrar si retrocedemos)
               zIndexClass = "z-10";
-              offsetClasses = "scale-75 translate-y-20 opacity-0 pointer-events-none";
+              offsetClasses = `scale-90 translate-y-0 ${outOfBoundsTransform} opacity-0 pointer-events-none`;
+            } else {
+              zIndexClass = "z-0";
+              offsetClasses = "scale-75 translate-y-20 translate-x-0 opacity-0 pointer-events-none";
             }
 
             return (
@@ -121,13 +137,12 @@ export default function PhotoGallery() {
                 {/* Tarjeta Polaroid Optimizada */}
                 <div className="relative bg-[#E8B4B8] p-3 pb-4 sm:p-4 sm:pb-5 rounded-sm border-t border-l border-white/40 border-b border-r border-black/10 pointer-events-none">
                   
-                  {/* Capa oscurecedora para las fotos que no están en la parte superior (en lugar de brightness) */}
+                  {/* Capa oscurecedora para las fotos que no están en la parte superior */}
                   {!isTop && <div className="absolute inset-0 bg-black/10 z-50 rounded-sm pointer-events-none" style={{ transition: 'opacity 0.6s' }} />}
 
                   {/* Cinta Masking Tape Simplificada para Performance */}
                   <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-28 h-8 z-40 transform -rotate-2 origin-center shadow-sm">
                     <div className="w-full h-full bg-[#f4ebd0]/90 border border-white/40 overflow-hidden" style={{ clipPath: 'polygon(2% 0%, 98% 2%, 100% 95%, 3% 100%)' }}>
-                       {/* Textura simulada con CSS puro sin SVG */}
                        <div className="w-full h-full opacity-30" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px)' }} />
                     </div>
                   </div>
