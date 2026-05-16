@@ -69,8 +69,8 @@
   }
 
   html {
-    /* Evita resize del viewport en móvil cuando aparece/desaparece la barra de URL */
-    height: 100%;
+    /* min-height: 100dvh se adapta al viewport dinámico (incluso sin layout resize) */
+    min-height: 100dvh;
     /* Color de fondo sólido que coincide con el tono más oscuro del gradiente.
        Evita el cuadro blanco visible al final de la página en móvil cuando el
        contenido supera la cobertura del background-attachment: fixed. */
@@ -89,8 +89,8 @@
     overscroll-behavior: none;
     /* Scroll con momentum en iOS */
     -webkit-overflow-scrolling: touch;
-    /* Ancla el alto a la pantalla para que móvil no recalcule al ocultar la barra URL */
-    min-height: 100%;
+    /* Ancla el alto a la pantalla */
+    min-height: 100dvh;
   }
 
   /* El canvas fijo no afecta al layout — marca'lo como aislado */
