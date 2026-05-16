@@ -76,7 +76,7 @@ export default function PhotoGallery() {
 
         {/* Mazo de Fotos (Deck) */}
         <div 
-          className="relative w-[75vw] sm:w-[45vw] md:w-[340px] aspect-[4/5] sm:aspect-auto sm:h-[450px]"
+          className="relative w-[75vw] sm:w-[45vw] md:w-[340px] aspect-[4/5] sm:aspect-auto sm:h-[450px] touch-pan-y"
           onTouchStart={onStart}
           onTouchEnd={onEnd}
           onMouseDown={onStart}
@@ -100,42 +100,40 @@ export default function PhotoGallery() {
             
             if (isTop) {
               zIndexClass = "z-40";
-              offsetClasses = "scale-100 translate-y-0 opacity-100 shadow-[0_15px_30px_rgba(0,0,0,0.4),0_0_30px_rgba(232,180,184,0.2)] hover:scale-[1.02] cursor-grab active:cursor-grabbing";
+              offsetClasses = "scale-100 translate-y-0 opacity-100 shadow-[0_15px_30px_rgba(0,0,0,0.3)] cursor-grab active:cursor-grabbing";
             } else if (isSecond) {
               zIndexClass = "z-30";
-              offsetClasses = "scale-95 translate-y-6 sm:translate-y-8 opacity-100 shadow-md brightness-[0.85] pointer-events-none";
+              offsetClasses = "scale-95 translate-y-6 sm:translate-y-8 opacity-100 shadow-md pointer-events-none";
             } else if (isThird) {
               zIndexClass = "z-20";
-              offsetClasses = "scale-90 translate-y-12 sm:translate-y-16 opacity-80 shadow-sm brightness-[0.7] pointer-events-none";
+              offsetClasses = "scale-90 translate-y-12 sm:translate-y-16 opacity-80 shadow-sm pointer-events-none";
             } else {
               zIndexClass = "z-10";
               offsetClasses = "scale-75 translate-y-20 opacity-0 pointer-events-none";
             }
 
-            // Texturas
-            const noiseBg = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E\")";
-            const tapeTexture = "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.05 0.5' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23t)' opacity='0.3'/%3E%3C/svg%3E\")";
-
             return (
               <div 
                 key={idx} 
-                className={`absolute top-0 left-0 w-full transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] transform-gpu origin-center group ${rotation} ${zIndexClass} ${offsetClasses}`}
+                className={`absolute top-0 left-0 w-full transform-gpu origin-center group ${rotation} ${zIndexClass} ${offsetClasses}`}
+                style={{ transition: 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1)', willChange: 'transform, opacity' }}
               >
-                {/* Tarjeta Polaroid Minimalista */}
-                <div className="relative bg-dusty-400 p-3 pb-4 sm:p-4 sm:pb-5 rounded-sm border-t border-l border-white/20 border-b border-r border-black/10 pointer-events-none">
+                {/* Tarjeta Polaroid Optimizada */}
+                <div className="relative bg-[#E8B4B8] p-3 pb-4 sm:p-4 sm:pb-5 rounded-sm border-t border-l border-white/40 border-b border-r border-black/10 pointer-events-none">
                   
-                  {/* Capa de textura sutil */}
-                  <div className="absolute inset-0 pointer-events-none mix-blend-overlay rounded-sm" style={{ backgroundImage: noiseBg }} />
+                  {/* Capa oscurecedora para las fotos que no están en la parte superior (en lugar de brightness) */}
+                  {!isTop && <div className="absolute inset-0 bg-black/10 z-50 rounded-sm pointer-events-none" style={{ transition: 'opacity 0.6s' }} />}
 
-                  {/* Cinta Masking Tape Realista */}
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-28 h-8 z-40 transform -rotate-2 origin-center shadow-[0_2px_4px_rgba(0,0,0,0.15)]">
-                    <div className="w-full h-full bg-[#f4ebd0]/60 backdrop-blur-[2px] border border-white/30 flex items-center justify-center relative overflow-hidden mix-blend-hard-light" style={{ clipPath: 'polygon(2% 0%, 98% 2%, 100% 95%, 3% 100%)' }}>
-                      <div className="absolute inset-0 mix-blend-overlay opacity-50" style={{ backgroundImage: tapeTexture }} />
+                  {/* Cinta Masking Tape Simplificada para Performance */}
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 w-28 h-8 z-40 transform -rotate-2 origin-center shadow-sm">
+                    <div className="w-full h-full bg-[#f4ebd0]/90 border border-white/40 overflow-hidden" style={{ clipPath: 'polygon(2% 0%, 98% 2%, 100% 95%, 3% 100%)' }}>
+                       {/* Textura simulada con CSS puro sin SVG */}
+                       <div className="w-full h-full opacity-30" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(0,0,0,0.1) 2px, rgba(0,0,0,0.1) 4px)' }} />
                     </div>
                   </div>
 
                   {/* Contenedor de la Imagen */}
-                  <div className="relative w-full aspect-[4/5] overflow-hidden rounded-sm bg-zinc-900 shadow-[inset_0_2px_8px_rgba(0,0,0,0.5),inset_0_0_4px_rgba(0,0,0,0.5)]">
+                  <div className="relative w-full aspect-[4/5] overflow-hidden rounded-sm bg-zinc-900 shadow-inner">
                     <img 
                       src={item.src} 
                       alt={`Galería de Emma - Foto ${idx + 1}`}
@@ -143,18 +141,16 @@ export default function PhotoGallery() {
                       className="w-full h-full object-cover"
                     />
 
-                    {/* Sombra interna para dar profundidad */}
-                    <div className="absolute inset-0 shadow-[inset_0_3px_10px_rgba(0,0,0,0.6),inset_0_-2px_10px_rgba(0,0,0,0.3)] pointer-events-none z-10" />
+                    {/* Sombra interna ligera (Optimizada) */}
+                    <div className="absolute inset-0 shadow-[inset_0_2px_8px_rgba(0,0,0,0.4)] pointer-events-none z-10" />
                     
-                    {/* Reflejo Glaseado / Glossy Glare */}
-                    <div className="absolute inset-0 pointer-events-none z-20 bg-gradient-to-tr from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1500 ease-in-out skew-x-[-20deg]" />
-                    
-                    <div className="absolute inset-0 border border-white/10 pointer-events-none z-20 mix-blend-overlay" />
+                    {/* Borde sutil interno */}
+                    <div className="absolute inset-0 border border-white/20 pointer-events-none z-20" />
                   </div>
                   
                   {/* Texto escrito a mano con marcador (Caption) */}
                   <div className="mt-4 sm:mt-5 mb-1 px-3 flex items-center justify-center min-h-[3rem] relative">
-                    <p className="font-marker font-semibold text-2xl sm:text-[1.75rem] text-[#1a1a1a] text-center leading-tight tracking-wide -rotate-1 opacity-90 mix-blend-multiply drop-shadow-[0_1px_0_rgba(255,255,255,0.2)]">
+                    <p className="font-marker font-semibold text-2xl sm:text-[1.75rem] text-[#2c2c2c] text-center leading-tight tracking-wide -rotate-1 opacity-90">
                       {item.caption}
                     </p>
                   </div>
