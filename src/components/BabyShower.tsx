@@ -204,7 +204,7 @@ export default function BabyShower() {
       <SectionDivider />
 
       {/* ── §2 INVITACIÓN (TextReveal) ─────────────────────────────── */}
-      <section className="min-h-screen flex items-center justify-center px-6">
+      <section className="flex items-center justify-center px-6 py-[clamp(4rem,15vh,8rem)]">
         <div className="max-w-4xl text-center p-4">
           <TextReveal
             text="La familia sigue creciendo y el amor se multiplica. Acompáñanos en esta hermosa aventura de darle la bienvenida a una nueva alegría en nuestro hogar."
