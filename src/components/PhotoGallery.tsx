@@ -6,21 +6,17 @@ const GALLERY_ITEMS = [
   { src: '/carrusel/2.png', caption: "Qué privilegio es ser los elegidos para recibirte" },
   { src: '/carrusel/3.png', caption: "Tu nombre ya vive en cada rincón de nuestro corazón" },
   { src: '/carrusel/4.png', caption: "Bienvenida a nuestro mundo" },
-  { src: '/carrusel/5.png', caption: "Te soñamos antes de conocerte" },
-  { src: '/carrusel/6.png', caption: "Aún no llegas y ya cambiaste todo" },
 ];
 
 // Rotaciones ligeramente distintas para simular fotos "tiradas en la mesa"
-const ROTATIONS = ['-2deg', '1.5deg', '-1.5deg', '2.5deg', '-0.8deg', '1.2deg'];
+const ROTATIONS = ['-2deg', '1.5deg', '-1.5deg', '2.5deg'];
 
-// Offscreen tape color sutil
+// Color de cinta adhesiva por foto
 const TAPE_COLORS = [
   'rgba(245, 237, 232, 0.92)',
   'rgba(237, 213, 200, 0.92)',
   'rgba(232, 180, 184, 0.88)',
   'rgba(245, 237, 232, 0.92)',
-  'rgba(212, 164, 172, 0.88)',
-  'rgba(237, 213, 200, 0.92)',
 ];
 
 export default function PhotoGallery() {

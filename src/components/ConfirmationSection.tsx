@@ -25,7 +25,7 @@ export default function ConfirmationSection() {
     }),
     [particleCount]);
 
-  const whatsappLink = "https://wa.me/526145038073?text=Hola!%20Confirmo%20mi%20asistencia%20al%20Baby%20Shower%20de%20Emma%20Luc%C3%ADa.";
+  const whatsappLink = "https://wa.me/526142347135?text=Hola!%20Confirmo%20mi%20asistencia%20al%20Baby%20Shower%20de%20Emma%20Luc%C3%ADa.";
 
   useGSAP(() => {
     // Texto de entrada — solo opacity + translateY (sin blur)
@@ -84,7 +84,7 @@ export default function ConfirmationSection() {
   return (
     <section
       ref={containerRef}
-      className="min-h-screen flex flex-col items-center justify-center px-4 py-24 relative overflow-hidden"
+      className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-24 relative overflow-hidden"
     >
       {/* ── Sistema de partículas (Luciérnagas) ─────────────────────── */}
       <div className="absolute inset-0 pointer-events-none z-0">

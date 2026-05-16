@@ -174,7 +174,7 @@ export default function BabyShower() {
   }, { scope: containerRef });
 
   return (
-    <div ref={containerRef} className="w-full font-geist relative">
+    <div ref={containerRef} className="w-full font-sans relative">
 
       {/* ── §1 HERO ─────────────────────────────────────────────── */}
       <section
@@ -226,13 +226,13 @@ export default function BabyShower() {
       {/* ── §3 DETALLES DEL EVENTO ────────────────────────────────── */}
       <EventDetails />
 
-      {/* ── DIVISOR 3 ─────────────────────────────────────────────── */}
+      {/* ── DIVISOR 4 ─────────────────────────────────────────────── */}
       <SectionDivider />
 
       {/* ── §4 MESA DE REGALOS ────────────────────────────────────── */}
       <GiftRegistry />
 
-      {/* ── DIVISOR 4 ─────────────────────────────────────────────── */}
+      {/* ── DIVISOR 5 ─────────────────────────────────────────────── */}
       <SectionDivider />
 
       {/* ── §5 UBICACIÓN ──────────────────────────────────────────── */}

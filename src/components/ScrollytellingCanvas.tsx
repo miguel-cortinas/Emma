@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -46,8 +46,8 @@ export default function ScrollytellingCanvas({ onLoadProgress }: ScrollytellingC
   const isLoaded       = loadedFrames >= FRAME_COUNT;
   const loadPercentage = Math.floor((loadedFrames / FRAME_COUNT) * 100);
 
-  const isMobile = typeof window !== 'undefined'
-    && window.matchMedia('(pointer: coarse)').matches;
+  const isMobile = useMemo(() => typeof window !== 'undefined'
+    && window.matchMedia('(pointer: coarse)').matches, []);
 
 
 

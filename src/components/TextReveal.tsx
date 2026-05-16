@@ -75,48 +75,6 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
 
   return (
     <div className="relative w-full flex flex-col items-center">
-      <style>{`
-        @keyframes shimmer-sweep {
-          0% { background-position: 200% center; }
-          100% { background-position: -200% center; }
-        }
-        @keyframes float-angel {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-8px); }
-        }
-        @keyframes pulse-glow {
-          0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.9); }
-          50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
-        }
-        
-        .animate-float-angel {
-          animation: float-angel 4s ease-in-out infinite;
-          will-change: transform, opacity;
-        }
-        .animate-pulse-glow {
-          animation: pulse-glow 4s ease-in-out infinite;
-          will-change: transform, opacity;
-        }
-
-        .text-shimmer-effect {
-          /* El gradiente tiene el color base CASI SÓLIDO (85% opacidad) para legibilidad perfecta */
-          background-image: linear-gradient(
-            -75deg,
-            rgba(255, 228, 230, 0.85) 0%,
-            rgba(255, 228, 230, 0.85) 40%,
-            rgba(255, 255, 255, 1) 50%,
-            rgba(255, 228, 230, 0.85) 60%,
-            rgba(255, 228, 230, 0.85) 100%
-          );
-          background-size: 200% auto;
-          color: transparent;
-          -webkit-background-clip: text;
-          background-clip: text;
-          animation: shimmer-sweep 5s linear infinite;
-          filter: drop-shadow(0 0 12px rgba(254, 205, 211, 0.3));
-        }
-      `}</style>
-      
       <div ref={containerRef} className="flex flex-col items-center">
         {/* Símbolo Angelical que levita */}
         <AngelSymbol />

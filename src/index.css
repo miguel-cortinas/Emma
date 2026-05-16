@@ -12,7 +12,6 @@
   --color-dusty-800: #C9A89B;
   --color-dusty-900: #8B6A72;
   --color-gold: #D4AF7A;
-  --color-peach: #C9947A;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-display: "Instrument Serif", serif;
   --font-script: "Great Vibes", cursive;
@@ -26,7 +25,7 @@
   --color-petal: hsl(340 80% 95%);        /* rosa pétalo claro */
   --color-bloom: hsl(340 60% 80%);        /* rosa flor medio */
   --color-night: hsl(330 20% 6%);         /* fondo oscuro cálido */
-  --color-gold: hsl(35 70% 72%);          /* dorado champagne */
+  /* --color-gold ya definido arriba como #D4AF7A */
   --color-mist: rgba(255, 228, 230, 0.12);/* glassmorphism rose tint */
 
   /* Gradiente de fondo estático — paleta rosada */
@@ -72,6 +71,10 @@
   html {
     /* Evita resize del viewport en móvil cuando aparece/desaparece la barra de URL */
     height: 100%;
+    /* Color de fondo sólido que coincide con el tono más oscuro del gradiente.
+       Evita el cuadro blanco visible al final de la página en móvil cuando el
+       contenido supera la cobertura del background-attachment: fixed. */
+    background-color: #8B6A72;
     color-scheme: only light;
   }
 
@@ -277,4 +280,44 @@
     will-change: transform;
   }
 
+  /* ─── Text Reveal ────────────────────────────────────────────── */
+  @keyframes shimmer-sweep {
+    0% { background-position: 200% center; }
+    100% { background-position: -200% center; }
+  }
+  @keyframes float-angel {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+  }
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.9); }
+    50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+  }
+  
+  .animate-float-angel {
+    animation: float-angel 4s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+  .animate-pulse-glow {
+    animation: pulse-glow 4s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+
+  .text-shimmer-effect {
+    /* El gradiente tiene el color base CASI SÓLIDO (85% opacidad) para legibilidad perfecta */
+    background-image: linear-gradient(
+      -75deg,
+      rgba(255, 228, 230, 0.85) 0%,
+      rgba(255, 228, 230, 0.85) 40%,
+      rgba(255, 255, 255, 1) 50%,
+      rgba(255, 228, 230, 0.85) 60%,
+      rgba(255, 228, 230, 0.85) 100%
+    );
+    background-size: 200% auto;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    animation: shimmer-sweep 5s linear infinite;
+    filter: drop-shadow(0 0 12px rgba(254, 205, 211, 0.3));
+  }
 }
