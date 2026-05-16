@@ -207,7 +207,7 @@ export default function BabyShower() {
       <section className="flex items-center justify-center px-6 py-[clamp(4rem,15vh,8rem)]">
         <div className="max-w-4xl text-center p-4">
           <TextReveal
-            text="La familia sigue creciendo y el amor se multiplica. Acompáñanos en esta hermosa aventura de darle la bienvenida a una nueva alegría en nuestro hogar."
+            text="Una nueva vida llega a nuestro hogar y con ella, el amor se multiplica. Queremos que seas parte de este momento tan especial."
             className="font-display text-3xl sm:text-4xl md:text-[4.5rem] text-white leading-relaxed font-normal drop-shadow-2xl"
           />
         </div>
