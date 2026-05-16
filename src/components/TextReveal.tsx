@@ -45,14 +45,14 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
         }
         
         .text-shimmer-effect {
-          /* El gradiente tiene el color base (rosa suave oscuro) y el destello (blanco brillante) en el centro */
+          /* El gradiente tiene el color base CASI SÓLIDO (85% opacidad) para legibilidad perfecta */
           background-image: linear-gradient(
             -75deg,
-            rgba(254, 205, 211, 0.35) 0%,
-            rgba(254, 205, 211, 0.35) 40%,
+            rgba(255, 228, 230, 0.85) 0%,
+            rgba(255, 228, 230, 0.85) 40%,
             rgba(255, 255, 255, 1) 50%,
-            rgba(254, 205, 211, 0.35) 60%,
-            rgba(254, 205, 211, 0.35) 100%
+            rgba(255, 228, 230, 0.85) 60%,
+            rgba(255, 228, 230, 0.85) 100%
           );
           background-size: 200% auto;
           color: transparent;
@@ -61,8 +61,8 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
           /* Animación puramente CSS: 0 coste matemático para JS */
           animation: shimmer-sweep 5s linear infinite;
           
-          /* Un ligero brillo estático que no requiere ser animado frame a frame */
-          filter: drop-shadow(0 0 10px rgba(254, 205, 211, 0.15));
+          /* Brillo estático más fuerte para despegar el texto del fondo oscuro */
+          filter: drop-shadow(0 0 12px rgba(254, 205, 211, 0.3));
         }
       `}</style>
       
