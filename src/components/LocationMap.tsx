@@ -46,7 +46,7 @@ export default function LocationMap() {
       style={{ perspective: '1000px' }}
     >
       <ScrollFloat
-        containerClassName="mb-24 sm:mb-32 font-display text-5xl sm:text-6xl md:text-[6.5rem] text-dusty-400 drop-shadow-lg leading-none text-center"
+        containerClassName="mb-24 sm:mb-32 font-display text-5xl sm:text-6xl md:text-[6.5rem] text-[#FADAD8] drop-shadow-lg leading-none text-center"
         textClassName=""
       >
         Ubicación
@@ -116,7 +116,7 @@ export default function LocationMap() {
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                   </svg>
                 </div>
-                <span className="text-[10px] tracking-[0.3em] text-dusty-400/60 uppercase">Toca para activar</span>
+                <span className="text-[10px] tracking-[0.3em] text-[#FADAD8]/60 uppercase">Toca para activar</span>
               </div>
             )}
           </div>
@@ -136,7 +136,7 @@ export default function LocationMap() {
               href={mapsLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center justify-center px-8 py-4 text-sm font-medium text-dusty-400 transition-all duration-500 rounded-full overflow-hidden backdrop-blur-md"
+              className="group relative inline-flex items-center justify-center px-8 py-4 text-sm font-medium text-[#FADAD8] transition-all duration-500 rounded-full overflow-hidden backdrop-blur-md"
               style={{
                 background: 'rgba(255,255,255,0.05)',
                 border:     '1px solid rgba(255,255,255,0.1)',
@@ -152,7 +152,7 @@ export default function LocationMap() {
               }}
             >
               <span className="relative flex items-center gap-2">
-                <Navigation className="w-4 h-4 text-zinc-300 group-hover:text-dusty-400 transition-colors" />
+                <Navigation className="w-4 h-4 text-zinc-300 group-hover:text-[#FADAD8] transition-colors" />
                 <span className="tracking-wide">Abrir en Google Maps</span>
               </span>
             </a>

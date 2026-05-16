@@ -99,7 +99,7 @@ export default function EventDetails() {
       className="min-h-screen flex flex-col items-center justify-center px-4 sm:px-6 py-20 overflow-hidden"
     >
       <ScrollFloat
-        containerClassName="mb-12 font-display text-5xl sm:text-6xl md:text-[6rem] text-dusty-400 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] leading-none text-center"
+        containerClassName="mb-12 font-display text-5xl sm:text-6xl md:text-[6rem] text-[#FADAD8] drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] leading-none text-center"
         textClassName=""
         animationDuration={1}
         ease="back.inOut(2)"
@@ -138,7 +138,7 @@ export default function EventDetails() {
                 <CalendarDays className="w-6 h-6 text-dusty-100" strokeWidth={1.5} />
               </div>
               <span className="text-[10px] tracking-[0.35em] text-dusty-200/90 font-semibold uppercase mb-2 drop-shadow-md">Fecha</span>
-              <p className="leading-none text-dusty-400 drop-shadow-[0_2px_15px_rgba(139,106,114,0.8)] font-display text-[clamp(2.5rem,8vw,4.5rem)]">
+              <p className="leading-none text-[#FADAD8] drop-shadow-[0_2px_15px_rgba(139,106,114,0.8)] font-display text-[clamp(2.5rem,8vw,4.5rem)]">
                 30 <span style={{ fontSize: '0.55em' }}>Mayo</span>
               </p>
               <p className="text-xs md:text-sm text-zinc-100 font-medium mt-1 drop-shadow-md">Sábado · 2026</p>
@@ -155,10 +155,10 @@ export default function EventDetails() {
               </div>
               <span className="text-[10px] tracking-[0.35em] text-dusty-200/90 font-semibold uppercase mb-2 drop-shadow-md">Horario</span>
               <div className="flex flex-col items-center">
-                <p className="text-dusty-400 drop-shadow-[0_2px_15px_rgba(139,106,114,0.8)] font-display text-[clamp(2rem,6vw,3.5rem)]">
+                <p className="text-[#FADAD8] drop-shadow-[0_2px_15px_rgba(139,106,114,0.8)] font-display text-[clamp(2rem,6vw,3.5rem)]">
                   3:00 PM
                 </p>
-                <span className="text-dusty-400/40 my-1 text-sm font-bold">—</span>
+                <span className="text-[#FADAD8]/40 my-1 text-sm font-bold">—</span>
                 <p className="text-zinc-200 drop-shadow-[0_2px_15px_rgba(139,106,114,0.8)] font-display text-[clamp(1.25rem,4vw,2rem)]">
                   9:00 PM
                 </p>

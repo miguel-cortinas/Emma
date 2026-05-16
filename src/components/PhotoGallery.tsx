@@ -58,7 +58,7 @@ export default function PhotoGallery() {
   return (
     <div className="w-full relative py-12 overflow-hidden min-h-[700px] flex flex-col items-center">
       <div className="text-center mb-8 px-6 relative z-50">
-        <h2 className="font-display text-4xl sm:text-5xl text-dusty-400 drop-shadow-md mb-2">
+        <h2 className="font-display text-4xl sm:text-5xl text-[#FADAD8] drop-shadow-md mb-2">
           La Pequeña Emma
         </h2>
         <div className="w-24 h-px bg-gradient-to-r from-transparent via-dusty-400/60 to-transparent mx-auto" />
@@ -68,10 +68,10 @@ export default function PhotoGallery() {
         
         {/* Flechas indicadoras sutiles */}
         <div className="absolute left-4 sm:left-[15%] top-1/2 -translate-y-1/2 z-50 pointer-events-none animate-pulse opacity-60">
-          <ChevronLeft className="w-8 h-8 sm:w-10 sm:h-10 text-dusty-400 drop-shadow-md" />
+          <ChevronLeft className="w-8 h-8 sm:w-10 sm:h-10 text-[#FADAD8] drop-shadow-md" />
         </div>
         <div className="absolute right-4 sm:right-[15%] top-1/2 -translate-y-1/2 z-50 pointer-events-none animate-pulse opacity-60">
-          <ChevronRight className="w-8 h-8 sm:w-10 sm:h-10 text-dusty-400 drop-shadow-md" />
+          <ChevronRight className="w-8 h-8 sm:w-10 sm:h-10 text-[#FADAD8] drop-shadow-md" />
         </div>
 
         {/* Mazo de Fotos (Deck) */}

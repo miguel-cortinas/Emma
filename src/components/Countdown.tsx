@@ -44,7 +44,7 @@ export default function Countdown() {
 function Colon({ visible }: { visible: boolean }) {
   return (
     <div
-      className="text-dusty-400/30 text-2xl font-light mb-5 transition-opacity duration-300"
+      className="text-[#FADAD8]/30 text-2xl font-light mb-5 transition-opacity duration-300"
       style={{ opacity: visible ? 1 : 0.15 }}
     >
       :
@@ -97,7 +97,7 @@ function FlipUnit({
   return (
     <div className="flex flex-col items-center justify-center min-w-[3.5rem]">
       <div
-        className="font-display text-3xl md:text-4xl font-normal text-dusty-400 tabular-nums"
+        className="font-display text-3xl md:text-4xl font-normal text-[#FADAD8] tabular-nums"
         style={{
           textShadow: isSeconds
             ? '0 0 20px rgba(232,180,184,0.6), 0 0 40px rgba(232,180,184,0.2)'
