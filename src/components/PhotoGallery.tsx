@@ -58,7 +58,7 @@ export default function PhotoGallery() {
   return (
     <div className="w-full relative py-12 overflow-hidden min-h-[700px] flex flex-col items-center">
       <div className="text-center mb-8 px-6 relative z-50">
-        <h2 className="font-display text-4xl sm:text-5xl text-dusty-50 drop-shadow-md mb-2">
+        <h2 className="font-display text-4xl sm:text-5xl text-dusty-400 drop-shadow-md mb-2">
           La Pequeña Emma
         </h2>
         <div className="w-24 h-px bg-gradient-to-r from-transparent via-dusty-400/60 to-transparent mx-auto" />
@@ -68,10 +68,10 @@ export default function PhotoGallery() {
         
         {/* Flechas indicadoras sutiles */}
         <div className="absolute left-4 sm:left-[15%] top-1/2 -translate-y-1/2 z-50 pointer-events-none animate-pulse opacity-60">
-          <ChevronLeft className="w-8 h-8 sm:w-10 sm:h-10 text-dusty-50 drop-shadow-md" />
+          <ChevronLeft className="w-8 h-8 sm:w-10 sm:h-10 text-dusty-400 drop-shadow-md" />
         </div>
         <div className="absolute right-4 sm:right-[15%] top-1/2 -translate-y-1/2 z-50 pointer-events-none animate-pulse opacity-60">
-          <ChevronRight className="w-8 h-8 sm:w-10 sm:h-10 text-dusty-50 drop-shadow-md" />
+          <ChevronRight className="w-8 h-8 sm:w-10 sm:h-10 text-dusty-400 drop-shadow-md" />
         </div>
 
         {/* Mazo de Fotos (Deck) */}
@@ -125,7 +125,7 @@ export default function PhotoGallery() {
                 style={{ transition: 'transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1)', willChange: 'transform, opacity' }}
               >
                 {/* Tarjeta Polaroid Optimizada */}
-                <div className="relative bg-[#E8B4B8] p-3 pb-4 sm:p-4 sm:pb-5 rounded-sm border-t border-l border-white/40 border-b border-r border-black/10 pointer-events-none">
+                <div className="relative bg-[#FADAD8] p-3 pb-4 sm:p-4 sm:pb-5 rounded-sm border-t border-l border-white/40 border-b border-r border-black/10 pointer-events-none">
                   
                   {/* Capa oscurecedora para las fotos que no están en la parte superior */}
                   {!isTop && <div className="absolute inset-0 bg-black/10 z-50 rounded-sm pointer-events-none" style={{ transition: 'opacity 0.6s' }} />}

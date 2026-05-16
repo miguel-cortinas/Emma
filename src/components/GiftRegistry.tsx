@@ -94,7 +94,7 @@ export default function GiftRegistry() {
       {/* Títulos */}
       <div className="flex flex-col items-center gap-8 mb-16">
         <ScrollFloat
-          containerClassName="font-display text-5xl sm:text-6xl text-dusty-50 drop-shadow-md text-center z-10 relative"
+          containerClassName="font-display text-5xl sm:text-6xl text-dusty-400 drop-shadow-md text-center z-10 relative"
         >
           Mesa de Regalos
         </ScrollFloat>
@@ -126,12 +126,12 @@ export default function GiftRegistry() {
           <Gift className="w-8 h-8 text-dusty-900" />
         </div>
 
-        <p className="text-dusty-50/90 text-base md:text-lg leading-relaxed mb-4 font-light max-w-sm">
+        <p className="text-dusty-400/90 text-base md:text-lg leading-relaxed mb-4 font-light max-w-sm">
           Tu presencia es nuestro regalo más valioso.
         </p>
-        <p className="text-dusty-50/80 text-sm md:text-base leading-relaxed font-light max-w-sm mb-4">
+        <p className="text-dusty-400/80 text-sm md:text-base leading-relaxed font-light max-w-sm mb-4">
           Si deseas tener un detalle adicional con{' '}
-          <strong className="font-normal text-dusty-50">Emma Lucía</strong>,
+          <strong className="font-normal text-dusty-400">Emma Lucía</strong>,
           puedes contribuir con la lluvia de sobres o con lo que brinde tu corazón.
         </p>
 

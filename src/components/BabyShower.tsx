@@ -209,7 +209,7 @@ export default function BabyShower() {
         <div className="max-w-4xl text-center p-4">
           <TextReveal
             text="Una nueva vida llega a nuestro hogar y con ella, el amor se multiplica. Queremos que seas parte de este momento tan especial."
-            className="font-display text-3xl sm:text-4xl md:text-[4.5rem] text-dusty-50 leading-relaxed font-normal drop-shadow-2xl"
+            className="font-display text-3xl sm:text-4xl md:text-[4.5rem] text-dusty-400 leading-relaxed font-normal drop-shadow-2xl"
           />
         </div>
       </section>
