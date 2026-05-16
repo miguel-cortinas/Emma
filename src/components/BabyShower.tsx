@@ -7,6 +7,7 @@ import gsap from 'gsap';
 import { useGSAP } from '@gsap/react';
 import ScrollFloat from './ScrollFloat';
 import TextReveal from './TextReveal';
+import PhotoGallery from './PhotoGallery';
 
 /* ── Divisor de luz entre secciones ─────────────────────────────── */
 function SectionDivider() {
@@ -64,18 +65,18 @@ function SectionDivider() {
   return (
     <div ref={ref} className="w-full flex items-center justify-center py-[clamp(2rem,6vh,4rem)] px-[clamp(2rem,10vw,8rem)] origin-center" aria-hidden="true">
       {/* Línea izquierda */}
-      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-pink-300/30 to-pink-300/80 rounded-full" />
+      <div className="flex-1 h-px bg-gradient-to-r from-transparent via-dusty-400/30 to-dusty-400/80 rounded-full" />
 
       {/* Centro: Estrella con resplandor */}
       <div className="relative flex items-center justify-center px-5">
-        <div className="divider-glow-pulse absolute w-10 h-10 bg-pink-200/40 rounded-full blur-xl" />
-        <svg className="divider-star w-[18px] h-[18px] text-pink-200 drop-shadow-[0_0_8px_rgba(251,207,232,0.8)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <div className="divider-glow-pulse absolute w-10 h-10 bg-dusty-200/40 rounded-full blur-xl" />
+        <svg className="divider-star w-[18px] h-[18px] text-dusty-200 drop-shadow-[0_0_8px_rgba(232,180,184,0.8)]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M12 0L14.59 9.41L24 12L14.59 14.59L12 24L9.41 14.59L0 12L9.41 9.41L12 0Z" fill="currentColor" />
         </svg>
       </div>
 
       {/* Línea derecha */}
-      <div className="flex-1 h-px bg-gradient-to-l from-transparent via-pink-300/30 to-pink-300/80 rounded-full" />
+      <div className="flex-1 h-px bg-gradient-to-l from-transparent via-dusty-400/30 to-dusty-400/80 rounded-full" />
     </div>
   );
 }
@@ -86,10 +87,10 @@ function ScrollIndicator() {
     <div className="scroll-indicator flex flex-col items-center gap-3 select-none mt-[clamp(2rem,6vh,4rem)]" aria-hidden="true">
       {/* Texto y flecha con parpadeo suave */}
       <div className="flex flex-col items-center animate-pulse">
-        <span className="text-[10px] tracking-[0.6em] text-pink-100 uppercase font-semibold bg-pink-900/30 px-5 py-2 rounded-full backdrop-blur-md border border-pink-200/30 shadow-[0_0_15px_rgba(251,207,232,0.15)]">
+        <span className="text-[10px] tracking-[0.6em] text-dusty-100 uppercase font-semibold bg-dusty-700/30 px-5 py-2 rounded-full backdrop-blur-md border border-dusty-200/30 shadow-[0_0_15px_rgba(232,180,184,0.15)]">
           Desliza
         </span>
-        <svg className="w-5 h-5 text-pink-200/90 mt-2 animate-bounce drop-shadow-[0_0_5px_rgba(251,207,232,0.5)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <svg className="w-5 h-5 text-dusty-200/90 mt-2 animate-bounce drop-shadow-[0_0_5px_rgba(232,180,184,0.5)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
         </svg>
       </div>
@@ -98,13 +99,13 @@ function ScrollIndicator() {
       <div className="relative flex flex-col items-center">
         {/* Círculo pulsante externo */}
         <div
-          className="absolute w-5 h-5 rounded-full border border-pink-200/50 animate-pulse-ring"
+          className="absolute w-5 h-5 rounded-full border border-dusty-200/50 animate-pulse-ring"
           style={{ top: '-2px' }}
         />
         {/* Línea que se extiende */}
         <div className="w-px h-14 overflow-hidden">
           <div
-            className="w-full h-full bg-gradient-to-b from-pink-200/90 to-transparent animate-scroll-line"
+            className="w-full h-full bg-gradient-to-b from-dusty-200/90 to-transparent animate-scroll-line"
           />
         </div>
       </div>
@@ -181,16 +182,16 @@ export default function BabyShower() {
       >
 
         <div className="hero-subtitle flex flex-col items-center gap-4">
-          <span className="font-script text-[clamp(3.5rem,15vw,6rem)] text-pink-200/90 drop-shadow-[0_0_15px_rgba(251,207,232,0.5)] leading-none -rotate-2 z-10">
+          <span className="font-script text-[clamp(3.5rem,15vw,6rem)] text-dusty-200/90 drop-shadow-[0_0_15px_rgba(232,180,184,0.5)] leading-none -rotate-2 z-10">
             Baby Shower
           </span>
-          <span className="tracking-[0.4em] text-[clamp(0.55rem,2.5vw,0.7rem)] text-pink-100/90 uppercase relative z-20 bg-pink-900/20 backdrop-blur-md px-5 py-2 rounded-full border border-pink-200/20 shadow-[0_0_15px_rgba(251,207,232,0.05)] mt-[clamp(1rem,2vh,1.5rem)]">
+          <span className="tracking-[0.4em] text-[clamp(0.55rem,2.5vw,0.7rem)] text-dusty-100/90 uppercase relative z-20 bg-dusty-700/20 backdrop-blur-md px-5 py-2 rounded-full border border-dusty-200/20 shadow-[0_0_15px_rgba(232,180,184,0.05)] mt-[clamp(1rem,2vh,1.5rem)]">
             de nuestra princesa
           </span>
         </div>
 
         <div className="overflow-visible z-0 py-[clamp(1.5rem,4vh,3rem)]">
-          <h1 className="hero-name font-display text-[clamp(4.5rem,20vw,11rem)] leading-none font-normal drop-shadow-2xl bg-gradient-to-br from-pink-100 via-pink-100 to-pink-300 bg-clip-text text-transparent animate-gradient">
+          <h1 className="hero-name font-display text-[clamp(4.5rem,20vw,11rem)] leading-none font-normal drop-shadow-2xl bg-gradient-to-br from-dusty-100 via-dusty-100 to-dusty-400 bg-clip-text text-transparent animate-gradient">
             Emma<br />Lucía
           </h1>
         </div>
@@ -208,12 +209,18 @@ export default function BabyShower() {
         <div className="max-w-4xl text-center p-4">
           <TextReveal
             text="Una nueva vida llega a nuestro hogar y con ella, el amor se multiplica. Queremos que seas parte de este momento tan especial."
-            className="font-display text-3xl sm:text-4xl md:text-[4.5rem] text-white leading-relaxed font-normal drop-shadow-2xl"
+            className="font-display text-3xl sm:text-4xl md:text-[4.5rem] text-dusty-50 leading-relaxed font-normal drop-shadow-2xl"
           />
         </div>
       </section>
 
       {/* ── DIVISOR 2 ─────────────────────────────────────────────── */}
+      <SectionDivider />
+
+      {/* ── GALERÍA DE FOTOS ──────────────────────────────────────── */}
+      <PhotoGallery />
+
+      {/* ── DIVISOR 3 ─────────────────────────────────────────────── */}
       <SectionDivider />
 
       {/* ── §3 DETALLES DEL EVENTO ────────────────────────────────── */}

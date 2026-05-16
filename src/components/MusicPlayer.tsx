@@ -121,10 +121,10 @@ export default function MusicPlayer({ triggerRef }: MusicPlayerProps) {
       style={{
         zIndex: 50,
         background: 'rgba(255,255,255,0.06)',
-        border: `1px solid ${playing ? 'rgba(251,207,232,0.4)' : 'rgba(255,255,255,0.15)'}`,
+        border: `1px solid ${playing ? 'rgba(232,180,184,0.4)' : 'rgba(255,255,255,0.15)'}`,
         boxShadow: playing
-          ? '0 0 20px rgba(251,207,232,0.3), 0 4px 15px rgba(25,5,15,0.4)'
-          : '0 4px 15px rgba(25,5,15,0.35)',
+          ? '0 0 20px rgba(232,180,184,0.3), 0 4px 15px rgba(139,106,114,0.4)'
+          : '0 4px 15px rgba(139,106,114,0.35)',
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
         cursor: 'pointer',
@@ -139,13 +139,13 @@ export default function MusicPlayer({ triggerRef }: MusicPlayerProps) {
             <span key={i} className="music-bar rounded-sm"
               style={{
                 width: '2px', height: `${h}px`,
-                background: 'rgba(251,207,232,0.9)',
+                background: 'rgba(232,180,184,0.9)',
                 display: 'inline-block', transformOrigin: 'bottom'
               }} />
           ))}
         </span>
       ) : (
-        <svg viewBox="0 0 24 24" className="w-5 h-5" fill="rgba(251,207,232,0.65)">
+        <svg viewBox="0 0 24 24" className="w-5 h-5" fill="rgba(232,180,184,0.65)">
           <path d="M9 18V5l12-2v13M9 18c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-2c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z" />
         </svg>
       )}

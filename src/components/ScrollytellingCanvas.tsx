@@ -268,7 +268,7 @@ export default function ScrollytellingCanvas({ onLoadProgress }: ScrollytellingC
 
   // ─── JSX ───────────────────────────────────────────────────────────────
   return (
-    <div className="canvas-layer fixed top-0 left-0 w-full h-[100lvh] bg-[#1a0510] z-0 overflow-hidden pointer-events-none">
+    <div className="canvas-layer fixed top-0 left-0 w-full h-[100lvh] bg-dusty-900 z-0 overflow-hidden pointer-events-none">
 
       {/* ── Canvas principal ──────────────────────────────────────────── */}
       <canvas
@@ -281,7 +281,7 @@ export default function ScrollytellingCanvas({ onLoadProgress }: ScrollytellingC
           touchAction: 'pan-y',
         }}
       />
-      <div className="absolute inset-0 bg-[#1a0510]/20 mix-blend-multiply" />
+      <div className="absolute inset-0 bg-dusty-900/20 mix-blend-multiply" />
     </div>
   );
 }

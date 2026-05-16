@@ -46,7 +46,7 @@ export default function LocationMap() {
       style={{ perspective: '1000px' }}
     >
       <ScrollFloat
-        containerClassName="mb-24 sm:mb-32 font-display text-5xl sm:text-6xl md:text-[6.5rem] text-white drop-shadow-lg leading-none text-center"
+        containerClassName="mb-24 sm:mb-32 font-display text-5xl sm:text-6xl md:text-[6.5rem] text-dusty-50 drop-shadow-lg leading-none text-center"
         textClassName=""
       >
         Ubicación
@@ -60,9 +60,9 @@ export default function LocationMap() {
           style={{
             background: '#f4f0eb',
             boxShadow: [
-              '0 4px 6px rgba(25,5,15,0.12)',
-              '0 20px 40px rgba(25,5,15,0.45)',
-              '0 60px 120px rgba(25,5,15,0.65)',
+              '0 4px 6px rgba(139,106,114,0.12)',
+              '0 20px 40px rgba(139,106,114,0.45)',
+              '0 60px 120px rgba(139,106,114,0.65)',
               'inset 0 1px 0 rgba(255,255,255,0.8)',
             ].join(', '),
           }}
@@ -79,14 +79,14 @@ export default function LocationMap() {
           <div
             className="absolute -top-3 left-1/2 -translate-x-1/2 w-16 h-6 opacity-60 rounded-sm rotate-1"
             style={{
-              background: 'rgba(251,207,232,0.7)',
-              boxShadow: '0 1px 3px rgba(25,5,15,0.2)',
+              background: 'rgba(232,180,184,0.7)',
+              boxShadow: '0 1px 3px rgba(139,106,114,0.2)',
               backdropFilter: 'blur(2px)',
             }}
           />
 
           {/* Contenedor del mapa */}
-          <div className="relative w-full aspect-[4/3] bg-zinc-300 overflow-hidden shadow-[inset_0_2px_10px_rgba(25,5,15,0.1)]">
+          <div className="relative w-full aspect-[4/3] bg-zinc-300 overflow-hidden shadow-[inset_0_2px_10px_rgba(139,106,114,0.1)]">
             <iframe
               src="https://www.google.com/maps?q=Quinta+el+Pich%C3%B3n,Chihuahua&output=embed"
               className="absolute inset-0 w-[110%] h-[110%] -top-[5%] -left-[5%]"
@@ -106,7 +106,7 @@ export default function LocationMap() {
             {!mapEnabled && (
               <div
                 className="absolute inset-0 z-10 flex flex-col items-center justify-center cursor-pointer gap-2"
-                style={{ background: 'rgba(25,5,15,0.18)' }}
+                style={{ background: 'rgba(139,106,114,0.18)' }}
                 onClick={() => setMapEnabled(true)}
                 onTouchEnd={(e) => { e.preventDefault(); setMapEnabled(true); }}
                 aria-label="Activar mapa interactivo"
@@ -116,7 +116,7 @@ export default function LocationMap() {
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
                   </svg>
                 </div>
-                <span className="text-[10px] tracking-[0.3em] text-white/60 uppercase">Toca para activar</span>
+                <span className="text-[10px] tracking-[0.3em] text-dusty-50/60 uppercase">Toca para activar</span>
               </div>
             )}
           </div>
@@ -136,11 +136,11 @@ export default function LocationMap() {
               href={mapsLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative inline-flex items-center justify-center px-8 py-4 text-sm font-medium text-white transition-all duration-500 rounded-full overflow-hidden backdrop-blur-md"
+              className="group relative inline-flex items-center justify-center px-8 py-4 text-sm font-medium text-dusty-50 transition-all duration-500 rounded-full overflow-hidden backdrop-blur-md"
               style={{
                 background: 'rgba(255,255,255,0.05)',
                 border:     '1px solid rgba(255,255,255,0.1)',
-                boxShadow:  '0 10px 30px rgba(25,5,15,0.5)',
+                boxShadow:  '0 10px 30px rgba(139,106,114,0.5)',
               }}
               onMouseEnter={e => {
                 (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)';
@@ -152,7 +152,7 @@ export default function LocationMap() {
               }}
             >
               <span className="relative flex items-center gap-2">
-                <Navigation className="w-4 h-4 text-zinc-300 group-hover:text-white transition-colors" />
+                <Navigation className="w-4 h-4 text-zinc-300 group-hover:text-dusty-50 transition-colors" />
                 <span className="tracking-wide">Abrir en Google Maps</span>
               </span>
             </a>
