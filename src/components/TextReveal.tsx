@@ -91,9 +91,11 @@ export default function TextReveal({ text, className = '', style }: TextRevealPr
         
         .animate-float-angel {
           animation: float-angel 4s ease-in-out infinite;
+          will-change: transform, opacity;
         }
         .animate-pulse-glow {
           animation: pulse-glow 4s ease-in-out infinite;
+          will-change: transform, opacity;
         }
 
         .text-shimmer-effect {

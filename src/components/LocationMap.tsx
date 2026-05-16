@@ -30,11 +30,6 @@ export default function LocationMap() {
     tl.fromTo('.map-artifact',
       { opacity: 0, y: 80, rotationZ: -8, scale: 0.92 },
       { opacity: 1, y: 0, rotationZ: -3, scale: 1, duration: 1.0, ease: 'back.out(1.2)' }
-    )
-    // Flotación suave continua (solo transform, GPU-only)
-    .to('.map-artifact',
-      { y: -8, rotationZ: -2, duration: 3.5, ease: 'sine.inOut', yoyo: true, repeat: -1 },
-      '+=0'
     );
 
     tl.fromTo('.map-button',

@@ -141,43 +141,7 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
       ref={splashRef}
       className="fixed top-0 left-0 w-full h-[100svh] flex flex-col items-center justify-center z-[200] overflow-hidden"
     >
-      {/* ── SVG Filter para el patrón futurista (definición) ─────────── */}
-      <svg
-        className="absolute w-0 h-0 overflow-hidden pointer-events-none"
-        aria-hidden="true"
-      >
-        <defs>
-          <filter id="splash-texture">
-            <feTurbulence
-              result="noise"
-              numOctaves={3}
-              baseFrequency="0.7"
-              type="fractalNoise"
-            />
-            <feSpecularLighting
-              result="specular"
-              lightingColor="#fff"
-              specularExponent={20}
-              specularConstant="0.8"
-              surfaceScale={2}
-              in="noise"
-            >
-              <fePointLight z={100} y={50} x={50} />
-            </feSpecularLighting>
-            <feComposite
-              result="litNoise"
-              operator="in"
-              in2="SourceGraphic"
-              in="specular"
-            />
-            <feBlend
-              mode="overlay"
-              in2="litNoise"
-              in="SourceGraphic"
-            />
-          </filter>
-        </defs>
-      </svg>
+
 
       {/* ── Fondo: imagen 19.jpg ────────────────────────────────────────── */}
       <div
