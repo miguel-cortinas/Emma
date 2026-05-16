@@ -69,28 +69,38 @@
   }
 
   html {
-    /* min-height: 100dvh se adapta al viewport dinámico (incluso sin layout resize) */
-    min-height: 100dvh;
-    /* Color de fondo sólido que coincide con el tono más oscuro del gradiente.
-       Evita el cuadro blanco visible al final de la página en móvil cuando el
-       contenido supera la cobertura del background-attachment: fixed. */
+    /* Usar lvh asegura que el contenedor base abarque el viewport máximo posible, 
+       incluso si el teclado o las barras de navegador ocultan parte de la pantalla */
+    min-height: 100lvh;
     background-color: #8B6A72;
     color-scheme: only light;
+    overscroll-behavior-y: none;
   }
 
   body {
-    background: var(--gradient-bg);
-    background-attachment: fixed;
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     /* Evita el rebote elástico que causa jitter al principio/final del scroll */
-    overscroll-behavior: none;
-    /* Scroll con momentum en iOS */
+    overscroll-behavior-y: none;
     -webkit-overflow-scrolling: touch;
-    /* Ancla el alto a la pantalla */
-    min-height: 100dvh;
+    min-height: 100lvh;
+  }
+
+  /* El hack definitivo para fondos fijos en iOS Safari:
+     Usamos un pseudo-elemento con height: 100lvh en lugar de background-attachment: fixed 
+     para evitar que el fondo se corte, parpadee o no cubra la barra inferior oculta */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100lvh;
+    background: var(--gradient-bg);
+    z-index: -10;
+    pointer-events: none;
   }
 
   /* El canvas fijo no afecta al layout — marca'lo como aislado */

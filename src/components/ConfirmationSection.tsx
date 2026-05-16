@@ -84,7 +84,7 @@ export default function ConfirmationSection() {
   return (
     <section
       ref={containerRef}
-      className="min-h-[80vh] flex flex-col items-center justify-center px-4 py-24 relative overflow-hidden"
+      className="min-h-[100lvh] flex flex-col items-center justify-center px-4 py-24 relative overflow-hidden"
     >
       {/* ── Sistema de partículas (Luciérnagas) ─────────────────────── */}
       <div className="absolute inset-0 pointer-events-none z-0">

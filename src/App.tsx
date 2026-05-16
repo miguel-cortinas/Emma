@@ -48,7 +48,7 @@ export default function App() {
   };
 
   return (
-    <main className="min-h-screen bg-transparent overflow-x-hidden relative">
+    <main className="min-h-[100lvh] bg-transparent overflow-x-hidden relative">
 
       {/* Indicador global de progreso de lectura/scroll */}
       <ScrollProgressBar />
