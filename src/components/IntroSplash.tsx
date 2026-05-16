@@ -108,26 +108,31 @@ export default function IntroSplash({ onEnter }: IntroSplashProps) {
     >
 
 
-      {/* ── Fondo: gradiente rosado de la paleta ─────────────────────── */}
+      {/* ── Fondo: 19.jpg (nubes lavanda etéreas) ─────────────────────── */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('/19.jpg')" }}
+      />
+
+      {/* ── Viñeta rosada: tiñe las nubes lavanda hacia la paleta ──────── */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background: [
-            'radial-gradient(ellipse 130% 70% at 10% 0%,   #F5EDE8 0%, #E8B4B8 35%, transparent 65%)',
-            'radial-gradient(ellipse 80%  60% at 90% 0%,   #EDD5C8 0%, #E8B4B8 40%, transparent 65%)',
-            'radial-gradient(ellipse 70%  55% at 50% 40%,  #D4A4AC 0%, transparent 60%)',
-            'radial-gradient(ellipse 100% 70% at 15% 100%, #C4848A 0%, transparent 55%)',
-            'radial-gradient(ellipse 90%  60% at 85% 90%,  #B5767C 0%, transparent 55%)',
-            'linear-gradient(150deg, #F0EAE0 0%, #E8B4B8 25%, #C9A89B 50%, #B5767C 75%, #8B6A72 100%)',
+            'radial-gradient(ellipse 80% 70% at 50% 50%, rgba(232,180,184,0.30) 0%, transparent 65%)',
+            'radial-gradient(ellipse 100% 60% at 0%   0%, rgba(196,132,138,0.45) 0%, transparent 60%)',
+            'radial-gradient(ellipse 100% 60% at 100% 0%, rgba(181,118,124,0.35) 0%, transparent 60%)',
+            'linear-gradient(180deg, rgba(212,164,172,0.20) 0%, rgba(139,106,114,0.50) 100%)',
           ].join(', '),
+          mixBlendMode: 'multiply',
         }}
       />
 
-      {/* ── Halo central suave — realza el contenido ─────────────────── */}
+      {/* ── Halo central luminoso — realza el contenido ────────────────── */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 65% 55% at 50% 48%, rgba(252,234,235,0.20) 0%, transparent 65%)',
+          background: 'radial-gradient(ellipse 60% 50% at 50% 46%, rgba(252,234,235,0.18) 0%, transparent 65%)',
         }}
       />
 
