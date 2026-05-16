@@ -155,7 +155,7 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 80% 60% at 50% 55%, rgba(254,205,211,0.18) 0%, rgba(20,5,15,0.55) 70%, rgba(5,0,5,0.85) 100%)',
+          background: 'radial-gradient(ellipse 80% 60% at 50% 55%, rgba(251,207,232,0.18) 0%, rgba(45, 10, 25, 0.65) 70%, rgba(25, 5, 15, 0.90) 100%)',
         }}
       />
 
@@ -163,7 +163,7 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'radial-gradient(ellipse 70% 55% at 50% 55%, rgba(254,205,211,0.10) 0%, transparent 70%)',
+          background: 'radial-gradient(ellipse 70% 55% at 50% 55%, rgba(251,207,232,0.10) 0%, transparent 70%)',
         }}
       />
 
@@ -173,7 +173,7 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
         className="absolute inset-0 pointer-events-none"
         style={{
           opacity: 0,
-          background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,228,230,0.95) 0%, rgba(254,205,211,0.6) 40%, transparent 70%)',
+          background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(252,231,243,0.95) 0%, rgba(251,207,232,0.6) 40%, transparent 70%)',
           zIndex: 10,
         }}
       />
@@ -184,22 +184,22 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
         style={{ zIndex: 5 }}
       >
         {/* Etiqueta superior */}
-        <span className="splash-tagline text-[10px] tracking-[0.55em] text-rose-200/60 uppercase">
+        <span className="splash-tagline text-[10px] tracking-[0.55em] text-pink-200/60 uppercase">
           te esperamos en el
         </span>
 
         {/* Script: "Baby Shower" */}
-        <div className="splash-script font-script text-5xl sm:text-6xl text-rose-200/80">
+        <div className="splash-script font-script text-5xl sm:text-6xl text-pink-200/80">
           Baby Shower
         </div>
 
         {/* Nombre principal */}
-        <div className="splash-name font-display text-[clamp(4.5rem,22vw,8rem)] leading-none text-white drop-shadow-[0_0_40px_rgba(254,205,211,0.4)]">
+        <div className="splash-name font-display text-[clamp(4.5rem,22vw,8rem)] leading-none text-white drop-shadow-[0_0_40px_rgba(251,207,232,0.4)]">
           Emma<br />Lucía
         </div>
 
         {/* Línea decorativa */}
-        <div className="w-20 h-px my-4 bg-gradient-to-r from-transparent via-rose-300/50 to-transparent" />
+        <div className="w-20 h-px my-4 bg-gradient-to-r from-transparent via-pink-300/50 to-transparent" />
 
         {/* Área de botón / loader — se intercambian con animación */}
         <div className="splash-button-area flex flex-col items-center gap-4" style={{ minHeight: '80px' }}>
@@ -213,26 +213,26 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
             style={{
               opacity: 0,          // GSAP lo anima
               background: 'rgba(255,255,255,0.07)',
-              border: '1px solid rgba(254,205,211,0.35)',
-              boxShadow: '0 0 30px rgba(0,0,0,0.4)',
+              border: '1px solid rgba(251,207,232,0.35)',
+              boxShadow: '0 0 30px rgba(25,5,15,0.4)',
               backdropFilter: 'blur(12px)',
             }}
             onMouseEnter={e => {
               if (loading) return;
               const el = e.currentTarget as HTMLElement;
-              el.style.background = 'rgba(254,205,211,0.12)';
-              el.style.borderColor = 'rgba(254,205,211,0.6)';
-              el.style.boxShadow = '0 0 40px rgba(254,205,211,0.2)';
+              el.style.background = 'rgba(251,207,232,0.12)';
+              el.style.borderColor = 'rgba(251,207,232,0.6)';
+              el.style.boxShadow = '0 0 40px rgba(251,207,232,0.2)';
             }}
             onMouseLeave={e => {
               const el = e.currentTarget as HTMLElement;
               el.style.background = 'rgba(255,255,255,0.07)';
-              el.style.borderColor = 'rgba(254,205,211,0.35)';
-              el.style.boxShadow = '0 0 30px rgba(0,0,0,0.4)';
+              el.style.borderColor = 'rgba(251,207,232,0.35)';
+              el.style.boxShadow = '0 0 30px rgba(25,5,15,0.4)';
             }}
           >
             {/* Shimmer en hover */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-rose-100/15 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_ease_1] skew-x-[-20deg]" />
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-pink-100/15 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_ease_1] skew-x-[-20deg]" />
 
             <span
               className="relative text-sm tracking-[0.25em] uppercase text-white/90 group-hover:text-white transition-colors duration-300"
@@ -261,7 +261,7 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
 
             {/* Texto de preparando */}
             <p
-              className="text-[9px] tracking-[0.45em] uppercase text-rose-200/50"
+              className="text-[9px] tracking-[0.45em] uppercase text-pink-200/50"
             >
               Preparando experiencia…
             </p>
@@ -277,15 +277,15 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
                 className="h-full rounded-full"
                 style={{
                   width: `${loadPercent}%`,
-                  background: 'linear-gradient(90deg, rgba(254,205,211,0.6), rgba(251,207,232,0.9))',
+                  background: 'linear-gradient(90deg, rgba(251,207,232,0.6), rgba(251,207,232,0.9))',
                   transition: 'width 0.4s ease-out',
-                  boxShadow: '0 0 12px rgba(254,205,211,0.5)',
+                  boxShadow: '0 0 12px rgba(251,207,232,0.5)',
                 }}
               />
             </div>
             <p
               className="text-[8px] tracking-[0.4em] uppercase text-center"
-              style={{ color: 'rgba(254,205,211,0.35)' }}
+              style={{ color: 'rgba(251,207,232,0.35)' }}
             >
               {loadPercent}%
             </p>

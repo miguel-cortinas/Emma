@@ -30,8 +30,8 @@ export default function EventDetails() {
 
     const onEnter = () => {
       gsap.to(card, {
-        boxShadow: '0 25px 70px rgba(0,0,0,0.6), 0 0 40px rgba(254,205,211,0.15)',
-        borderColor: 'rgba(254,205,211,0.45)',
+        boxShadow: '0 25px 70px rgba(25,5,15,0.6), 0 0 40px rgba(251,207,232,0.15)',
+        borderColor: 'rgba(251,207,232,0.45)',
         duration: 0.4,
       });
     };
@@ -40,8 +40,8 @@ export default function EventDetails() {
       xTo(0);
       yTo(0);
       gsap.to(card, {
-        boxShadow: '0 15px 50px rgba(0,0,0,0.5)',
-        borderColor: 'rgba(254,205,211,0.2)',
+        boxShadow: '0 15px 50px rgba(25,5,15,0.5)',
+        borderColor: 'rgba(251,207,232,0.2)',
         duration: 0.6,
       });
     };
@@ -118,8 +118,8 @@ export default function EventDetails() {
           background:  'rgba(20,5,15,0.4)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
-          border:      '1px solid rgba(254,205,211,0.2)',
-          boxShadow:   '0 15px 50px rgba(0,0,0,0.5)',
+          border:      '1px solid rgba(251,207,232,0.2)',
+          boxShadow:   '0 15px 50px rgba(25,5,15,0.5)',
           transformStyle: 'preserve-3d',
         }}
       >
@@ -127,39 +127,39 @@ export default function EventDetails() {
         <div className="absolute inset-0 pointer-events-none animate-shimmer opacity-20" />
 
         {/* Resplandor perimetral superior */}
-        <div className="absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-rose-300/50 to-transparent" />
+        <div className="absolute inset-x-12 top-0 h-px bg-gradient-to-r from-transparent via-pink-300/50 to-transparent" />
 
         <div className="relative z-10">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4 mb-10">
 
             {/* ── Fecha ──────────────────────────────────────────── */}
             <div className="event-info-item flex-1 flex flex-col items-center text-center group">
-              <div className="p-3 bg-rose-900/20 rounded-full mb-4 border border-rose-200/20 shadow-[0_0_15px_rgba(254,205,211,0.05)] group-hover:border-rose-200/40 group-hover:shadow-[0_0_20px_rgba(254,205,211,0.15)] transition-all duration-500">
-                <CalendarDays className="w-6 h-6 text-rose-100" strokeWidth={1.5} />
+              <div className="p-3 bg-pink-900/20 rounded-full mb-4 border border-pink-200/20 shadow-[0_0_15px_rgba(251,207,232,0.05)] group-hover:border-pink-200/40 group-hover:shadow-[0_0_20px_rgba(251,207,232,0.15)] transition-all duration-500">
+                <CalendarDays className="w-6 h-6 text-pink-100" strokeWidth={1.5} />
               </div>
-              <span className="text-[10px] tracking-[0.35em] text-rose-200/90 font-semibold uppercase mb-2 drop-shadow-md">Fecha</span>
-              <p className="leading-none text-white drop-shadow-[0_2px_15px_rgba(0,0,0,0.8)] font-display text-[clamp(2.5rem,8vw,4.5rem)]">
+              <span className="text-[10px] tracking-[0.35em] text-pink-200/90 font-semibold uppercase mb-2 drop-shadow-md">Fecha</span>
+              <p className="leading-none text-white drop-shadow-[0_2px_15px_rgba(25,5,15,0.8)] font-display text-[clamp(2.5rem,8vw,4.5rem)]">
                 30 <span style={{ fontSize: '0.55em' }}>Mayo</span>
               </p>
               <p className="text-xs md:text-sm text-zinc-100 font-medium mt-1 drop-shadow-md">Sábado · 2026</p>
             </div>
 
             {/* Separadores */}
-            <div className="event-separator hidden md:block w-px h-32 bg-gradient-to-b from-transparent via-rose-200/30 to-transparent" aria-hidden="true" />
-            <div className="event-separator md:hidden w-32 h-px bg-gradient-to-r from-transparent via-rose-200/30 to-transparent my-2" aria-hidden="true" />
+            <div className="event-separator hidden md:block w-px h-32 bg-gradient-to-b from-transparent via-pink-200/30 to-transparent" aria-hidden="true" />
+            <div className="event-separator md:hidden w-32 h-px bg-gradient-to-r from-transparent via-pink-200/30 to-transparent my-2" aria-hidden="true" />
 
             {/* ── Horario ─────────────────────────────────────────── */}
             <div className="event-info-item flex-1 flex flex-col items-center text-center group">
-              <div className="p-3 bg-rose-900/20 rounded-full mb-4 border border-rose-200/20 shadow-[0_0_15px_rgba(254,205,211,0.05)] group-hover:border-rose-200/40 group-hover:shadow-[0_0_20px_rgba(254,205,211,0.15)] transition-all duration-500">
-                <Clock className="w-6 h-6 text-rose-100" strokeWidth={1.5} />
+              <div className="p-3 bg-pink-900/20 rounded-full mb-4 border border-pink-200/20 shadow-[0_0_15px_rgba(251,207,232,0.05)] group-hover:border-pink-200/40 group-hover:shadow-[0_0_20px_rgba(251,207,232,0.15)] transition-all duration-500">
+                <Clock className="w-6 h-6 text-pink-100" strokeWidth={1.5} />
               </div>
-              <span className="text-[10px] tracking-[0.35em] text-rose-200/90 font-semibold uppercase mb-2 drop-shadow-md">Horario</span>
+              <span className="text-[10px] tracking-[0.35em] text-pink-200/90 font-semibold uppercase mb-2 drop-shadow-md">Horario</span>
               <div className="flex flex-col items-center">
-                <p className="text-white drop-shadow-[0_2px_15px_rgba(0,0,0,0.8)] font-display text-[clamp(2rem,6vw,3.5rem)]">
+                <p className="text-white drop-shadow-[0_2px_15px_rgba(25,5,15,0.8)] font-display text-[clamp(2rem,6vw,3.5rem)]">
                   3:00 PM
                 </p>
                 <span className="text-white/40 my-1 text-sm font-bold">—</span>
-                <p className="text-zinc-200 drop-shadow-[0_2px_15px_rgba(0,0,0,0.8)] font-display text-[clamp(1.25rem,4vw,2rem)]">
+                <p className="text-zinc-200 drop-shadow-[0_2px_15px_rgba(25,5,15,0.8)] font-display text-[clamp(1.25rem,4vw,2rem)]">
                   9:00 PM
                 </p>
               </div>
@@ -168,10 +168,10 @@ export default function EventDetails() {
           </div>
 
           {/* ── Countdown ─────────────────────────────────────────── */}
-          <div className="event-countdown-wrapper mt-12 pt-10 border-t border-rose-200/10 relative">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-rose-300/40 to-transparent shadow-[0_0_10px_rgba(254,205,211,0.3)]" />
-            <p className="text-center text-[10px] tracking-[0.4em] text-rose-200/90 font-semibold uppercase mb-6 drop-shadow-md">Faltan</p>
-            <div className="bg-black/40 rounded-2xl p-4 md:p-6 border border-rose-200/10">
+          <div className="event-countdown-wrapper mt-12 pt-10 border-t border-pink-200/10 relative">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-pink-300/40 to-transparent shadow-[0_0_10px_rgba(251,207,232,0.3)]" />
+            <p className="text-center text-[10px] tracking-[0.4em] text-pink-200/90 font-semibold uppercase mb-6 drop-shadow-md">Faltan</p>
+            <div className="bg-[#1a0510]/40 rounded-2xl p-4 md:p-6 border border-pink-200/10">
               <Countdown />
             </div>
           </div>

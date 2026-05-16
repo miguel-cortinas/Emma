@@ -99,7 +99,7 @@ export default function GiftRegistry() {
           Mesa de Regalos
         </ScrollFloat>
 
-        <div className="font-script text-4xl sm:text-5xl text-rose-200/90 -rotate-2 drop-shadow-sm text-center z-20 relative">
+        <div className="font-script text-4xl sm:text-5xl text-pink-200/90 -rotate-2 drop-shadow-sm text-center z-20 relative">
           Lluvia de Sobres
         </div>
       </div>
@@ -110,26 +110,26 @@ export default function GiftRegistry() {
           background: 'rgba(120,10,35,0.18)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid rgba(254,205,211,0.2)',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.35), inset 0 1px 0 rgba(254,205,211,0.1)',
+          border: '1px solid rgba(251,207,232,0.2)',
+          boxShadow: '0 20px 60px rgba(25,5,15,0.35), inset 0 1px 0 rgba(251,207,232,0.1)',
         }}
       >
         {/* Resplandor superior */}
-        <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-rose-300/50 to-transparent" />
+        <div className="absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-pink-300/50 to-transparent" />
 
         {/* Icono con rotación de entrada */}
         <div 
           onClick={(e) => spawnConfetti(e.currentTarget)}
-          className="gift-icon w-16 h-16 bg-gradient-to-br from-rose-200 to-pink-300 rounded-full flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(254,205,211,0.4)] cursor-pointer hover:scale-110 transition-transform hover:shadow-[0_0_40px_rgba(254,205,211,0.6)]"
+          className="gift-icon w-16 h-16 bg-gradient-to-br from-pink-200 to-pink-300 rounded-full flex items-center justify-center mb-8 shadow-[0_0_30px_rgba(251,207,232,0.4)] cursor-pointer hover:scale-110 transition-transform hover:shadow-[0_0_40px_rgba(251,207,232,0.6)]"
           title="¡Haz clic para celebrar!"
         >
-          <Gift className="w-8 h-8 text-rose-950" />
+          <Gift className="w-8 h-8 text-pink-950" />
         </div>
 
-        <p className="text-rose-50/90 text-base md:text-lg leading-relaxed mb-4 font-light max-w-sm">
+        <p className="text-pink-50/90 text-base md:text-lg leading-relaxed mb-4 font-light max-w-sm">
           Tu presencia es nuestro regalo más valioso.
         </p>
-        <p className="text-rose-50/80 text-sm md:text-base leading-relaxed font-light max-w-sm mb-4">
+        <p className="text-pink-50/80 text-sm md:text-base leading-relaxed font-light max-w-sm mb-4">
           Si deseas tener un detalle adicional con{' '}
           <strong className="font-normal text-white">Emma Lucía</strong>,
           puedes contribuir con la lluvia de sobres o con lo que brinde tu corazón.

@@ -12,10 +12,10 @@ function AngelSymbol() {
   return (
     <div className="relative flex flex-col items-center justify-center mb-8 animate-float-angel">
       {/* Resplandor de fondo (Halo Glow) */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-rose-300/20 rounded-full blur-2xl animate-pulse-glow"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-pink-300/20 rounded-full blur-2xl animate-pulse-glow"></div>
       
       {/* SVG del Ángel Minimalista */}
-      <svg width="64" height="40" viewBox="0 0 64 40" className="text-rose-200/90 drop-shadow-[0_0_10px_rgba(254,205,211,0.6)] relative z-10">
+      <svg width="64" height="40" viewBox="0 0 64 40" className="text-pink-200/90 drop-shadow-[0_0_10px_rgba(251,207,232,0.6)] relative z-10">
         <defs>
           <linearGradient id="light-beam" x1="0" y1="0" x2="0" y2="1">
             <stop offset="0%" stopColor="currentColor" stopOpacity="0.8"/>
@@ -32,7 +32,7 @@ function AngelSymbol() {
         {/* Ala Izquierda */}
         <path 
           d="M28,16 C18,10 8,16 5,24 Q13,21 16,26 Q19,21 23,26 C24,21 26,18 28,16 Z" 
-          fill="rgba(254,205,211,0.05)" 
+          fill="rgba(251,207,232,0.05)" 
           stroke="currentColor" 
           strokeWidth="1" 
         />
@@ -40,7 +40,7 @@ function AngelSymbol() {
         {/* Ala Derecha */}
         <path 
           d="M36,16 C46,10 56,16 59,24 Q51,21 48,26 Q45,21 41,26 C40,21 38,18 36,16 Z" 
-          fill="rgba(254,205,211,0.05)" 
+          fill="rgba(251,207,232,0.05)" 
           stroke="currentColor" 
           strokeWidth="1" 
         />

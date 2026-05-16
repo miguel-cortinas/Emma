@@ -33,7 +33,7 @@ function ScrollProgressBar() {
     <div className="fixed top-0 left-0 w-full h-[3px] z-[300] pointer-events-none">
       <div 
         ref={progressRef} 
-        className="w-full h-full bg-gradient-to-r from-rose-400 via-pink-300 to-rose-100 shadow-[0_0_12px_rgba(254,205,211,0.6)] origin-left scale-x-0" 
+        className="w-full h-full bg-gradient-to-r from-pink-400 via-pink-300 to-pink-100 shadow-[0_0_12px_rgba(251,207,232,0.6)] origin-left scale-x-0" 
       />
     </div>
   );

@@ -6,8 +6,8 @@
   --font-script: "Great Vibes", cursive;
 
   /* Fondo */
-  --color-background: hsl(0 0% 0%);
-  --color-foreground: hsl(0 0% 100%);
+  --color-background: hsl(335 45% 10%);
+  --color-foreground: hsl(340 100% 98%);
 
   /* Paleta temática de la invitación */
   --color-petal: hsl(340 80% 95%);        /* rosa pétalo claro */
@@ -90,7 +90,7 @@
 @layer utilities {
   /* ─── Glassmorphism ──────────────────────────────────────────── */
   .liquid-glass {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(251, 207, 232, 0.06);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     border: none;

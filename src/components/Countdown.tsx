@@ -100,7 +100,7 @@ function FlipUnit({
         className="font-display text-3xl md:text-4xl font-normal text-white tabular-nums"
         style={{
           textShadow: isSeconds
-            ? '0 0 20px rgba(254,205,211,0.6), 0 0 40px rgba(254,205,211,0.2)'
+            ? '0 0 20px rgba(251,207,232,0.6), 0 0 40px rgba(251,207,232,0.2)'
             : '0 0 12px rgba(255,255,255,0.3)',
         }}
       >
