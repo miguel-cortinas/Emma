@@ -13,16 +13,12 @@ const GALLERY_ITEMS = [
 export default function PhotoGallery() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [touchStart, setTouchStart] = useState<number | null>(null);
-  // Guardamos la dirección de la última interacción para animar las tarjetas hacia/desde ese lado
-  const [swipeDir, setSwipeDir] = useState<'left' | 'right'>('right');
 
   const handleNext = () => {
-    setSwipeDir('right');
     setCurrentIndex((prev) => (prev + 1) % GALLERY_ITEMS.length);
   };
 
   const handlePrev = () => {
-    setSwipeDir('left');
     setCurrentIndex((prev) => (prev - 1 + GALLERY_ITEMS.length) % GALLERY_ITEMS.length);
   };
 
@@ -103,13 +99,6 @@ export default function PhotoGallery() {
             let offsetClasses = "";
             let zIndexClass = "";
             
-            // Lógica de transición de posición basada en swipeDir
-            // Si el swipe fue a la derecha, las cartas que salen/entran lo hacen desde la derecha (translate-x-[80%])
-            // Si fue a la izquierda, desde la izquierda (translate-x-[-80%])
-            const outOfBoundsTransform = swipeDir === 'right' 
-              ? "translate-x-[80%] sm:translate-x-[100%] rotate-6" 
-              : "-translate-x-[80%] sm:-translate-x-[100%] -rotate-6";
-
             if (isTop) {
               zIndexClass = "z-40";
               offsetClasses = "scale-100 translate-y-0 translate-x-0 opacity-100 shadow-[0_15px_30px_rgba(0,0,0,0.3)] cursor-grab active:cursor-grabbing";
@@ -120,9 +109,10 @@ export default function PhotoGallery() {
               zIndexClass = "z-20";
               offsetClasses = "scale-90 translate-y-12 sm:translate-y-16 translate-x-0 opacity-80 shadow-sm pointer-events-none";
             } else if (isLast) {
-              // La tarjeta que acaba de ser enviada al fondo (o la que está a punto de entrar si retrocedemos)
+              // La tarjeta que se envía al fondo siempre se desplaza hacia la derecha.
+              // De este modo, si retrocedemos (swipe a la izquierda), entra desde la derecha moviéndose a la izquierda.
               zIndexClass = "z-10";
-              offsetClasses = `scale-90 translate-y-0 ${outOfBoundsTransform} opacity-0 pointer-events-none`;
+              offsetClasses = "scale-90 translate-y-0 translate-x-[80%] sm:translate-x-[100%] rotate-6 opacity-0 pointer-events-none";
             } else {
               zIndexClass = "z-0";
               offsetClasses = "scale-75 translate-y-20 translate-x-0 opacity-0 pointer-events-none";
