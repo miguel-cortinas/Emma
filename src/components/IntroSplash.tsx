@@ -40,27 +40,27 @@ export default function IntroSplash({ onEnter, framesLoaded, totalFrames }: Intr
 
     const tl = gsap.timeline({ delay: 0.2 });
 
-    tl.fromTo('.splash-name',
-      { opacity: 0, y: 30, filter: 'blur(12px)' },
-      {
-        opacity: 1, y: 0, filter: 'blur(0px)',
-        duration: 1.4, ease: 'power3.out'
-      }
+    tl.fromTo('.splash-tagline',
+      { opacity: 0, y: 15 },
+      { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }
     )
       .fromTo('.splash-script',
         { opacity: 0, y: 20 },
         { opacity: 1, y: 0, duration: 1, ease: 'power2.out' },
         '-=0.6'
       )
-      .fromTo('.splash-tagline',
-        { opacity: 0 },
-        { opacity: 1, duration: 1, ease: 'power2.out' },
-        '-=0.4'
+      .fromTo('.splash-name',
+        { opacity: 0, y: 30, filter: 'blur(12px)' },
+        {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 1.4, ease: 'power3.out'
+        },
+        '-=0.6'
       )
       .fromTo(btnRef.current,
         { opacity: 0, scale: 0.88, y: 16 },
         { opacity: 1, scale: 1, y: 0, duration: 1, ease: 'back.out(2)' },
-        '-=0.3'
+        '-=0.8'
       );
   }, { scope: splashRef });
 
