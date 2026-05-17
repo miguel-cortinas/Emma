@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* ── Deshabilitar modo oscuro del sistema en Tailwind v4 ────────────────────
+   Por defecto Tailwind v4 usa prefers-color-scheme como trigger para dark:.
+   Al redefinir la variante, dark: solo se activará si el elemento tiene .dark,
+   lo cual nunca ocurrirá en esta app — la invitación siempre es light.
+──────────────────────────────────────────────────────────────────────────── */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-dusty-50: #FCEAEB;
   --color-dusty-100: #F5EDE8;
@@ -73,8 +80,31 @@
        incluso si el teclado o las barras de navegador ocultan parte de la pantalla */
     min-height: 100lvh;
     background-color: #8B6A72;
+    /* Forzar siempre modo claro — bloquea prefers-color-scheme: dark del SO */
     color-scheme: only light;
+    /* Impedir que el browser (Chrome/Safari Android) invierta colores en dark mode */
+    forced-color-adjust: none;
     overscroll-behavior-y: none;
+  }
+
+  /* ── Blindaje contra modo oscuro del sistema operativo ─────────────────
+     Aunque color-scheme:only light previene inversiones en inputs/scrollbars,
+     algunos navegadores Android/iOS aún pueden aplicar un filtro global de
+     oscurecimiento. Este bloque lo sobrescribe explícitamente.
+  ──────────────────────────────────────────────────────────────────────── */
+  @media (prefers-color-scheme: dark) {
+    html {
+      background-color: #8B6A72;
+      color-scheme: only light;
+      forced-color-adjust: none;
+    }
+    body {
+      color: var(--color-foreground);
+      background: transparent;
+    }
+    body::before {
+      background: var(--gradient-bg);
+    }
   }
 
   body {
